@@ -1,6 +1,6 @@
-package edu.cs3500.spreadsheets.model.value;
+package edu.cs3500.spreadsheets.model.cell.value;
 
-import edu.cs3500.spreadsheets.model.formula.Formula;
+import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 
 /**
  * Represents one of the allowable value types of a cell in the spreadsheet.

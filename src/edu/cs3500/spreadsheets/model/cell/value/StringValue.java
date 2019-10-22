@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.model.value;
+package edu.cs3500.spreadsheets.model.cell.value;
 
 /**
  * Represents a string value in a spreadsheet cell.

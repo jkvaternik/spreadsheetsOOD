@@ -1,6 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import edu.cs3500.spreadsheets.model.value.Value;
+import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
  * Represents a cell which contains one of the accepted types of values.

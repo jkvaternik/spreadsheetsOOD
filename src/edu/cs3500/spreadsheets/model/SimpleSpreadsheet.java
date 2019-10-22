@@ -1,6 +1,6 @@
 package edu.cs3500.spreadsheets.model;
 
-import edu.cs3500.spreadsheets.model.value.Value;
+import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
  * A simple spreadsheet implementation which supports string, boolean, and double values. It's
