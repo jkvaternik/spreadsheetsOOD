@@ -4,6 +4,8 @@ import edu.cs3500.spreadsheets.model.value.Value;
 
 /**
  * Represents one cell in a spreadsheet.
+ * TODO: Consider making this an abstract class, since the only thing that changes between
+ *       implementations is the evaluate() method. Both also have value and cellString fields.
  */
 public interface Cell {
 
