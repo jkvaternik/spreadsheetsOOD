@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.model;
 
 
+import edu.cs3500.spreadsheets.model.value.Value;
+
 /**
  * Represents the model for a spreadsheet.
  */
@@ -53,10 +55,9 @@ public interface SpreadsheetModel {
    * Gets the value of the cell at the given coordinate.
    *
    * @param coord The coordinate
-   * @param <T> TODO: ?????????????? WTF IS THE RETURN TYPE ??????????????????
    * @return The cell's value
    */
-  <T> T getValue(Coord coord);
+  Value getValue(Coord coord);
 
   /**
    * Gets the string that was used as input to create the cell.
