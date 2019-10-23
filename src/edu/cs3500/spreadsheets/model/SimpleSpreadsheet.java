@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
+import edu.cs3500.spreadsheets.model.cell.BlankCell;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.FormulaCell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
@@ -27,7 +28,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     @Override
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
       if (contents == null) {
-        cells.put(new Coord(col, row), null);
+        cells.put(new Coord(col, row), new BlankCell());
         return this;
       }
       if (contents.charAt(0) == '=') {
