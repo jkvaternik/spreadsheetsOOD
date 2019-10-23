@@ -63,8 +63,8 @@ public interface SpreadsheetModel {
    * Gets the string that was used as input to create the cell.
    *
    * TODO: NOTE FOR JAIME *************************************************************************
-   * This is important for interacting with the view, since the user should be able to edit the
-   * cell's previous formula without having to completely retype it
+   *       This is important for interacting with the view, since the user should be able to edit
+   *       the cell's previous formula without having to completely retype it
    *
    * @return The string
    */

@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.model;
 
+import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
+import java.util.Hashtable;
 
 /**
  * A simple spreadsheet implementation which supports string, boolean, and double values. It's
@@ -8,6 +10,9 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
  * cell is less than another, and capitalizing the string value of a cell.
  */
 public class SimpleSpreadsheet implements SpreadsheetModel {
+  private Hashtable<Coord, Cell> cells;
+  // TODO: Finish graph interface and implement it in order to keep track of cell references so
+  //       we can identify cycles easily.
 
   @Override
   public void clearCell(Coord coord) {
