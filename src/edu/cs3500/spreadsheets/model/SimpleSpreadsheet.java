@@ -2,7 +2,11 @@ package edu.cs3500.spreadsheets.model;
 
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.model.cell.FormulaCell;
+import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
+import edu.cs3500.spreadsheets.model.graph.Graph;
+import java.text.Normalizer.Form;
 import java.util.Hashtable;
 
 /**
@@ -12,17 +16,22 @@ import java.util.Hashtable;
  */
 public class SimpleSpreadsheet implements SpreadsheetModel {
   private Hashtable<Coord, Cell> cells;
+  private Graph<Cell> references;
   // TODO: Finish graph interface and implement it in order to keep track of cell references so
   //       we can identify cycles easily.
 
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
     private Hashtable<Coord, Cell> cells;
+    private Graph<Cell> references;
 
     @Override
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
       if (contents == null) {
         cells.put(new Coord(col, row), null);
         return this;
+      }
+      if (contents.charAt(0) == '=') {
+        cells.put(new Coord(col, row), new FormulaCell(null, contents, null));
       }
       return this;
     }
