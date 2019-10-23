@@ -50,7 +50,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public String getUserString() {
+  public String getUserString(Coord coord) {
     return null;
   }
 }

@@ -66,7 +66,8 @@ public interface SpreadsheetModel {
    *       This is important for interacting with the view, since the user should be able to edit
    *       the cell's previous formula without having to completely retype it
    *
+   * @param coord The coordinate for the cell
    * @return The string
    */
-  String getUserString();
+  String getUserString(Coord coord);
 }
