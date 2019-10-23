@@ -4,7 +4,11 @@ import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
 import edu.cs3500.spreadsheets.model.cell.BlankCell;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.FormulaCell;
+import edu.cs3500.spreadsheets.model.cell.ValueCell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
+import edu.cs3500.spreadsheets.model.cell.value.BooleanValue;
+import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 import edu.cs3500.spreadsheets.model.graph.Graph;
 import java.text.Normalizer.Form;
@@ -30,11 +34,47 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       if (contents == null) {
         cells.put(new Coord(col, row), new BlankCell());
         return this;
-      }
-      if (contents.charAt(0) == '=') {
+      } else if (contents.charAt(0) == '=') {
+        // TODO: Somehow deal with all of the formula stuff
+        //       Idea: have a helper that makes the formula, then create the formula cell initially
+        //             with a null value. Then evaluate the cell right away to properly set value.
+
         cells.put(new Coord(col, row), new FormulaCell(null, contents, null));
+      } else if (isDouble(contents)) {
+        cells.put(new Coord(col, row),
+            new ValueCell(contents, new DoubleValue(Double.parseDouble(contents))));
+      } else if (isBool(contents)) {
+        cells.put(new Coord(col, row),
+            new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents))));
+      } else {
+        cells.put(new Coord(col, row),
+            new ValueCell(contents, new StringValue(contents)));
       }
       return this;
+    }
+
+    /**
+     * Determines if the given string is a boolean.
+     * @param contents The string
+     * @return If it is a boolean
+     * TODO: IS THIS CORRECT IN ALL CASES: i.e. if there are spaces or anything else
+     */
+    private static boolean isBool(String contents) {
+      return contents.equalsIgnoreCase("true") || contents.equalsIgnoreCase("false");
+    }
+
+    /**
+     * Determines if the given string is a double.
+     * @param contents The string
+     * @return If it is a double
+     */
+    private static boolean isDouble(String contents) {
+      try {
+        double d = Double.parseDouble(contents);
+        return true;
+      } catch (NumberFormatException e) {
+        return false;
+      }
     }
 
     @Override
