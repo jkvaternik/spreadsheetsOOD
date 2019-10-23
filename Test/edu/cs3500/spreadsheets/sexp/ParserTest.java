@@ -1,7 +1,6 @@
 package edu.cs3500.spreadsheets.sexp;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class ParserTest {
