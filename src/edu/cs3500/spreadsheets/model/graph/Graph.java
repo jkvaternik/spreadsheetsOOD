@@ -59,8 +59,9 @@ public interface Graph<K> {
   boolean containsEdge(K from, K to);
 
   /**
-   * Determines if there exists a cycle in this graph.
+   * Determines if there exists a cycle containing the given node or one of it's references.
+   * @param node The node of interest.
    * @return Whether or not there is a cycle.
    */
-  boolean containsCycle();
+  boolean containsCycle(K node);
 }

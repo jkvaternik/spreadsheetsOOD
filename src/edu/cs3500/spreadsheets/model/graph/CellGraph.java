@@ -84,7 +84,29 @@ public class CellGraph implements Graph<Cell> {
   }
 
   @Override
-  public boolean containsCycle() {
-    return false;
+  public boolean containsCycle(Cell node) {
+    List<Cell> visited = new ArrayList<>();
+    return this.containsCycleAccum(node, visited);
+  }
+
+  /**
+   * Determines if there is a cycle containing the given cell or any of its references
+   * @param node The node of interest
+   * @param visited The cells already visited
+   * @return Whether or not there is a cycle
+   */
+  private boolean containsCycleAccum(Cell node, List<Cell> visited) {
+    if (visited.contains(node)) {
+      return true;
+    } else {
+      visited.add(node);
+      List<Cell> references = this.adjList.get(node);
+      for (Cell c : references) {
+        if (this.containsCycleAccum(c, visited)) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 }
