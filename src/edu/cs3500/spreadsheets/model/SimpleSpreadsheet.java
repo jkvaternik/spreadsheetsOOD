@@ -31,24 +31,31 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
 
     @Override
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
+      Cell toAdd;
       if (contents == null) {
-        cells.put(new Coord(col, row), new BlankCell());
+        toAdd = new BlankCell();
+        cells.put(new Coord(col, row), toAdd);
+        references.addNode(toAdd);
         return this;
       } else if (contents.charAt(0) == '=') {
         // TODO: Somehow deal with all of the formula stuff
         //       Idea: have a helper that makes the formula, then create the formula cell initially
         //             with a null value. Then evaluate the cell right away to properly set value.
-
-        cells.put(new Coord(col, row), new FormulaCell(null, contents, null));
+        toAdd = new FormulaCell(null, contents, null);
+        cells.put(new Coord(col, row), toAdd);
+        references.addNode(toAdd);
       } else if (isDouble(contents)) {
-        cells.put(new Coord(col, row),
-            new ValueCell(contents, new DoubleValue(Double.parseDouble(contents))));
+        toAdd = new ValueCell(contents, new DoubleValue(Double.parseDouble(contents)));
+        cells.put(new Coord(col, row), toAdd);
+        references.addNode(toAdd);
       } else if (isBool(contents)) {
-        cells.put(new Coord(col, row),
-            new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents))));
+        toAdd = new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents)));
+        cells.put(new Coord(col, row), toAdd);
+        references.addNode(toAdd);
       } else {
-        cells.put(new Coord(col, row),
-            new ValueCell(contents, new StringValue(contents)));
+        toAdd = new ValueCell(contents, new StringValue(contents));
+        cells.put(new Coord(col, row), toAdd);
+        references.addNode(toAdd);
       }
       return this;
     }
