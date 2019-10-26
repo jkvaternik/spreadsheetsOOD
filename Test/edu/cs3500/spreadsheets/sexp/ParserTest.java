@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Class which tests the parser (for intuition purposes).
+ */
 public class ParserTest {
   Parser parser = new Parser();
 
