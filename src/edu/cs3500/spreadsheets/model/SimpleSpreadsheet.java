@@ -70,7 +70,8 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
      * @return the formula
      */
     private Formula determineFormula(Sexp sFormula, Cell parent) {
-
+      // Stub for now
+      return new BooleanValue(true);
     }
 
     /**
