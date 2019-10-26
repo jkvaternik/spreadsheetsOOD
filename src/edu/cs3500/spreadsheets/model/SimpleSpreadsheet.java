@@ -11,6 +11,8 @@ import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 import edu.cs3500.spreadsheets.model.graph.Graph;
+import edu.cs3500.spreadsheets.sexp.Parser;
+import edu.cs3500.spreadsheets.sexp.Sexp;
 import java.text.Normalizer.Form;
 import java.util.Hashtable;
 
@@ -42,6 +44,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         //       Idea: have a helper that makes the formula, then create the formula cell initially
         //             with a null value. Then evaluate the cell right away to properly set value.
         toAdd = new FormulaCell(null, contents, null);
+        Formula toAddFormula = this.determineFormula((new Parser().parse(contents.substring(1))), toAdd);
         cells.put(new Coord(col, row), toAdd);
         references.addNode(toAdd);
       } else if (isDouble(contents)) {
@@ -58,6 +61,16 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         references.addNode(toAdd);
       }
       return this;
+    }
+
+    /**
+     * Determines the formula based on the given SExp and its parent cell.
+     * @param sFormula The formula as an S-expression
+     * @param parent The parent cell
+     * @return the formula
+     */
+    private Formula determineFormula(Sexp sFormula, Cell parent) {
+
     }
 
     /**
