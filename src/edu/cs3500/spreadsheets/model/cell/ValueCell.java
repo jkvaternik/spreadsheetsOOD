@@ -1,5 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import java.util.Hashtable;
+
+import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
@@ -20,7 +23,7 @@ public class ValueCell implements Cell {
   }
 
   @Override
-  public void evaluate() {
+  public void evaluate(Hashtable<Coord, Cell> spreadsheet) {
     // Do nothing here, as the cell's value is never changed.
   }
 

@@ -1,5 +1,9 @@
 package edu.cs3500.spreadsheets.model.cell.formula;
 
+import java.util.Hashtable;
+
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
@@ -12,6 +16,5 @@ public interface Formula {
    * Evaluates the formula.
    * @return the evaluated value
    */
-  Value evaluate();
-
+  Value evaluate(Hashtable<Coord, Cell> spreadsheet);
 }

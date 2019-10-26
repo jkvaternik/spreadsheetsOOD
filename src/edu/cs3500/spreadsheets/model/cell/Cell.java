@@ -1,5 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import java.util.Hashtable;
+
+import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
@@ -14,7 +17,7 @@ public interface Cell {
    * TODO: This probably needs some sort of input right? It's purpose is to re-evaluate the cell's
    *       value in the event that one of it's references changes.
    */
-  void evaluate();
+  void evaluate(Hashtable<Coord, Cell> spreadsheet);
 
 
   /**

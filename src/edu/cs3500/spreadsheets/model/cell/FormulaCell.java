@@ -1,5 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import java.util.Hashtable;
+
+import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
@@ -26,17 +29,17 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  public void evaluate() {
-    this.value = this.formula.evaluate();
+  public void evaluate(Hashtable<Coord, Cell> spreadsheet) {
+    this.value = this.formula.evaluate(spreadsheet);
   }
 
   @Override
   public String getUserString() {
-    return null;
+    return this.cellString;
   }
 
   @Override
   public Value getValue() {
-    return null;
+    return this.value;
   }
 }

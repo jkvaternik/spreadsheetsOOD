@@ -10,7 +10,6 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
  * Represents the sum function.
  */
 public class SumFunction extends Function {
-
   /**
    * Constructs an instance of the SumFunction given a list of one or more arguments.
    * @param args list of arguments
@@ -25,10 +24,14 @@ public class SumFunction extends Function {
       throw new IllegalArgumentException("List of arguments cannot be empty.");
     }
 
-    Double result = 0.0;
+    double result = 0.0;
+    // if arg doesn't evaluate to a double value, then error, if it doesn't evaluate, error (within individual evaluate)
     for (Formula arg : super.getArgs()) {
-
+      Value<Double> val = arg.evaluate();
+      if (val.getValue() instanceof Double) {
+        result += val.getValue();
+      }
     }
-    return new DoubleValue(result);
+    return new DoubleValue<>(result);
   }
 }
