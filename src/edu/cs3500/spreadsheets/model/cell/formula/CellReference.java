@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.model.cell.formula;
 
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.model.cell.value.Value;
+
 import java.util.List;
 
 /**
@@ -12,5 +14,10 @@ public class CellReference implements Formula {
 
   public CellReference(List<Cell> referenceCells) {
     this.referenceCells = referenceCells;
+  }
+
+  @Override
+  public Value evaluate() {
+    return null;
   }
 }

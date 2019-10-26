@@ -7,4 +7,9 @@ import edu.cs3500.spreadsheets.model.cell.formula.Formula;
  */
 public abstract class Value implements Formula {
   //TODO: Consider adding values for specific errors (to avoid a lot of try-catches)
+
+  @Override
+  public Value evaluate() {
+    return this;
+  }
 }

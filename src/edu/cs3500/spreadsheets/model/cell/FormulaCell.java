@@ -27,7 +27,7 @@ public class FormulaCell implements Cell {
 
   @Override
   public void evaluate() {
-
+    this.value = this.formula.evaluate();
   }
 
   @Override
