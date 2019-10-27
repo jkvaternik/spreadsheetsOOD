@@ -1,9 +1,13 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
+import java.util.Hashtable;
 import java.util.List;
 
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
 /**
@@ -19,19 +23,22 @@ public class SumFunction extends Function {
   }
 
   @Override
-  public Value evaluate() {
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
     if (super.getArgs().isEmpty()) {
       throw new IllegalArgumentException("List of arguments cannot be empty.");
     }
 
     double result = 0.0;
-    // if arg doesn't evaluate to a double value, then error, if it doesn't evaluate, error (within individual evaluate)
+
     for (Formula arg : super.getArgs()) {
-      Value<Double> val = arg.evaluate();
-      if (val.getValue() instanceof Double) {
+      try {
+        Value<Double> val = arg.evaluate(cells);
         result += val.getValue();
       }
+      catch (IllegalArgumentException e) {
+        return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
+      }
     }
-    return new DoubleValue<>(result);
+    return new DoubleValue(result);
   }
 }

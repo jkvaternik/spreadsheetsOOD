@@ -29,8 +29,8 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  public void evaluate(Hashtable<Coord, Cell> spreadsheet) {
-    this.value = this.formula.evaluate(spreadsheet);
+  public void evaluate(Hashtable<Coord, Cell> cells) {
+    this.value = this.formula.evaluate(cells);
   }
 
   @Override

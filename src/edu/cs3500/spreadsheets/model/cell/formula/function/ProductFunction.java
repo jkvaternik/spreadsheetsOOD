@@ -1,7 +1,10 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
+import java.util.Hashtable;
 import java.util.List;
 
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
@@ -19,7 +22,7 @@ public class ProductFunction extends Function {
   }
 
   @Override
-  public Value evaluate() {
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
     return null;
   }
 }

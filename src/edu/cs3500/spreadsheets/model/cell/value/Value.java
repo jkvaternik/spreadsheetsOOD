@@ -17,7 +17,7 @@ public abstract class Value<T> implements Formula {
   }
 
   @Override
-  public Value<T> evaluate(Hashtable<Coord, Cell> spreadsheet) {
+  public Value<T> evaluate(Hashtable<Coord, Cell> cells) {
     return this;
   }
 
