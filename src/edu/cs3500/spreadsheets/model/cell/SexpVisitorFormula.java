@@ -4,6 +4,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
+import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
 import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
@@ -23,7 +24,7 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
    * @param s the Sexp
    * @return The result formula
    */
-  private Formula apply(Sexp s) {
+  public Formula apply(Sexp s) {
     return s.accept(this);
   }
 
@@ -39,7 +40,16 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
 
   @Override
   public Formula visitSList(List<Sexp> l) {
-    return null;
+    try {
+      Formula f = this.apply(l.get(0));
+      Function func = (Function) f;
+      for (Sexp s : l.subList(1, l.size())) {
+        func.addArg(this.apply(s));
+      }
+      return func;
+    } catch (ClassCastException e) {
+      return new ErrorValue(new IllegalArgumentException("Invalid formula"));
+    }
   }
 
   @Override

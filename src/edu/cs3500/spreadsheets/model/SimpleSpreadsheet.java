@@ -4,6 +4,7 @@ import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
 import edu.cs3500.spreadsheets.model.cell.BlankCell;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.FormulaCell;
+import edu.cs3500.spreadsheets.model.cell.SexpVisitorFormula;
 import edu.cs3500.spreadsheets.model.cell.ValueCell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.BooleanValue;
@@ -43,8 +44,9 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         // TODO: Somehow deal with all of the formula stuff
         //       Idea: have a helper that makes the formula, then create the formula cell initially
         //             with a null value. Then evaluate the cell right away to properly set value.
-        toAdd = new FormulaCell(null, contents, null);
-        Formula toAddFormula = this.determineFormula((new Parser().parse(contents.substring(1))), toAdd);
+        toAdd = new FormulaCell(new SexpVisitorFormula().apply(new Parser().parse(contents)),
+            contents, null);
+        toAdd.evaluate(cells);
         cells.put(new Coord(col, row), toAdd);
         references.addNode(toAdd);
       } else if (isDouble(contents)) {
@@ -61,17 +63,6 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         references.addNode(toAdd);
       }
       return this;
-    }
-
-    /**
-     * Determines the formula based on the given SExp and its parent cell.
-     * @param sFormula The formula as an S-expression
-     * @param parent The parent cell
-     * @return the formula
-     */
-    private Formula determineFormula(Sexp sFormula, Cell parent) {
-      // Stub for now
-      return new BooleanValue(true);
     }
 
     /**

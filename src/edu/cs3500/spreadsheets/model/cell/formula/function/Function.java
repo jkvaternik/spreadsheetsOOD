@@ -27,4 +27,12 @@ public abstract class Function implements Formula {
   public List<Formula> getArgs() {
     return this.args;
   }
+
+  /**
+   * Adds an argument to this formula.
+   * @param arg The argument to add
+   */
+  public void addArg(Formula arg) {
+    this.args.add(arg);
+  }
 }
