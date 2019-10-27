@@ -18,13 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SexpVisitorFormula implements SexpVisitor<Formula> {
-
   /**
    * Applies the given SExp to this visitor.
    * @param s the Sexp
    * @return The result formula
    */
-  public Formula apply(Sexp s) {
+  private Formula apply(Sexp s) {
     return s.accept(this);
   }
 
