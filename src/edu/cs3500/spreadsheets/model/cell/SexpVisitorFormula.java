@@ -9,6 +9,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
 import edu.cs3500.spreadsheets.model.cell.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.value.StringValue;
 import edu.cs3500.spreadsheets.sexp.Sexp;
 import edu.cs3500.spreadsheets.sexp.SexpVisitor;
@@ -42,7 +43,6 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
   }
 
   @Override
-  //TODO: How do I process cell references??? Convert to coordinates???
   public Formula visitSymbol(String s) {
     if ("PRODUCT".equals(s)) {
       return new ProductFunction(null);
@@ -58,16 +58,14 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
       if (this.validCellString(cell1) && this.validCellString(cell2)) {
         return new CellReference(this.cellStringToCoord(cell1), this.cellStringToCoord(cell2));
       } else {
-        // TODO: Return some sort of error value here
-        return new BooleanValue(true);
+        return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
       }
     } else {
       if (this.validCellString(s)) {
         Coord cellCoord = this.cellStringToCoord(s);
         return new CellReference(cellCoord, cellCoord);
       } else {
-        // TODO: Return some sort of error value here
-        return new BooleanValue(true);
+        return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
       }
     }
   }
