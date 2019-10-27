@@ -10,10 +10,14 @@ import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
 
-public abstract class Function implements Formula {
+public abstract class AFunction implements IFunction {
   private List<Formula> args;
 
-  public Function(List<Formula> args) {
+  /**
+   * Creates a function with the given arguments.
+   * @param args The arguments
+   */
+  public AFunction(List<Formula> args) {
     if (args == null) {
       this.args = new ArrayList<>();
     }
@@ -22,16 +26,15 @@ public abstract class Function implements Formula {
     }
   }
 
+  @Override
   public abstract Value evaluate(Hashtable<Coord, Cell> cells);
 
+  @Override
   public List<Formula> getArgs() {
     return this.args;
   }
 
-  /**
-   * Adds an argument to this formula.
-   * @param arg The argument to add
-   */
+  @Override
   public void addArg(Formula arg) {
     this.args.add(arg);
   }

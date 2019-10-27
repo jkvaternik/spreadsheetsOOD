@@ -11,7 +11,7 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
 /**
  * Represents the capitalize function.
  */
-public class CapitalizeFunction extends Function {
+public class CapitalizeFunction extends AFunction {
 
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
