@@ -13,18 +13,18 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
  */
 public class FormulaCell implements Cell {
   private Formula formula;
-  private String cellString;
+  private String rawContents;
   private Value value;
 
   /**
    * Creates an instance of the formula cell based on the given formula, string, and value.
    * @param formula The formula
-   * @param cellString The string
+   * @param rawContents The string
    * @param value The value
    */
-  public FormulaCell(Formula formula, String cellString, Value value) {
+  public FormulaCell(Formula formula, String rawContents, Value value) {
     this.formula = formula;
-    this.cellString = cellString;
+    this.rawContents = rawContents;
     this.value = value;
   }
 
@@ -34,8 +34,8 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  public String getUserString() {
-    return this.cellString;
+  public String getRawContents() {
+    return this.rawContents;
   }
 
   @Override

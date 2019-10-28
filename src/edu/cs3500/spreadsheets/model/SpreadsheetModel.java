@@ -28,24 +28,16 @@ public interface SpreadsheetModel {
   void setCellValue(Coord coord, String value);
 
   /**
-   * Adds a column at the right of the spreadsheet.
-   */
-  void addColumn();
-
-  /**
-   * Adds a row at the bottom of the spreadsheet
-   */
-  void addRow();
-
-  /**
-   * Gets the number of rows of this spreadsheet.
+   * Gets the number of rows of this spreadsheet. The spreadsheet has infinite rows, but this will
+   * return the number of rows that have cells which have been edited.
    *
    * @return The number of rows
    */
   int getNumRows();
 
   /**
-   * Gets the number of columns of this spreadsheet.
+   * Gets the number of columns of this spreadsheet. The spreadsheet has infinite columns, but this
+   * will return the number of columns that have cells which have been edited.
    *
    * @return The number of columns
    */
@@ -62,12 +54,8 @@ public interface SpreadsheetModel {
   /**
    * Gets the string that was used as input to create the cell.
    *
-   * TODO: NOTE FOR JAIME *************************************************************************
-   *       This is important for interacting with the view, since the user should be able to edit
-   *       the cell's previous formula without having to completely retype it
-   *
    * @param coord The coordinate for the cell
    * @return The string
    */
-  String getUserString(Coord coord);
+  String getRawContents(Coord coord);
 }

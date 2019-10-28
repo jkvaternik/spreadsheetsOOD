@@ -24,7 +24,7 @@ public interface Cell {
    * Gets the string which the user typed into the cell in order to give it it's value or function.
    * @return The string
    */
-  String getUserString();
+  String getRawContents();
 
   /**
    * Gets the cell's value, which is either it's value or the value by applying it's function to

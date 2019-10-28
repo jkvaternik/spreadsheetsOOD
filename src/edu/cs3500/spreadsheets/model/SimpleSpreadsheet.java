@@ -41,9 +41,6 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         references.addNode(toAdd);
         return this;
       } else if (contents.charAt(0) == '=') {
-        // TODO: Somehow deal with all of the formula stuff
-        //       Idea: have a helper that makes the formula, then create the formula cell initially
-        //             with a null value. Then evaluate the cell right away to properly set value.
         toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
             contents, null);
         toAdd.evaluate(cells);
@@ -110,16 +107,6 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public void addColumn() {
-
-  }
-
-  @Override
-  public void addRow() {
-
-  }
-
-  @Override
   public int getNumRows() {
     return 0;
   }
@@ -135,7 +122,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public String getUserString(Coord coord) {
+  public String getRawContents(Coord coord) {
     return null;
   }
 }
