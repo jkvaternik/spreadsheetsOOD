@@ -34,8 +34,9 @@ public class SumFunction extends AFunction {
       try {
         Value<Double> val = arg.evaluate(cells);
         result += val.getValue();
-      }
-      catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException e) {
+        return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
+      } catch (ClassCastException e) {
         return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
       }
     }
