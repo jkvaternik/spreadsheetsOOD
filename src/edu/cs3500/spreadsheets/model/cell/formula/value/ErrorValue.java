@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.model.cell.value;
+package edu.cs3500.spreadsheets.model.cell.formula.value;
 
 /**
  * Represents an error value in a spreadsheet cell.

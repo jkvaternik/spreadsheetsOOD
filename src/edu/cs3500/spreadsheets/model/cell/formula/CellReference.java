@@ -2,10 +2,9 @@ package edu.cs3500.spreadsheets.model.cell.formula;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
-import edu.cs3500.spreadsheets.model.cell.value.Value;
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Represents a reference to one or more spreadsheet cells.
