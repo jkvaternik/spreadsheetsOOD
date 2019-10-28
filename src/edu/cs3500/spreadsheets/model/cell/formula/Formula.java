@@ -17,12 +17,4 @@ public interface Formula {
    * @return the evaluated value
    */
   Value evaluate(Hashtable<Coord, Cell> spreadsheet);
-
-  /**
-   * Determines if this Formula contains a cyclic reference.
-   * A cyclic reference is when this formula refers to a cell who refers back to this cell.
-   * @param spreadsheet The coordinate to cell mapping
-   * @return Whether or not there exists a cycle
-   */
-  boolean containsCyclicReference(Hashtable<Coord, Cell> spreadsheet);
 }
