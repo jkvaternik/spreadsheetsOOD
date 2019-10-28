@@ -11,10 +11,8 @@ import edu.cs3500.spreadsheets.model.cell.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.value.Value;
-import edu.cs3500.spreadsheets.model.graph.Graph;
 import edu.cs3500.spreadsheets.sexp.Parser;
 import edu.cs3500.spreadsheets.sexp.Sexp;
-import java.text.Normalizer.Form;
 import java.util.Hashtable;
 
 /**
@@ -24,13 +22,9 @@ import java.util.Hashtable;
  */
 public class SimpleSpreadsheet implements SpreadsheetModel {
   private Hashtable<Coord, Cell> cells;
-  private Graph<Cell> references;
-  // TODO: Finish graph interface and implement it in order to keep track of cell references so
-  //       we can identify cycles easily.
 
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
     private Hashtable<Coord, Cell> cells;
-    private Graph<Cell> references;
 
     @Override
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
@@ -38,26 +32,21 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       if (contents == null) {
         toAdd = new BlankCell();
         cells.put(new Coord(col, row), toAdd);
-        references.addNode(toAdd);
         return this;
       } else if (contents.charAt(0) == '=') {
         toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
             contents, null);
         toAdd.evaluate(cells);
         cells.put(new Coord(col, row), toAdd);
-        references.addNode(toAdd);
       } else if (isDouble(contents)) {
         toAdd = new ValueCell(contents, new DoubleValue(Double.parseDouble(contents)));
         cells.put(new Coord(col, row), toAdd);
-        references.addNode(toAdd);
       } else if (isBool(contents)) {
         toAdd = new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents)));
         cells.put(new Coord(col, row), toAdd);
-        references.addNode(toAdd);
       } else {
         toAdd = new ValueCell(contents, new StringValue(contents));
         cells.put(new Coord(col, row), toAdd);
-        references.addNode(toAdd);
       }
       return this;
     }
