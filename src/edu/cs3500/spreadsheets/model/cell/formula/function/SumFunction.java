@@ -6,9 +6,9 @@ import java.util.List;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
-import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
-import edu.cs3500.spreadsheets.model.cell.value.ErrorValue;
-import edu.cs3500.spreadsheets.model.cell.value.Value;
+import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the sum function.

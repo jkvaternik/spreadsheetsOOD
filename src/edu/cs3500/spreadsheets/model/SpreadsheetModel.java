@@ -1,7 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
 
-import edu.cs3500.spreadsheets.model.cell.value.Value;
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the model for a spreadsheet.

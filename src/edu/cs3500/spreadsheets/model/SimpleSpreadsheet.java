@@ -6,15 +6,13 @@ import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.FormulaCell;
 import edu.cs3500.spreadsheets.model.cell.SexpVisitorFormula;
 import edu.cs3500.spreadsheets.model.cell.ValueCell;
-import edu.cs3500.spreadsheets.model.cell.formula.Formula;
-import edu.cs3500.spreadsheets.model.cell.value.BooleanValue;
-import edu.cs3500.spreadsheets.model.cell.value.DoubleValue;
-import edu.cs3500.spreadsheets.model.cell.value.StringValue;
-import edu.cs3500.spreadsheets.model.cell.value.Value;
+import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 import edu.cs3500.spreadsheets.model.graph.Graph;
 import edu.cs3500.spreadsheets.sexp.Parser;
-import edu.cs3500.spreadsheets.sexp.Sexp;
-import java.text.Normalizer.Form;
+
 import java.util.Hashtable;
 
 /**
