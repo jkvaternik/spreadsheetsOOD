@@ -44,7 +44,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         // TODO: Somehow deal with all of the formula stuff
         //       Idea: have a helper that makes the formula, then create the formula cell initially
         //             with a null value. Then evaluate the cell right away to properly set value.
-        toAdd = new FormulaCell(new SexpVisitorFormula().apply(new Parser().parse(contents)),
+        toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
             contents, null);
         toAdd.evaluate(cells);
         cells.put(new Coord(col, row), toAdd);

@@ -13,7 +13,7 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
 /**
  * Represents the sum function.
  */
-public class SumFunction extends Function {
+public class SumFunction extends AFunction {
   /**
    * Constructs an instance of the SumFunction given a list of one or more arguments.
    * @param args list of arguments
