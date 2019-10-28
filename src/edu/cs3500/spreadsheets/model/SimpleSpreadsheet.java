@@ -122,7 +122,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public String getUserString(Coord coord) {
+  public String getRawContents(Coord coord) {
     return null;
   }
 }

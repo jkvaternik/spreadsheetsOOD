@@ -57,5 +57,5 @@ public interface SpreadsheetModel {
    * @param coord The coordinate for the cell
    * @return The string
    */
-  String getUserString(Coord coord);
+  String getRawContents(Coord coord);
 }

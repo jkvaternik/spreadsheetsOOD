@@ -9,16 +9,16 @@ import edu.cs3500.spreadsheets.model.cell.value.Value;
  * Represents a cell which contains one of the accepted types of values.
  */
 public class ValueCell implements Cell {
-  private String cellString;
+  private String rawContents;
   private Value value;
 
   /**
    * Creates an instance of a value cell from the given cell string and value.
-   * @param cellString The string
+   * @param rawContents The string
    * @param value The value
    */
-  public ValueCell(String cellString, Value value) {
-    this.cellString = cellString;
+  public ValueCell(String rawContents, Value value) {
+    this.rawContents = rawContents;
     this.value = value;
   }
 
@@ -28,8 +28,8 @@ public class ValueCell implements Cell {
   }
 
   @Override
-  public String getUserString() {
-    return this.cellString;
+  public String getRawContents() {
+    return this.rawContents;
   }
 
   @Override

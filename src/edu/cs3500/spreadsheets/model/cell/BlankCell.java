@@ -15,7 +15,7 @@ public class BlankCell implements Cell {
   }
 
   @Override
-  public String getUserString() {
+  public String getRawContents() {
     return null;
   }
 
