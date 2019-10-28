@@ -32,7 +32,7 @@ public abstract class Function implements Formula {
    * Adds an argument to this formula.
    * @param arg The argument to add
    */
-  public void addArg(Formula arg) {
+  private void addArg(Formula arg) {
     this.args.add(arg);
   }
 }
