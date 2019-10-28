@@ -24,6 +24,9 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   private Hashtable<Coord, Cell> cells;
 
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
+    //TODO: If we build the model first, then createCell will just use the model.addCell method.
+    //      This way, we only need to write the SExp -> Formula stuff once and we can make it a
+    //      private method in the model (talked to Lerner about this so I know we should do it).
     private Hashtable<Coord, Cell> cells;
 
     @Override
