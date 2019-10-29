@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents an error value in a spreadsheet cell.
  */
 public class ErrorValue implements Value {
-  Exception value;
+  private Exception value;
   /**
    * Creates an instance of an error value.
    */

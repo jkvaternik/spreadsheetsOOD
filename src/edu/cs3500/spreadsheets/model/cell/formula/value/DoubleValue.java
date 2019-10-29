@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents a double value in a spreadsheet cell.
  */
 public class DoubleValue implements Value {
-  double value;
+  private double value;
   /**
    * Creates an instance of a double value.
    */

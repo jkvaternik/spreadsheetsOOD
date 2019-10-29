@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents a boolean value in a spreadsheet cell.
  */
 public class BooleanValue implements Value {
-  boolean value;
+  private boolean value;
   /**
    * Creates an instance of a boolean value.
    */

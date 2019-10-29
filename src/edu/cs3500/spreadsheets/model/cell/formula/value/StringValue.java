@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents a string value in a spreadsheet cell.
  */
 public class StringValue implements Value {
-  String value;
+  private String value;
   /**
    * Creates an instance of a string value.
    */
