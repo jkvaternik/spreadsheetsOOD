@@ -42,43 +42,48 @@ public class SumFunction implements FormulaVisitor<Double>, IFunction {
   }
 
   @Override
+  public <R> R accept(FormulaVisitor<R> visitor) {
+    return visitor.visitSumFunction(this);
+  }
+
+  @Override
   public Double visitDoubleValue(DoubleValue val) {
-    return null;
+    return val.getValue();
   }
 
   @Override
   public Double visitBooleanValue(BooleanValue val) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitStringValue(StringValue val) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitCellReference(CellReference ref) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitSumFunction(SumFunction func) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitProductFunction(ProductFunction func) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitLessThanFunction(LessThanFunction func) {
-    return null;
+    return 0.0;
   }
 
   @Override
   public Double visitCapitalizeFunction(CapitalizeFunction func) {
-    return null;
+    return 0.0;
   }
 
   @Override
