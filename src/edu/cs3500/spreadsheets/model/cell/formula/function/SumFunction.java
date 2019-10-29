@@ -17,13 +17,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents the sum function.
  */
 public class SumFunction implements FormulaVisitor<Double> {
-  private List<Formula> args;
+
   /**
-   * Constructs an instance of the SumFunction given a list of one or more arguments.
-   * @param args list of arguments
+   * Constructs an instance of the SumFunction function object
    */
-  public SumFunction(List<Formula> args) {
-    this.args = args;
+  public SumFunction() {
+
   }
 
   @Override

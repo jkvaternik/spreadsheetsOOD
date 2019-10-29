@@ -4,7 +4,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
-import edu.cs3500.spreadsheets.model.cell.formula.function.AFunction;
+import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
 import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
@@ -40,7 +40,7 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
   public Formula visitSList(List<Sexp> l) {
     try {
       Formula f = this.apply(l.get(0));
-      AFunction func = (AFunction) f;
+      Function func = (Function) f;
       for (Sexp s : l.subList(1, l.size())) {
         func.addArg(this.apply(s));
       }

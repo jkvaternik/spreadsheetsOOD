@@ -11,7 +11,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 /**
  * Represents the less than function.
  */
-public class LessThanFunction extends AFunction {
+public class LessThanFunction extends Function {
 
   /**
    * Constructs an instance of the LessThanFunction given a list of one or more arguments.

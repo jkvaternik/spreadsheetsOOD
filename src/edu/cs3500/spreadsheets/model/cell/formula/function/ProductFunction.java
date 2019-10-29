@@ -11,7 +11,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 /**
  * Represents the product function.
  */
-public class ProductFunction extends AFunction {
+public class ProductFunction extends Function {
 
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
