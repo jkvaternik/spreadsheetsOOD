@@ -101,7 +101,7 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
       }
     }
     // Iterate backwards though the string to check for the earliest number index
-    for (int index = cell.length() - 1; index < 0; index -= 1) {
+    for (int index = cell.length() - 1; index >= 0; index -= 1) {
       char c = cell.charAt(index);
       // If the character is neither a letter nor a number, it is not a valid cell
       if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
@@ -127,7 +127,7 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
         lastLetter = index;
       }
     }
-    int column = (new Coord(0, 0).colNameToIndex(cell.substring(0, lastLetter + 1)));
+    int column = (new Coord(1, 1).colNameToIndex(cell.substring(0, lastLetter + 1)));
     int row = Integer.parseInt(cell.substring(lastLetter + 1));
     return new Coord(column, row);
   }

@@ -65,8 +65,8 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       toAdd = new BlankCell();
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {
-      toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
-          contents);
+      toAdd = new FormulaCell(
+          (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()), contents);
       toAdd.evaluate(this.cells);
       this.cells.put(coord, toAdd);
     } else if (isDouble(contents)) {

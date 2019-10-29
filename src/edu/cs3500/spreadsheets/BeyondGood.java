@@ -37,7 +37,7 @@ public class BeyondGood {
           String cellString = args[3];
           if (validCellString(cellString)) {
             Coord coord = cellStringToCoord(cellString);
-            spreadsheet.getValue(coord).toString();
+            System.out.println(spreadsheet.getValue(coord).toString());
           } else {
             System.out.println("Invalid argument given for the coordinate.");
           }
@@ -72,7 +72,7 @@ public class BeyondGood {
       }
     }
     // Iterate backwards though the string to check for the earliest number index
-    for (int index = cell.length() - 1; index < 0; index -= 1) {
+    for (int index = cell.length() - 1; index >= 0; index -= 1) {
       char c = cell.charAt(index);
       // If the character is neither a letter nor a number, it is not a valid cell
       if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
@@ -81,9 +81,10 @@ public class BeyondGood {
         firstNum = index;
       }
     }
-
     return (firstNum > finalLetter);
   }
+
+  // TODO: What to do about this code duplication???
 
   /**
    * Converts the given cell string to a coordinate.
@@ -98,7 +99,7 @@ public class BeyondGood {
         lastLetter = index;
       }
     }
-    int column = (new Coord(0, 0).colNameToIndex(cell.substring(0, lastLetter + 1)));
+    int column = (new Coord(1, 1).colNameToIndex(cell.substring(0, lastLetter + 1)));
     int row = Integer.parseInt(cell.substring(lastLetter + 1));
     return new Coord(column, row);
   }
