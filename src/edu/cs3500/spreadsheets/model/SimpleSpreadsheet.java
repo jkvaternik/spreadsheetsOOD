@@ -24,72 +24,31 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   private Hashtable<Coord, Cell> cells;
 
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
-    //TODO: If we build the model first, then createCell will just use the model.addCell method.
-    //      This way, we only need to write the SExp -> Formula stuff once and we can make it a
-    //      private method in the model (talked to Lerner about this so I know we should do it).
-    private Hashtable<Coord, Cell> cells;
+    private SimpleSpreadsheet spreadsheet;
+
+    public Builder() {
+      this.spreadsheet = new SimpleSpreadsheet();
+    }
 
     @Override
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
-      Cell toAdd;
-      if (contents == null) {
-        toAdd = new BlankCell();
-        cells.put(new Coord(col, row), toAdd);
-        return this;
-      } else if (contents.charAt(0) == '=') {
-        toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
-            contents, null);
-        toAdd.evaluate(cells);
-        cells.put(new Coord(col, row), toAdd);
-      } else if (isDouble(contents)) {
-        toAdd = new ValueCell(contents, new DoubleValue(Double.parseDouble(contents)));
-        cells.put(new Coord(col, row), toAdd);
-      } else if (isBool(contents)) {
-        toAdd = new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents)));
-        cells.put(new Coord(col, row), toAdd);
-      } else {
-        toAdd = new ValueCell(contents, new StringValue(contents));
-        cells.put(new Coord(col, row), toAdd);
-      }
+      Coord c = new Coord(col, row);
+      this.spreadsheet.setCellValue(c, contents);
       return this;
-    }
-
-    /**
-     * Determines if the given string is a boolean.
-     * @param contents The string
-     * @return If it is a boolean
-     */
-    private static boolean isBool(String contents) {
-      return contents.equalsIgnoreCase("true") || contents.equalsIgnoreCase("false");
-    }
-
-    /**
-     * Determines if the given string is a double.
-     * @param contents The string
-     * @return If it is a double
-     */
-    private static boolean isDouble(String contents) {
-      try {
-        double d = Double.parseDouble(contents);
-        return true;
-      } catch (NumberFormatException e) {
-        return false;
-      }
     }
 
     @Override
     public SimpleSpreadsheet createWorksheet() {
-      return new SimpleSpreadsheet(this);
+      return this.spreadsheet;
     }
   }
 
   /**
    * Creates an instance of a simple spreadsheet. This constructor can only be called via the
    * builder.
-   * @param builder The spreadsheet builder
    */
-  private SimpleSpreadsheet(Builder builder) {
-    this.cells = builder.cells;
+  private SimpleSpreadsheet() {
+    this.cells = new Hashtable<>();
   }
 
   @Override
@@ -102,8 +61,49 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public void setCellValue(Coord coord, String value) {
-    // TODO: Can implement this after fixing the builder
+  public void setCellValue(Coord coord, String contents) {
+    Cell toAdd;
+    if (contents == null) {
+      toAdd = new BlankCell();
+      this.cells.put(coord, toAdd);
+    } else if (contents.charAt(0) == '=') {
+      toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
+          contents, null);
+      toAdd.evaluate(this.cells);
+      this.cells.put(coord, toAdd);
+    } else if (isDouble(contents)) {
+      toAdd = new ValueCell(contents, new DoubleValue(Double.parseDouble(contents)));
+      this.cells.put(coord, toAdd);
+    } else if (isBool(contents)) {
+      toAdd = new ValueCell(contents, new BooleanValue(Boolean.parseBoolean(contents)));
+      this.cells.put(coord, toAdd);
+    } else {
+      toAdd = new ValueCell(contents, new StringValue(contents));
+      this.cells.put(coord, toAdd);
+    }
+  }
+
+  /**
+   * Determines if the given string is a boolean.
+   * @param contents The string
+   * @return If it is a boolean
+   */
+  private static boolean isBool(String contents) {
+    return contents.equalsIgnoreCase("true") || contents.equalsIgnoreCase("false");
+  }
+
+  /**
+   * Determines if the given string is a double.
+   * @param contents The string
+   * @return If it is a double
+   */
+  private static boolean isDouble(String contents) {
+    try {
+      double d = Double.parseDouble(contents);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
   }
 
   @Override
