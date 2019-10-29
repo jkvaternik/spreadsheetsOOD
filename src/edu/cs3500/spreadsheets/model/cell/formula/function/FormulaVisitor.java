@@ -11,8 +11,5 @@ public interface FormulaVisitor<R> extends IFunc<Formula, R> {
   public R visitBooleanValue(BooleanValue val);
   public R visitStringValue(StringValue val);
   public R visitCellReference(CellReference ref);
-  public R visitSumFunction(SumFunction func);
-  public R visitProductFunction(ProductFunction func);
-  public R visitLessThanFunction(LessThanFunction func);
-  public R visitCapitalizeFunction(CapitalizeFunction func);
+  public R visitFunction(Function func);
 }
