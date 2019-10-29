@@ -2,6 +2,8 @@ package edu.cs3500.spreadsheets.model.cell.formula.value;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
+
 import java.util.Hashtable;
 import java.util.Objects;
 
@@ -20,6 +22,11 @@ public class DoubleValue implements Value {
   @Override
   public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
     return this;
+  }
+
+  @Override
+  public <R> R accept(FormulaVisitor<R> visitor) {
+    return visitor.visitDoubleValue(this);
   }
 
   @Override

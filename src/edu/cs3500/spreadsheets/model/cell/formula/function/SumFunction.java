@@ -51,16 +51,6 @@ public class SumFunction implements FormulaVisitor<Double> {
   }
 
   @Override
-  public List<Formula> getArgs() {
-    return null;
-  }
-
-  @Override
-  public void addArg(Formula arg) {
-
-  }
-
-  @Override
   public Double apply(Formula formula, Double result) {
     return formula.accept(this);
   }
