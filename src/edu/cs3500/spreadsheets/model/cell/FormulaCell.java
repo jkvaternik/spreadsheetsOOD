@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
-
+import java.util.List;
 
 
 /**
@@ -33,5 +33,11 @@ public class FormulaCell implements Cell {
   @Override
   public String getRawContents() {
     return this.rawContents;
+  }
+
+  @Override
+  public boolean containsCyclicalReference(List<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells) {
+    return this.formula.containsCyclicalReference(visitedCoords, cells);
   }
 }

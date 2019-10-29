@@ -91,6 +91,17 @@ public class Function implements IFunction {
   }
 
   @Override
+  public boolean containsCyclicalReference(List<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells) {
+    for (Formula arg : this.args) {
+      if (arg.containsCyclicalReference(visitedCoords, cells)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
   public List<Formula> getArgs() {
     return this.args;
   }

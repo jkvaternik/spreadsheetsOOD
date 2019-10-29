@@ -6,6 +6,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
+import java.util.List;
 
 /**
  * Represents a cell formula. A formula can be a value, a function, or a reference to one or more
@@ -22,8 +23,16 @@ public interface Formula {
   /**
    * Returns the result of applying the given visitor to this Formula.
    * @param visitor the given FormulaVisitor<R>
-   * @param <R>
+   * @param <R> The value type returned by the visitor (not Value)
    * @return the result of applying the given visitor to this Formula
    */
   <R> R accept(FormulaVisitor<R> visitor);
+
+  /**
+   * Determines whether this formula or any cell that it references contains a cyclical reference.
+   * @param visitedCoords The coordinates of the cells visited so far.
+   * @param cells
+   * @return Whether or not there is a cycle.
+   */
+  boolean containsCyclicalReference(List<Coord> visitedCoords, Hashtable<Coord, Cell> cells);
 }

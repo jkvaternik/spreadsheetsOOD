@@ -5,6 +5,7 @@ import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,6 +28,12 @@ public class StringValue implements Value {
   @Override
   public <R> R accept(FormulaVisitor<R> visitor) {
     return visitor.visitStringValue(this);
+  }
+
+  @Override
+  public boolean containsCyclicalReference(List<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells) {
+    return false;
   }
 
   @Override

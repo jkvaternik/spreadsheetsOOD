@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import java.util.List;
 

@@ -45,6 +45,38 @@ public class CellReference implements Formula {
     return visitor.visitCellReference(this);
   }
 
+  @Override
+  public boolean containsCyclicalReference(List<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells) {
+    for (Coord coord : this.getAllCoords()) {
+      if (cells.containsKey(coord)) {
+        List<Coord> newVisited = new ArrayList<>(visitedCoords);
+        newVisited.add(coord);
+        if (cells.get(coord).containsCyclicalReference(newVisited, cells)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private List<Coord> getAllCoords() {
+    int fromCol = from.col;
+    int fromRow = from.row;
+    int toCol = to.col;
+    int toRow = to.row;
+    Coord current;
+    List<Coord> allCoords = new ArrayList<>();
+
+    for (int colIndex = fromCol; colIndex <= toCol; colIndex += 1) {
+      for (int rowIndex = fromRow; rowIndex <= toRow; rowIndex += 1) {
+        current = new Coord(colIndex, rowIndex);
+        allCoords.add(current);
+      }
+    }
+    return allCoords;
+  }
+
   /**
    * Gets all of the cells that are part of this cell reference, based on the given cells in the
    * spreadsheet.
