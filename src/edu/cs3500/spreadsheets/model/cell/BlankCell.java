@@ -11,7 +11,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  */
 public class BlankCell implements Cell {
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
     return new StringValue("");
   }
 

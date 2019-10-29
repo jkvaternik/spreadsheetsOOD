@@ -4,6 +4,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.BlankCell;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
+import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 import java.util.ArrayList;
@@ -30,8 +31,13 @@ public class CellReference implements Formula {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
-    return null;
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
+    List<Cell> refs = this.getAllCells(cells);
+    if (refs.size() == 1) {
+      return refs.get(0).evaluate(cells);
+    } else {
+      return new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference"));
+    }
   }
 
   @Override

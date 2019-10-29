@@ -23,7 +23,7 @@ public class ValueCell implements Cell {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
     return this.value;
   }
 

@@ -14,10 +14,10 @@ public interface Cell {
 
   /**
    * Evaluates the cell.
-   * @param spreadsheet The coordinate to cell mapping of the spreadsheet
+   * @param cells The coordinate to cell mapping of the spreadsheet
    * @return The evaluated value
    */
-  Value evaluate(Hashtable<Coord, Cell> spreadsheet);
+  Value evaluate(Hashtable<Coord, Cell> cells);
 
 
   /**
