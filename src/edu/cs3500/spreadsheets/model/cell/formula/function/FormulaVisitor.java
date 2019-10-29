@@ -8,10 +8,10 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 
 public interface FormulaVisitor<R> extends IFunc<Formula, R> {
-  public R visitDoubleValue(DoubleValue val);
-  public R visitBooleanValue(BooleanValue val);
-  public R visitStringValue(StringValue val);
-  public R visitErrorValue(ErrorValue val);
-  public R visitCellReference(CellReference ref);
-  public R visitFunction(Function func);
+  public R visitDoubleValue(DoubleValue val) throws IllegalStateException;
+  public R visitBooleanValue(BooleanValue val) throws IllegalStateException;
+  public R visitStringValue(StringValue val) throws IllegalStateException;
+  public R visitErrorValue(ErrorValue val) throws IllegalStateException;
+  public R visitCellReference(CellReference ref) throws IllegalStateException;
+  public R visitFunction(Function func) throws IllegalStateException;
 }

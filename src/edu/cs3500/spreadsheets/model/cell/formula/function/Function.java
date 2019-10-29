@@ -8,8 +8,10 @@ import java.util.List;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
+import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 public class Function implements IFunction {
@@ -33,21 +35,54 @@ public class Function implements IFunction {
 
   @Override
   public Value evaluate(Hashtable<Coord, Cell> cells) {
-    switch (func) {
-      case SUM:
-        double result = 0.0;
-        for (Formula arg : this.args) {
-          result += new SumFunction().apply(arg);
-        }
-        return new DoubleValue(result);
-      case PRODUCT:
-        break;
-      case LESSTHAN:
-        break;
-      case CAPITALIZE:
-        break;
+    try {
+      if (this.args.isEmpty()) {
+        throw new IllegalStateException("Invalid function.");
+      }
+      switch (func) {
+        case SUM:
+          double sum = 0.0;
+          for (Formula arg : this.args) {
+            sum += new SumFunction(cells).apply(arg);
+          }
+          return new DoubleValue(sum);
+        case PRODUCT:
+          ProductFunction prodFunc = new ProductFunction(cells);
+          double product = 1.0;
+          for (Formula arg : this.args) {
+            product = product * prodFunc.apply(arg);
+          }
+          if (prodFunc.getDoubleValueCount() == 0) {
+            return new DoubleValue(0.0);
+          } else {
+            return new DoubleValue(product);
+          }
+        case LESSTHAN:
+          LessThanFunction ltFunc = new LessThanFunction(cells);
+          if (this.args.size() != 2) {
+            throw new IllegalStateException("Invalid < function.");
+          } else {
+            double arg1 = ltFunc.apply(this.args.get(0));
+            double arg2 = ltFunc.apply(this.args.get(1));
+
+            boolean result = arg1 < arg2;
+
+            return new BooleanValue(result);
+          }
+        case CAPITALIZE:
+          CapitalizeFunction capFunc = new CapitalizeFunction(cells);
+          if (this.args.size() != 1) {
+            throw new IllegalStateException("Invalid CAPITALIZE function.");
+          } else {
+            String toCap = capFunc.apply(this.args.get(0));
+
+            return new StringValue(toCap.toUpperCase());
+          }
+      }
+      return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
+    } catch (IllegalStateException e) {
+      return new ErrorValue(new IllegalArgumentException("Invalid function."));
     }
-    return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
   }
 
   @Override

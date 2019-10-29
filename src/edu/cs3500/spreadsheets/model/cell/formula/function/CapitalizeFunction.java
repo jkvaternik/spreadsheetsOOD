@@ -1,7 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -11,13 +10,13 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the capitalize function.
  */
 public class CapitalizeFunction implements FormulaVisitor<String> {
   private Hashtable<Coord, Cell> cells;
+
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
@@ -27,37 +26,37 @@ public class CapitalizeFunction implements FormulaVisitor<String> {
 
 
   @Override
-  public String visitDoubleValue(DoubleValue val) {
-    return null;
+  public String visitDoubleValue(DoubleValue val) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to CAPITALIZE");
   }
 
   @Override
-  public String visitBooleanValue(BooleanValue val) {
-    return null;
+  public String visitBooleanValue(BooleanValue val) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to CAPITALIZE");
   }
 
   @Override
-  public String visitStringValue(StringValue val) {
-    return null;
+  public String visitStringValue(StringValue val) throws IllegalStateException {
+    return val.getValue();
   }
 
   @Override
-  public String visitErrorValue(ErrorValue val) {
-    return null;
+  public String visitErrorValue(ErrorValue val) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to CAPITALIZE");
   }
 
   @Override
-  public String visitCellReference(CellReference ref) {
-    return null;
+  public String visitCellReference(CellReference ref) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to CAPITALIZE");
   }
 
   @Override
-  public String visitFunction(Function func) {
-    return null;
+  public String visitFunction(Function func) throws IllegalStateException {
+    return this.apply(func.evaluate(this.cells));
   }
 
   @Override
   public String apply(Formula arg1) {
-    return null;
+    return arg1.accept(this);
   }
 }

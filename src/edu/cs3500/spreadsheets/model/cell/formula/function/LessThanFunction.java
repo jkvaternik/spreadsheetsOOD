@@ -1,7 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -11,12 +10,11 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the less than function.
  */
-public class LessThanFunction implements FormulaVisitor<Boolean> {
+public class LessThanFunction implements FormulaVisitor<Double> {
   private Hashtable<Coord, Cell> cells;
   /**
    * Constructs an instance of the LessThanFunction given a list of one or more arguments.
@@ -26,37 +24,37 @@ public class LessThanFunction implements FormulaVisitor<Boolean> {
   }
 
   @Override
-  public Boolean visitDoubleValue(DoubleValue val) {
-    return null;
+  public Double visitDoubleValue(DoubleValue val) throws IllegalStateException {
+    return val.getValue();
   }
 
   @Override
-  public Boolean visitBooleanValue(BooleanValue val) {
-    return null;
+  public Double visitBooleanValue(BooleanValue val) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to <.");
   }
 
   @Override
-  public Boolean visitStringValue(StringValue val) {
-    return null;
+  public Double visitStringValue(StringValue val) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to <.");
   }
 
   @Override
-  public Boolean visitErrorValue(ErrorValue val) {
-    return null;
+  public Double visitErrorValue(ErrorValue val) throws IllegalStateException{
+    throw new IllegalStateException("Invalid argument to <.");
   }
 
   @Override
-  public Boolean visitCellReference(CellReference ref) {
-    return null;
+  public Double visitCellReference(CellReference ref) throws IllegalStateException {
+    throw new IllegalStateException("Invalid argument to <.");
   }
 
   @Override
-  public Boolean visitFunction(Function func) {
-    return null;
+  public Double visitFunction(Function func) throws IllegalStateException {
+    return this.apply(func.evaluate(this.cells));
   }
 
   @Override
-  public Boolean apply(Formula arg1) {
-    return null;
+  public Double apply(Formula arg1) throws IllegalStateException {
+    return arg1.accept(this);
   }
 }

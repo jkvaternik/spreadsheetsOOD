@@ -45,7 +45,8 @@ public class CellReference implements Formula {
    * @param cells The cells at each coordinate in the spreadsheet
    * @return All of the cells in this reference
    */
-  private List<Cell> getAllCells(Hashtable<Coord, Cell> cells) {
+  //TODO: How do we not make this public???
+  public List<Cell> getAllCells(Hashtable<Coord, Cell> cells) {
     int fromCol = from.col;
     int fromRow = from.row;
     int toCol = to.col;

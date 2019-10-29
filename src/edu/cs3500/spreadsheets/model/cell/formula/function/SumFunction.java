@@ -26,32 +26,37 @@ public class SumFunction implements FormulaVisitor<Double> {
   }
 
   @Override
-  public Double visitDoubleValue(DoubleValue val) {
+  public Double visitDoubleValue(DoubleValue val) throws IllegalStateException {
     return val.getValue();
   }
 
   @Override
-  public Double visitBooleanValue(BooleanValue val) {
+  public Double visitBooleanValue(BooleanValue val) throws IllegalStateException {
     return 0.0;
   }
 
   @Override
-  public Double visitStringValue(StringValue val) {
+  public Double visitStringValue(StringValue val) throws IllegalStateException {
     return 0.0;
   }
 
   @Override
   public Double visitErrorValue(ErrorValue val) {
+    throw new IllegalStateException("One of the arguments is erroring");
+  }
+
+  @Override
+  public Double visitCellReference(CellReference ref) throws IllegalStateException {
+    List<Cell> references = ref.getAllCells(this.cells);
+    double result = 0.0;
+    for (Cell c : references) {
+      result += this.apply(c.evaluate(this.cells));
+    }
     return 0.0;
   }
 
   @Override
-  public Double visitCellReference(CellReference ref) {
-    return 0.0;
-  }
-
-  @Override
-  public Double visitFunction(Function func) {
+  public Double visitFunction(Function func) throws IllegalStateException {
     return this.apply(func.evaluate(this.cells));
   }
 

@@ -18,46 +18,56 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  */
 public class ProductFunction implements FormulaVisitor<Double> {
   private Hashtable<Coord, Cell> cells;
+  int doubleValueCount;
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
   public ProductFunction(Hashtable<Coord, Cell> cells) {
     this.cells = cells;
-  }
-
-
-  @Override
-  public Double visitDoubleValue(DoubleValue val) {
-    return null;
+    this.doubleValueCount = 0;
   }
 
   @Override
-  public Double visitBooleanValue(BooleanValue val) {
-    return null;
+  public Double visitDoubleValue(DoubleValue val) throws IllegalStateException {
+    doubleValueCount++;
+    return val.getValue();
   }
 
   @Override
-  public Double visitStringValue(StringValue val) {
-    return null;
+  public Double visitBooleanValue(BooleanValue val) throws IllegalStateException {
+    return 1.0;
   }
 
   @Override
-  public Double visitErrorValue(ErrorValue val) {
-    return null;
+  public Double visitStringValue(StringValue val) throws IllegalStateException {
+    return 1.0;
   }
 
   @Override
-  public Double visitCellReference(CellReference ref) {
-    return null;
+  public Double visitErrorValue(ErrorValue val) throws IllegalStateException {
+    throw new IllegalStateException("One of the arguments is erroring");
   }
 
   @Override
-  public Double visitFunction(Function func) {
-    return null;
+  public Double visitCellReference(CellReference ref) throws IllegalStateException {
+    return 1.0;
+  }
+
+  @Override
+  public Double visitFunction(Function func) throws IllegalStateException {
+    return this.apply(func.evaluate(this.cells));
   }
 
   @Override
   public Double apply(Formula arg1) {
-    return null;
+    return arg1.accept(this);
+  }
+
+  /**
+   * Gets the count of double values that this function has visited.
+   * @return the count
+   */
+  int getDoubleValueCount() {
+    return doubleValueCount;
   }
 }

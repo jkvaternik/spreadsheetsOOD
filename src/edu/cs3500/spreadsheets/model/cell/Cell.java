@@ -17,7 +17,7 @@ public interface Cell {
    * TODO: This probably needs some sort of input right? It's purpose is to re-evaluate the cell's
    *       value in the event that one of it's references changes.
    */
-  void evaluate(Hashtable<Coord, Cell> spreadsheet);
+  Value evaluate(Hashtable<Coord, Cell> spreadsheet);
 
 
   /**
@@ -25,11 +25,4 @@ public interface Cell {
    * @return The string
    */
   String getRawContents();
-
-  /**
-   * Gets the cell's value, which is either it's value or the value by applying it's function to
-   * it's reference cells.
-   * @return The value
-   */
-  Value getValue();
 }
