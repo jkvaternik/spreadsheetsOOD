@@ -23,17 +23,12 @@ public class ValueCell implements Cell {
   }
 
   @Override
-  public void evaluate(Hashtable<Coord, Cell> spreadsheet) {
-    // Do nothing here, as the cell's value is never changed.
+  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
+    return this.value;
   }
 
   @Override
   public String getRawContents() {
     return this.rawContents;
-  }
-
-  @Override
-  public Value getValue() {
-    return this.value;
   }
 }

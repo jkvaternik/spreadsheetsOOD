@@ -59,6 +59,8 @@ public class CellReference implements Formula {
         current = new Coord(colIndex, rowIndex);
         if (cells.containsKey(current)) {
           allCells.add(cells.get(current));
+        } else {
+          allCells.add(new BlankCell());
         }
       }
     }
