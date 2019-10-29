@@ -17,12 +17,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents the less than function.
  */
 public class LessThanFunction implements FormulaVisitor<Boolean> {
-
+  private Hashtable<Coord, Cell> cells;
   /**
    * Constructs an instance of the LessThanFunction given a list of one or more arguments.
    */
-  public LessThanFunction() {
-
+  public LessThanFunction(Hashtable<Coord, Cell> cells) {
+    this.cells = cells;
   }
 
   @Override
@@ -56,7 +56,7 @@ public class LessThanFunction implements FormulaVisitor<Boolean> {
   }
 
   @Override
-  public Boolean apply(Formula arg1, Boolean arg2) {
+  public Boolean apply(Formula arg1) {
     return null;
   }
 }

@@ -17,12 +17,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents the capitalize function.
  */
 public class CapitalizeFunction implements FormulaVisitor<String> {
-
+  private Hashtable<Coord, Cell> cells;
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
-  public CapitalizeFunction() {
-
+  public CapitalizeFunction(Hashtable<Coord, Cell> cells) {
+    this.cells = cells;
   }
 
 
@@ -57,7 +57,7 @@ public class CapitalizeFunction implements FormulaVisitor<String> {
   }
 
   @Override
-  public String apply(Formula arg1, String arg2) {
+  public String apply(Formula arg1) {
     return null;
   }
 }

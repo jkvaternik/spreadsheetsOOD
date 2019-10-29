@@ -17,12 +17,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents the sum function.
  */
 public class SumFunction implements FormulaVisitor<Double> {
-
+  private Hashtable<Coord, Cell> cells;
   /**
    * Constructs an instance of the SumFunction function object
    */
-  public SumFunction() {
-
+  public SumFunction(Hashtable<Coord, Cell> cells) {
+    this.cells = cells;
   }
 
   @Override
@@ -42,7 +42,7 @@ public class SumFunction implements FormulaVisitor<Double> {
 
   @Override
   public Double visitErrorValue(ErrorValue val) {
-    return null;
+    return 0.0;
   }
 
   @Override
@@ -52,11 +52,11 @@ public class SumFunction implements FormulaVisitor<Double> {
 
   @Override
   public Double visitFunction(Function func) {
-    return null;
+    return this.apply(func.evaluate(this.cells));
   }
 
   @Override
-  public Double apply(Formula formula, Double result) {
+  public Double apply(Formula formula) {
     return formula.accept(this);
   }
 }

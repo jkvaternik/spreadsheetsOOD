@@ -8,6 +8,7 @@ import java.util.List;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
+import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
@@ -34,7 +35,11 @@ public class Function implements IFunction {
   public Value evaluate(Hashtable<Coord, Cell> cells) {
     switch (func) {
       case SUM:
-        break;
+        double result = 0.0;
+        for (Formula arg : this.args) {
+          result += new SumFunction().apply(arg);
+        }
+        return new DoubleValue(result);
       case PRODUCT:
         break;
       case LESSTHAN:

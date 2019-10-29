@@ -17,12 +17,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents the product function.
  */
 public class ProductFunction implements FormulaVisitor<Double> {
-
+  private Hashtable<Coord, Cell> cells;
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
-  public ProductFunction() {
-
+  public ProductFunction(Hashtable<Coord, Cell> cells) {
+    this.cells = cells;
   }
 
 
@@ -57,7 +57,7 @@ public class ProductFunction implements FormulaVisitor<Double> {
   }
 
   @Override
-  public Double apply(Formula arg1, Double arg2) {
+  public Double apply(Formula arg1) {
     return null;
   }
 }
