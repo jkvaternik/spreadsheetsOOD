@@ -17,10 +17,10 @@ public interface SpreadsheetModel {
   void clearCell(Coord coord);
 
   /**
-   * Sets the value of the cell at the given coordinate indices to the specified value, and
-   * updates all cells which reference the changed cell. Note, the value is just the string
-   * representation of the value to set the cell to, which can include doubles, booleans, strings,
-   * functions, etc.
+   * Sets the value of the cell at the given coordinate indices to the specified value.
+   * Works for both cells which currently have contents, and those which are blank.
+   * Note, the value is just the string representation of the value to set the cell to,
+   * which can include doubles, booleans, strings, functions, etc.
    *
    * @param coord The coordinate
    * @param value The string representation of the value

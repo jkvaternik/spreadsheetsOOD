@@ -54,9 +54,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public void clearCell(Coord coord) {
     if (this.cells.containsKey(coord)) {
-      // TODO: Should we just remove this cell from the hashtable, since this is essentially
-      //       equivalent behavior (cells not in the table are treated as blankCells)
-      this.cells.put(coord, new BlankCell());
+      this.cells.remove(coord);
     }
   }
 
@@ -68,7 +66,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {
       toAdd = new FormulaCell((new Parser().parse(contents)).accept(new SexpVisitorFormula()),
-          contents, null);
+          contents);
       toAdd.evaluate(this.cells);
       this.cells.put(coord, toAdd);
     } else if (isDouble(contents)) {
@@ -129,16 +127,10 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  //TODO: I think instead of using get value, we should have evaluate return a value so we don't
-  //      have to keep re-evaluating every time we edit a cell (and instead only do it every time
-  //      we need to get its value).
-  //      NOTE: This should work, because in evaluate, if there are any cell refs., we re-evaluate
-  //      the new cells, so I don't think we would run into any issues...
   public Value getValue(Coord coord) {
     if (this.cells.containsKey(coord)) {
-      return this.cells.get(coord).getValue();
+      return this.cells.get(coord).evaluate(this.cells);
     } else {
-      //TODO: What should the default value be???
       return new StringValue("");
     }
   }
