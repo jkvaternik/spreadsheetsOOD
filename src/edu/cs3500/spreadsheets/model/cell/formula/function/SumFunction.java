@@ -35,7 +35,7 @@ public class SumFunction implements FormulaVisitor<Double>, IFunction {
     double result = 0.0;
 
     for (Formula arg : this.getArgs()) {
-      arg.
+      result += this.apply(arg);
 
     }
     return new DoubleValue(result);

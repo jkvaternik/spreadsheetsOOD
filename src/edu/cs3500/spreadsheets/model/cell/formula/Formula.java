@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
@@ -17,4 +18,12 @@ public interface Formula {
    * @return the evaluated value
    */
   Value evaluate(Hashtable<Coord, Cell> spreadsheet);
+
+  /**
+   * Returns the result of applying the given visitor to this Formula.
+   * @param visitor the given FormulaVisitor<R>
+   * @param <R>
+   * @return the result of applying the given visitor to this Formula
+   */
+  <R> R accept(FormulaVisitor<R> visitor);
 }
