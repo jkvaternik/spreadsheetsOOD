@@ -43,7 +43,7 @@ public class ErrorValue implements Value {
 
   @Override
   public String toString() {
-    return value.toString();
+    return value.getMessage();
   }
 
   @Override

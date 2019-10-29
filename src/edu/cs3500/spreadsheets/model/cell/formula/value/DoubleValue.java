@@ -43,7 +43,7 @@ public class DoubleValue implements Value {
 
   @Override
   public String toString() {
-    return Double.toString(this.value);
+    return String.format("%f", this.value);
   }
 
   @Override

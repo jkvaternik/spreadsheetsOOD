@@ -4,6 +4,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
+import edu.cs3500.spreadsheets.model.cell.formula.function.EFunctions;
 import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
 import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
@@ -55,13 +56,13 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
   @Override
   public Formula visitSymbol(String s) {
     if ("PRODUCT".equals(s)) {
-      return new ProductFunction(null);
+      return new Function(EFunctions.PRODUCT,null);
     } else if ("SUM".equals(s)) {
-      return new SumFunction(null);
+      return new Function(EFunctions.SUM,null);
     } else if ("<".equals(s)) {
-      return new LessThanFunction(null);
+      return new Function(EFunctions.LESSTHAN,null);
     } else if ("CAPITALIZE".equals(s)) {
-      return new CapitalizeFunction(null);
+      return new Function(EFunctions.CAPITALIZE,null);
     } else if (s.contains(":") && s.indexOf(":") < s.length() - 1) {
       String cell1 = s.substring(0, s.indexOf(":"));
       String cell2 = s.substring(s.indexOf(":") + 1);
