@@ -9,6 +9,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
@@ -37,6 +38,11 @@ public class ProductFunction implements FormulaVisitor<Double> {
 
   @Override
   public Double visitStringValue(StringValue val) {
+    return null;
+  }
+
+  @Override
+  public Double visitErrorValue(ErrorValue val) {
     return null;
   }
 

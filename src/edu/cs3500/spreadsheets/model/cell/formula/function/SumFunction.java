@@ -41,6 +41,11 @@ public class SumFunction implements FormulaVisitor<Double> {
   }
 
   @Override
+  public Double visitErrorValue(ErrorValue val) {
+    return null;
+  }
+
+  @Override
   public Double visitCellReference(CellReference ref) {
     return 0.0;
   }

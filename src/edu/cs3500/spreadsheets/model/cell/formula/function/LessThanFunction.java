@@ -9,6 +9,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
@@ -36,6 +37,11 @@ public class LessThanFunction implements FormulaVisitor<Boolean> {
 
   @Override
   public Boolean visitStringValue(StringValue val) {
+    return null;
+  }
+
+  @Override
+  public Boolean visitErrorValue(ErrorValue val) {
     return null;
   }
 
