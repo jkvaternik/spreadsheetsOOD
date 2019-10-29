@@ -14,32 +14,24 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 public class FormulaCell implements Cell {
   private Formula formula;
   private String rawContents;
-  private Value value;
 
   /**
    * Creates an instance of the formula cell based on the given formula, string, and value.
    * @param formula The formula
    * @param rawContents The string
-   * @param value The value
    */
-  public FormulaCell(Formula formula, String rawContents, Value value) {
+  public FormulaCell(Formula formula, String rawContents) {
     this.formula = formula;
     this.rawContents = rawContents;
-    this.value = value;
   }
 
   @Override
-  public void evaluate(Hashtable<Coord, Cell> cells) {
-    this.value = this.formula.evaluate(cells);
+  public Value evaluate(Hashtable<Coord, Cell> cells) {
+    return this.formula.evaluate(cells);
   }
 
   @Override
   public String getRawContents() {
     return this.rawContents;
-  }
-
-  @Override
-  public Value getValue() {
-    return this.value;
   }
 }

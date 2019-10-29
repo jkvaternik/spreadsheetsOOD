@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -10,17 +11,12 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  */
 public class BlankCell implements Cell {
   @Override
-  public void evaluate(Hashtable<Coord, Cell> spreadsheet) {
-
+  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
+    return new StringValue("");
   }
 
   @Override
   public String getRawContents() {
-    return null;
-  }
-
-  @Override
-  public Value getValue() {
     return null;
   }
 }

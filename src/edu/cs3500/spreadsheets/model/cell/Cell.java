@@ -13,9 +13,9 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 public interface Cell {
 
   /**
-   * Evaluates this cell.
-   * TODO: This probably needs some sort of input right? It's purpose is to re-evaluate the cell's
-   *       value in the event that one of it's references changes.
+   * Evaluates the cell.
+   * @param spreadsheet The coordinate to cell mapping of the spreadsheet
+   * @return The evaluated value
    */
   Value evaluate(Hashtable<Coord, Cell> spreadsheet);
 
