@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
 import java.util.Hashtable;
+import java.util.List;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -47,7 +48,12 @@ public class CapitalizeFunction implements FormulaVisitor<String> {
 
   @Override
   public String visitCellReference(CellReference ref) throws IllegalStateException {
-    throw new IllegalStateException("Invalid argument to CAPITALIZE");
+    List<Cell> references = ref.getAllCells(this.cells);
+    if (references.size() == 1) {
+      return this.apply(references.get(0).evaluate(this.cells));
+    } else {
+      throw new IllegalStateException("Invalid argument to CAPITALIZE.");
+    }
   }
 
   @Override

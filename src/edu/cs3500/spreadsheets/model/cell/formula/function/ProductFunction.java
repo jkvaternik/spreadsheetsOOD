@@ -11,14 +11,14 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the product function.
  */
 public class ProductFunction implements FormulaVisitor<Double> {
-  private Hashtable<Coord, Cell> cells;
   int doubleValueCount;
+  private Hashtable<Coord, Cell> cells;
+
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
@@ -50,7 +50,12 @@ public class ProductFunction implements FormulaVisitor<Double> {
 
   @Override
   public Double visitCellReference(CellReference ref) throws IllegalStateException {
-    return 1.0;
+    List<Cell> references = ref.getAllCells(this.cells);
+    double result = 1.0;
+    for (Cell c : references) {
+      result = result * this.apply(c.evaluate(this.cells));
+    }
+    return result;
   }
 
   @Override
@@ -65,6 +70,7 @@ public class ProductFunction implements FormulaVisitor<Double> {
 
   /**
    * Gets the count of double values that this function has visited.
+   *
    * @return the count
    */
   int getDoubleValueCount() {
