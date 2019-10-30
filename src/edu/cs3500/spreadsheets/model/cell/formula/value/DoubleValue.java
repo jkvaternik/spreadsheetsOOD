@@ -55,7 +55,7 @@ public class DoubleValue implements Value {
   @Override
   public boolean equals(Object other) {
     if (other instanceof DoubleValue) {
-      return ((DoubleValue) other).getValue() == this.getValue();
+      return ((DoubleValue) other).getValue().equals(this.getValue());
     }
     return false;
   }
