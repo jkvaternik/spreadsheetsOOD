@@ -37,18 +37,18 @@ public class BeyondGood {
           String cellString = args[3];
           if (validCellString(cellString)) {
             Coord coord = cellStringToCoord(cellString);
-            System.out.println(spreadsheet.getValue(coord).toString());
+            System.out.print(spreadsheet.getValue(coord).toString());
           } else {
-            System.out.println("Invalid argument given for the coordinate.");
+            System.out.print("Invalid argument given for the coordinate.");
           }
         } catch (FileNotFoundException e) {
-          System.out.println("File was not found.");
+          System.out.print("File was not found.");
         }
       } else {
-        System.out.println("Invalid specifiers");
+        System.out.print("Invalid specifiers");
       }
     } else {
-      System.out.println("Invalid number of commands given");
+      System.out.print("Invalid number of commands given");
     }
   }
 
