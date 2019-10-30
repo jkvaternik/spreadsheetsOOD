@@ -31,7 +31,7 @@ public class CapitalizeFunctionTest {
   public void testVisitDoubleValue() {
 
 
-    CapitalizeFunction func1 = new CapitalizeFunction();
+    //CapitalizeFunction func1 = new CapitalizeFunction();
 
   }
 

@@ -3,9 +3,9 @@ package edu.cs3500.spreadsheets.model.cell.formula.value;
 import org.junit.Test;
 
 /**
- * Tests for {@link ErrorValue}.
+ * Tests for {@link ErrorValueTest}.
  */
-public class ErrorValue {
+public class ErrorValueTest {
   @Test
   public void testToString() {
 
