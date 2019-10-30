@@ -2,6 +2,7 @@ package edu.cs3500.spreadsheets.model.cell.formula.function;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -34,32 +35,38 @@ public class Function implements IFunction {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> cells) {
+  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+    if (values.containsKey(this)) {
+      return values.get(this);
+    }
     try {
       if (this.args.isEmpty()) {
         throw new IllegalStateException("Invalid function.");
       }
       switch (func) {
         case SUM:
-          SumFunction sumFunc = new SumFunction(cells);
+          SumFunction sumFunc = new SumFunction(cells, values);
           double sum = 0.0;
           for (Formula arg : this.args) {
             sum += sumFunc.apply(arg);
           }
+          values.put(this, new DoubleValue(sum));
           return new DoubleValue(sum);
         case PRODUCT:
-          ProductFunction prodFunc = new ProductFunction(cells);
+          ProductFunction prodFunc = new ProductFunction(cells, values);
           double product = 1.0;
           for (Formula arg : this.args) {
             product = product * prodFunc.apply(arg);
           }
           if (prodFunc.getDoubleValueCount() == 0) {
+            values.put(this, new DoubleValue(0.0));
             return new DoubleValue(0.0);
           } else {
+            values.put(this, new DoubleValue(product));
             return new DoubleValue(product);
           }
         case LESSTHAN:
-          LessThanFunction ltFunc = new LessThanFunction(cells);
+          LessThanFunction ltFunc = new LessThanFunction(cells, values);
           if (this.args.size() != 2) {
             throw new IllegalStateException("Invalid < function.");
           } else {
@@ -68,20 +75,23 @@ public class Function implements IFunction {
 
             boolean result = arg1 < arg2;
 
+            values.put(this, new BooleanValue(result));
             return new BooleanValue(result);
           }
         case CAPITALIZE:
-          CapitalizeFunction capFunc = new CapitalizeFunction(cells);
+          CapitalizeFunction capFunc = new CapitalizeFunction(cells, values);
           if (this.args.size() != 1) {
             throw new IllegalStateException("Invalid CAPITALIZE function.");
           } else {
             String toCap = capFunc.apply(this.args.get(0));
 
+            values.put(this, new StringValue(toCap.toUpperCase()));
             return new StringValue(toCap.toUpperCase());
           }
       }
       return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
     } catch (IllegalStateException e) {
+      values.put(this, new ErrorValue(new IllegalArgumentException("Invalid function.")));
       return new ErrorValue(new IllegalArgumentException("Invalid function."));
     }
   }
@@ -92,10 +102,10 @@ public class Function implements IFunction {
   }
 
   @Override
-  public boolean containsCyclicalReference(List<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells) {
+  public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     for (Formula arg : this.args) {
-      if (arg.containsCyclicalReference(visitedCoords, cells)) {
+      if (arg.containsCyclicalReference(visitedCoords, cells, coordsNoCycle)) {
         return true;
       }
     }

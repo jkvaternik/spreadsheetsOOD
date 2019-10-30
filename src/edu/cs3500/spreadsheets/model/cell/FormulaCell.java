@@ -1,13 +1,11 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
-import java.util.List;
 
 
 /**
@@ -29,8 +27,8 @@ public class FormulaCell implements Cell {
 
   @Override
   // TODO: Add a Cell->Value map so we only evaluate each cell once (memoize)
-  public Value evaluate(Hashtable<Coord, Cell> cells) {
-    return this.formula.evaluate(cells);
+  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+      return this.formula.evaluate(cells, values);
   }
 
   @Override
@@ -39,8 +37,8 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  public boolean containsCyclicalReference(List<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells) {
-    return this.formula.containsCyclicalReference(visitedCoords, cells);
+  public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+    return this.formula.containsCyclicalReference(visitedCoords, cells, coordsNoCycle);
   }
 }

@@ -6,15 +6,13 @@ import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.FormulaCell;
 import edu.cs3500.spreadsheets.model.cell.SexpVisitorFormula;
 import edu.cs3500.spreadsheets.model.cell.ValueCell;
-import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 import edu.cs3500.spreadsheets.sexp.Parser;
-import edu.cs3500.spreadsheets.sexp.Sexp;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 /**
@@ -69,11 +67,12 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     } else if (contents.charAt(0) == '=') {
       toAdd = new FormulaCell(
           (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()), contents);
-      if (toAdd.containsCyclicalReference(new ArrayList<>(), this.cells)) {
+      this.cells.put(coord, toAdd);
+      if (toAdd.containsCyclicalReference(new HashSet<>(), this.cells, new HashSet<>())) {
         this.cells.put(coord, new FormulaCell(new ErrorValue(
                 new IllegalStateException("This cell contains a cyclical reference.")), contents));
       } else {
-        toAdd.evaluate(this.cells);
+        toAdd.evaluate(this.cells, new Hashtable<>());
         this.cells.put(coord, toAdd);
       }
     } else if (isDouble(contents)) {
@@ -136,7 +135,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public Value getValue(Coord coord) {
     if (this.cells.containsKey(coord)) {
-      return this.cells.get(coord).evaluate(this.cells);
+      return this.cells.get(coord).evaluate(this.cells, new Hashtable<>());
     } else {
       return new StringValue("");
     }

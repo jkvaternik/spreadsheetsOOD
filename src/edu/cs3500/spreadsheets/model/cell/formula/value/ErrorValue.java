@@ -2,10 +2,11 @@ package edu.cs3500.spreadsheets.model.cell.formula.value;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
+import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
 
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ public class ErrorValue implements Value {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> spreadsheet) {
+  public Value evaluate(Hashtable<Coord, Cell> spreadsheet, Hashtable<Formula, Value> values) {
     return this;
   }
 
@@ -31,8 +32,8 @@ public class ErrorValue implements Value {
   }
 
   @Override
-  public boolean containsCyclicalReference(List<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells) {
+  public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return false;
   }
 

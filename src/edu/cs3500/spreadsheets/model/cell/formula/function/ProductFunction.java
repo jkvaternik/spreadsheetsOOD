@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -18,12 +19,14 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 public class ProductFunction implements FormulaVisitor<Double> {
   int doubleValueCount;
   private Hashtable<Coord, Cell> cells;
+  private Hashtable<Formula, Value> values;
 
   /**
    * Constructs an instance of the ProductFunction given a list of one or more arguments.
    */
-  public ProductFunction(Hashtable<Coord, Cell> cells) {
+  public ProductFunction(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
     this.cells = cells;
+    this.values = values;
     this.doubleValueCount = 0;
   }
 
@@ -53,14 +56,14 @@ public class ProductFunction implements FormulaVisitor<Double> {
     List<Cell> references = ref.getAllCells(this.cells);
     double result = 1.0;
     for (Cell c : references) {
-      result = result * this.apply(c.evaluate(this.cells));
+      result = result * this.apply(c.evaluate(this.cells, values));
     }
     return result;
   }
 
   @Override
   public Double visitFunction(Function func) throws IllegalStateException {
-    return this.apply(func.evaluate(this.cells));
+    return this.apply(func.evaluate(this.cells, values));
   }
 
   @Override

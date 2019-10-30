@@ -8,6 +8,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -31,11 +32,18 @@ public class CellReference implements Formula {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> cells) {
+  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+    if (values.containsKey(this)) {
+      return values.get(this);
+    }
     List<Cell> refs = this.getAllCells(cells);
     if (refs.size() == 1) {
-      return refs.get(0).evaluate(cells);
+      Value value = refs.get(0).evaluate(cells, values);
+      values.put(this, value);
+      return value;
     } else {
+      values.put(this,
+          new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference")));
       return new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference"));
     }
   }
@@ -46,17 +54,19 @@ public class CellReference implements Formula {
   }
 
   @Override
-  public boolean containsCyclicalReference(List<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells) {
+  public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
+      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     for (Coord coord : this.getAllCoords()) {
-      if (cells.containsKey(coord)) {
+      if (cells.containsKey(coord) && !coordsNoCycle.contains(coord)) {
         if (visitedCoords.contains(coord)) {
           return true;
         }
-        List<Coord> newVisited = new ArrayList<>(visitedCoords);
+        HashSet<Coord> newVisited = new HashSet<>(visitedCoords);
         newVisited.add(coord);
-        if (cells.get(coord).containsCyclicalReference(newVisited, cells)) {
+        if (cells.get(coord).containsCyclicalReference(newVisited, cells, coordsNoCycle)) {
           return true;
+        } else {
+          coordsNoCycle.add(coord);
         }
       }
     }
