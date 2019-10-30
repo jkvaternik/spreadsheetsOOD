@@ -28,12 +28,9 @@ public class FormulaCell implements Cell {
   }
 
   @Override
+  // TODO: Add a Cell->Value map so we only evaluate each cell once (memoize)
   public Value evaluate(Hashtable<Coord, Cell> cells) {
-    if (this.containsCyclicalReference(new ArrayList<>(), cells)) {
-      return new ErrorValue(new IllegalStateException("Cannot have a cyclical reference."));
-    } else {
-      return this.formula.evaluate(cells);
-    }
+    return this.formula.evaluate(cells);
   }
 
   @Override
