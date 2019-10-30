@@ -50,6 +50,9 @@ public class CellReference implements Formula {
       Hashtable<Coord, Cell> cells) {
     for (Coord coord : this.getAllCoords()) {
       if (cells.containsKey(coord)) {
+        if (visitedCoords.contains(coord)) {
+          return true;
+        }
         List<Coord> newVisited = new ArrayList<>(visitedCoords);
         newVisited.add(coord);
         if (cells.get(coord).containsCyclicalReference(newVisited, cells)) {
