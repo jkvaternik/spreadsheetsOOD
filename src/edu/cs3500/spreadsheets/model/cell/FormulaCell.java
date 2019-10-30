@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -27,7 +29,11 @@ public class FormulaCell implements Cell {
 
   @Override
   public Value evaluate(Hashtable<Coord, Cell> cells) {
-    return this.formula.evaluate(cells);
+    if (this.containsCyclicalReference(new ArrayList<>(), cells)) {
+      return new ErrorValue(new IllegalStateException("Cannot have a cyclical reference."));
+    } else {
+      return this.formula.evaluate(cells);
+    }
   }
 
   @Override
