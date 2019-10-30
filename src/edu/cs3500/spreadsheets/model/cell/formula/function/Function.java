@@ -41,9 +41,10 @@ public class Function implements IFunction {
       }
       switch (func) {
         case SUM:
+          SumFunction sumFunc = new SumFunction(cells);
           double sum = 0.0;
           for (Formula arg : this.args) {
-            sum += new SumFunction(cells).apply(arg);
+            sum += sumFunc.apply(arg);
           }
           return new DoubleValue(sum);
         case PRODUCT:

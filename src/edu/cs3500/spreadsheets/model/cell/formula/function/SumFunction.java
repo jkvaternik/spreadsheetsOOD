@@ -11,7 +11,6 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the sum function.
@@ -42,7 +41,7 @@ public class SumFunction implements FormulaVisitor<Double> {
 
   @Override
   public Double visitErrorValue(ErrorValue val) {
-    throw new IllegalStateException("One of the arguments is erroring");
+    throw new IllegalStateException("One of the arguments is erroring.");
   }
 
   @Override
