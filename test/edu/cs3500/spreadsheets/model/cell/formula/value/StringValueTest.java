@@ -47,8 +47,7 @@ public class StringValueTest {
 
   @Test
   public void testContainsCycle() {
-    assertEquals(s2.containsCyclicalReference(new HashSet<>(), new Hashtable<>(), new HashSet<>()),
-        false);
+    assertFalse(s2.containsCyclicalReference(new HashSet<>(), new Hashtable<>(), new HashSet<>()));
   }
 
   @Test

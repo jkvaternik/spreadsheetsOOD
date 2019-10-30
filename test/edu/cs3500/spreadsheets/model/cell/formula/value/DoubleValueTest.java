@@ -48,8 +48,7 @@ public class DoubleValueTest {
 
   @Test
   public void testContainsCycle() {
-    assertEquals(d3.containsCyclicalReference(new HashSet<>(), new Hashtable<>(), new HashSet<>()),
-        false);
+    assertFalse(d3.containsCyclicalReference(new HashSet<>(), new Hashtable<>(), new HashSet<>()));
   }
 
   @Test
