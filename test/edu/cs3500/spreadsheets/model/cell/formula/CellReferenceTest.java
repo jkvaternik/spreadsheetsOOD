@@ -36,6 +36,8 @@ public class CellReferenceTest {
 
   Hashtable<Coord, Cell> cells;
 
+  double tolerance;
+
   @Before
   public void init() {
     cellA1 = new FormulaCell(new DoubleValue(12.0), "12.0");
@@ -69,6 +71,8 @@ public class CellReferenceTest {
     cells.put(new Coord(1, 4), new FormulaCell(refDirectCycle, "=A4"));
     cells.put(new Coord(2, 4), new FormulaCell(refIndirectCycleA, "=C4"));
     cells.put(new Coord(3, 4), new FormulaCell(refIndirectCycleB, "=B4"));
+
+    tolerance = 0.00000001;
   }
 
   @Test
@@ -95,11 +99,11 @@ public class CellReferenceTest {
 
   @Test
   public void testAccept() {
-    assertEquals(new Double(12.0), refSingle.accept(new SumFunction(cells,
-            new Hashtable<>())));
-    assertEquals(new Double(48.0), refMultiRow.accept(new SumFunction(cells,
-            new Hashtable<>())));
-    assertEquals(new Double(127.49), refMultiRegion.accept(new SumFunction(cells,
-            new Hashtable<>())));
+    assertEquals(12.0, refSingle.accept(new SumFunction(cells,
+            new Hashtable<>())), tolerance);
+    assertEquals(48.0, refMultiRow.accept(new SumFunction(cells,
+            new Hashtable<>())), tolerance);
+    assertEquals(127.49, refMultiRegion.accept(new SumFunction(cells,
+            new Hashtable<>())), tolerance);
   }
 }
