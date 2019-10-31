@@ -3,13 +3,10 @@ package edu.cs3500.spreadsheets;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet.Builder;
-import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
-import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Scanner;
 
 /**
  * The main class for our program.
