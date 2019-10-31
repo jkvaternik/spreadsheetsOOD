@@ -31,7 +31,7 @@ public interface SpreadsheetModel {
 
   /**
    * Gets the number of rows of this spreadsheet. The spreadsheet has infinite rows, but this will
-   * return the number of rows that have cells which have been edited.
+   * return the max row that has cells which have been edited.
    *
    * @return The number of rows
    */
@@ -39,7 +39,7 @@ public interface SpreadsheetModel {
 
   /**
    * Gets the number of columns of this spreadsheet. The spreadsheet has infinite columns, but this
-   * will return the number of columns that have cells which have been edited.
+   * will return the max column that has cells which have been edited.
    *
    * @return The number of columns
    */

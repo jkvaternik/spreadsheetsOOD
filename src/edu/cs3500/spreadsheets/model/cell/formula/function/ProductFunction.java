@@ -17,7 +17,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
  * Represents the product function.
  */
 public class ProductFunction implements FormulaVisitor<Double> {
-  int doubleValueCount;
+  private int doubleValueCount;
   private Hashtable<Coord, Cell> cells;
   private Hashtable<Formula, Value> values;
 
