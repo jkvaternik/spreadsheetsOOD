@@ -14,6 +14,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
+import java.util.Objects;
 
 public class Function implements IFunction {
   private List<Formula> args;
@@ -120,5 +121,25 @@ public class Function implements IFunction {
   @Override
   public void addArg(Formula arg) {
     this.args.add(arg);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof Function) {
+      return this.func == ((Function) other).func
+          && this.args.equals(((Function) other).args);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.func, this.args);
+  }
+
+  @Override
+  public String toString() {
+    return this.func.toString() + ", " + this.args.toString();
   }
 }

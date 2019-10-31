@@ -35,8 +35,8 @@ public class BeyondGood {
           SimpleSpreadsheet spreadsheet = worksheetReader.read(builder, fileReader);
 
           String cellString = args[3];
-          if (new Coord(1, 1).validCellString(cellString)) {
-            Coord coord = new Coord(1, 1).cellStringToCoord(cellString);
+          if (Coord.validCellString(cellString)) {
+            Coord coord = Coord.cellStringToCoord(cellString);
             System.out.print(spreadsheet.getValue(coord).toString());
           } else {
             System.out.print("Invalid argument given for the coordinate.");

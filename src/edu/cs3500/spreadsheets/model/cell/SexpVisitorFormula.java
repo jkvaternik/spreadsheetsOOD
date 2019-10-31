@@ -3,12 +3,8 @@ package edu.cs3500.spreadsheets.model.cell;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
-import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.EFunctions;
 import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
-import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
-import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
-import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
@@ -46,9 +42,7 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
         func.addArg(this.apply(s));
       }
       return func;
-    } catch (ClassCastException e) {
-      return new ErrorValue(new IllegalArgumentException("Invalid formula"));
-    } catch (IndexOutOfBoundsException e) {
+    } catch (ClassCastException | IndexOutOfBoundsException e) {
       return new ErrorValue(new IllegalArgumentException("Invalid formula"));
     }
   }
@@ -66,16 +60,16 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
     } else if (s.contains(":") && s.indexOf(":") < s.length() - 1) {
       String cell1 = s.substring(0, s.indexOf(":"));
       String cell2 = s.substring(s.indexOf(":") + 1);
-      if (new Coord(1, 1).validCellString(cell1)
-          && new Coord(1, 1).validCellString(cell2)) {
-        return new CellReference(new Coord(1, 1).cellStringToCoord(cell1),
-            new Coord(1, 1).cellStringToCoord(cell2));
+      if (Coord.validCellString(cell1)
+          && Coord.validCellString(cell2)) {
+        return new CellReference(Coord.cellStringToCoord(cell1),
+            Coord.cellStringToCoord(cell2));
       } else {
         return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
       }
     } else {
-      if (new Coord(1, 1).validCellString(s)) {
-        Coord cellCoord = new Coord(1, 1).cellStringToCoord(s);
+      if (Coord.validCellString(s)) {
+        Coord cellCoord = Coord.cellStringToCoord(s);
         return new CellReference(cellCoord, cellCoord);
       } else {
         return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
