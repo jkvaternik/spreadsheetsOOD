@@ -49,13 +49,14 @@ public class ErrorValue implements Value {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.value);
+    return Objects.hash(this.toString());
   }
 
   @Override
   public boolean equals(Object other) {
     if (other instanceof ErrorValue) {
-      return ((ErrorValue) other).getValue().equals(this.getValue());
+      // Exceptions only have == equality, and we can't change this, so check for same error message
+      return ((ErrorValue) other).toString().equals(this.toString());
     }
     return false;
   }

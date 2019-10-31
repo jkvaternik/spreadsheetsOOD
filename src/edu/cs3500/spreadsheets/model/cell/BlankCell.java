@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
+import java.util.Objects;
 
 /**
  * Represents a blank cell.
@@ -26,5 +27,24 @@ public class BlankCell implements Cell {
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
       Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return false;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof BlankCell) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash("blank cell");
+  }
+
+  @Override
+  public String toString() {
+    return "";
   }
 }

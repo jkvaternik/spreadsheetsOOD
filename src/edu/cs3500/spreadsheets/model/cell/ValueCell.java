@@ -6,6 +6,7 @@ import java.util.Hashtable;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
+import java.util.Objects;
 
 /**
  * Represents a cell which contains one of the accepted types of values.
@@ -38,5 +39,25 @@ public class ValueCell implements Cell {
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
       Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return false;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof ValueCell) {
+      return this.rawContents.equals(((ValueCell) other).rawContents)
+          && this.value.equals(((ValueCell) other).value);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.rawContents, this.value);
+  }
+
+  @Override
+  public String toString() {
+    return this.rawContents;
   }
 }

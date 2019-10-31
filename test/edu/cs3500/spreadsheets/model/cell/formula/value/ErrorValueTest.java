@@ -29,15 +29,15 @@ public class ErrorValueTest {
   @Test
   public void testEquals() {
     assertTrue(e1.equals(e1));
+    assertTrue(e1.equals(
+        new ErrorValue(new IllegalArgumentException("Function could not be evaluated."))));
     assertFalse(e1.equals(e2));
     assertFalse(e2.equals(new IllegalStateException("Cell cannot reference itself.")));
-    assertFalse(e2.equals(
-        new ErrorValue(new IllegalArgumentException("Cell cannot reference itself."))));
   }
 
   @Test
   public void testHashcode() {
-    assertEquals(e1.hashCode(), Objects.hash(e1.getValue()));
+    assertEquals(e1.hashCode(), Objects.hash("Function could not be evaluated."));
   }
 
   @Test
