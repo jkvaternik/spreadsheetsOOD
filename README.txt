@@ -12,9 +12,7 @@ Now We will go more in depth about each class/interface, explaining their purpos
 Spreadsheet Interface:
 The Spreadsheet is our model interface. The most important methods in the spreadsheet are:
 - setCellValue which is responsible for editing a cell's contents or "adding" a new cell.
-- getValue which gets the Value of a cell. Note, for this method, we may consider switching the
-  return type to be a String (the Value's toString()) so that it is not dependent on our
-  internal Value interface. However, as of now, we are not sure if this is necessary.
+- getValue which gets the Value of a cell and returns it as a String (using the Value's toString).
 - clearCell, which clears all of a cell's contents.
 - getErrorCoords which gets a list of all the Coords of Cells that have error values.
 

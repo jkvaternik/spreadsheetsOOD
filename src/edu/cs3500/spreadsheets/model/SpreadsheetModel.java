@@ -46,12 +46,12 @@ public interface SpreadsheetModel {
   int getNumColumns();
 
   /**
-   * Gets the value of the cell at the given coordinate.
+   * Gets the value of the cell at the given coordinate (interpreted as a string).
    *
    * @param coord The coordinate
    * @return The cell's value
    */
-  Value getValue(Coord coord);
+  String getValue(Coord coord);
 
   /**
    * Gets the string that was used as input to create the cell.

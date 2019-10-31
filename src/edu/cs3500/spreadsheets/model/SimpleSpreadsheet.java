@@ -145,11 +145,11 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public Value getValue(Coord coord) {
+  public String getValue(Coord coord) {
     if (this.cells.containsKey(coord)) {
-      return this.cells.get(coord).evaluate(this.cells, new Hashtable<>());
+      return this.cells.get(coord).evaluate(this.cells, new Hashtable<>()).toString();
     } else {
-      return new StringValue("");
+      return "";
     }
   }
 

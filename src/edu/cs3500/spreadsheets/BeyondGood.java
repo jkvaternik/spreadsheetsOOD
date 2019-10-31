@@ -34,14 +34,14 @@ public class BeyondGood {
           if (spreadsheet.getErrorCoords().size() != 0) {
             for (Coord c : spreadsheet.getErrorCoords()) {
               System.out.println("Error in " + Coord.colIndexToName(c.col) + c.row + ": "
-                      + spreadsheet.getValue(c).toString());
+                      + spreadsheet.getValue(c));
             }
           }
 
           String cellString = args[3];
           if (Coord.validCellString(cellString)) {
             Coord coord = Coord.cellStringToCoord(cellString);
-            System.out.print(spreadsheet.getValue(coord).toString());
+            System.out.print(spreadsheet.getValue(coord));
           } else {
             System.out.print("Invalid argument given for the coordinate.");
           }
