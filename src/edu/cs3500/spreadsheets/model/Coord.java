@@ -47,6 +47,57 @@ public class Coord {
     return ans.toString();
   }
 
+  /**
+   * Determines if the given string is a valid representation of a cell. For it to be valid, it must
+   * contain only alphanumeric characters, where all the letters come before all of the numbers.
+   * @param cell The string to check
+   * @return Whether or not the string is a valid cell
+   */
+  public static boolean validCellString(String cell) {
+    int finalLetter = cell.length();
+    int firstNum = 0;
+    // Iterate forwards through the string to check for final letter index
+    for (int index = 0; index < cell.length(); index += 1) {
+      char c = cell.charAt(index);
+      // If the character is neither a letter nor a number, it is not a valid cell
+      if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
+        return false;
+      } else if (Character.isAlphabetic(c)) {
+        finalLetter = index;
+      }
+    }
+    // Iterate backwards though the string to check for the earliest number index
+    for (int index = cell.length() - 1; index >= 0; index -= 1) {
+      char c = cell.charAt(index);
+      // If the character is neither a letter nor a number, it is not a valid cell
+      if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
+        return false;
+      } else if (Character.isDigit(c)) {
+        firstNum = index;
+      }
+    }
+
+    return (firstNum > finalLetter);
+  }
+
+  /**
+   * Converts the given cell string to a coordinate.
+   * Invariant: The given cell is guaranteed to be a valid coordinate.
+   * @param cell The cell string
+   * @return The coordinate of the cell
+   */
+  public static Coord cellStringToCoord(String cell) {
+    int lastLetter = 0;
+    for (int index = 0; index < cell.length(); index += 1) {
+      if (Character.isAlphabetic(cell.charAt(index))) {
+        lastLetter = index;
+      }
+    }
+    int column = (new Coord(1, 1).colNameToIndex(cell.substring(0, lastLetter + 1)));
+    int row = Integer.parseInt(cell.substring(lastLetter + 1));
+    return new Coord(column, row);
+  }
+
   @Override
   public String toString() {
     return colIndexToName(this.col) + this.row;
