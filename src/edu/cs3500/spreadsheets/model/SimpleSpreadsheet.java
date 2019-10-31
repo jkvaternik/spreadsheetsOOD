@@ -9,11 +9,15 @@ import edu.cs3500.spreadsheets.model.cell.ValueCell;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.IsErrorFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 import edu.cs3500.spreadsheets.sexp.Parser;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * A simple spreadsheet implementation which supports string, boolean, and double values. It's
@@ -22,6 +26,7 @@ import java.util.Hashtable;
  */
 public class SimpleSpreadsheet implements SpreadsheetModel {
   private Hashtable<Coord, Cell> cells;
+  private List<Coord> errorCoords;
 
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
     private SimpleSpreadsheet spreadsheet;
@@ -49,6 +54,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
    */
   private SimpleSpreadsheet() {
     this.cells = new Hashtable<>();
+    this.errorCoords = new ArrayList<>();
   }
 
   @Override
@@ -69,10 +75,16 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
           (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()), contents);
       this.cells.put(coord, toAdd);
       if (toAdd.containsCyclicalReference(new HashSet<>(), this.cells, new HashSet<>())) {
+        //TODO: errors?
+        this.errorCoords.add(coord);
         this.cells.put(coord, new FormulaCell(new ErrorValue(
                 new IllegalStateException("This cell contains a cyclical reference.")), contents));
       } else {
         toAdd.evaluate(this.cells, new Hashtable<>());
+        if (toAdd.evaluate(this.cells, new Hashtable<>()).accept(new IsErrorFunction())) {
+          //TODO: errors?
+          this.errorCoords.add(coord);
+        }
         this.cells.put(coord, toAdd);
       }
     } else if (isDouble(contents)) {
@@ -149,5 +161,10 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       // If the coordinates are not in our hashtable, the cell has not yet been edited
       return "";
     }
+  }
+
+  @Override
+  public List<Coord> getErrorCoords() {
+    return this.errorCoords;
   }
 }

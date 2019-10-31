@@ -31,6 +31,13 @@ public class BeyondGood {
           WorksheetReader worksheetReader = new WorksheetReader();
           SimpleSpreadsheet spreadsheet = worksheetReader.read(builder, fileReader);
 
+          if (spreadsheet.getErrorCoords().size() != 0) {
+            for (Coord c : spreadsheet.getErrorCoords()) {
+              System.out.println("Error in " + Coord.colIndexToName(c.col) + c.row + ": "
+                      + spreadsheet.getValue(c).toString());
+            }
+          }
+
           String cellString = args[3];
           if (Coord.validCellString(cellString)) {
             Coord coord = Coord.cellStringToCoord(cellString);
@@ -45,7 +52,7 @@ public class BeyondGood {
         System.out.print("Invalid specifiers");
       }
     } else {
-      System.out.print("Invalid number of commands given");
+      System.out.print("Invalid number of commands given.");
     }
   }
 }

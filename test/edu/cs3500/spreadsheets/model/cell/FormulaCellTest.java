@@ -131,12 +131,12 @@ public class FormulaCellTest {
 
   @Test
   public void testHashcode() {
-    assertEquals(1075832139, doubleOne.hashCode());
-    assertEquals(1077553958, doubleTwo.hashCode());
-    assertEquals(1830880, string.hashCode());
-    assertEquals(992, stringEmpty.hashCode());
-    assertEquals(110642401, boolTrue.hashCode());
-    assertEquals(1914933, cellSingleRef.hashCode());
-    assertEquals(1838663027, cellFunction.hashCode());
+    assertTrue(doubleOne.hashCode() == doubleOne.hashCode());
+    assertTrue(doubleTwo.hashCode() == doubleTwo.hashCode());
+    assertTrue(string.hashCode() == string.hashCode());
+    assertTrue(stringEmpty.hashCode() == stringEmpty.hashCode());
+    assertTrue(boolTrue.hashCode() == boolTrue.hashCode());
+    assertTrue(cellSingleRef.hashCode() == cellSingleRef.hashCode());
+    assertTrue(cellFunction.hashCode() == cellFunction.hashCode());
   }
 }

@@ -14,4 +14,13 @@ public interface Value extends Formula {
    * @return The primitive value
    */
   <T> T getValue();
+
+  /**
+   * Returns the result of applying the given visitor to this Value.
+   *
+   * @param visitor the given ValueVisitor<R>
+   * @param <R>     The value type returned by the visitor (not Value)
+   * @return the result of applying the given visitor to this Value
+   */
+  <R> R accept(ValueVisitor<R> visitor);
 }

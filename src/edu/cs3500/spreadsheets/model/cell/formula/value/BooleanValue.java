@@ -32,6 +32,11 @@ public class BooleanValue implements Value {
   }
 
   @Override
+  public <R> R accept(ValueVisitor<R> visitor) {
+    return visitor.visitBoolean(this);
+  }
+
+  @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
       Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return false;

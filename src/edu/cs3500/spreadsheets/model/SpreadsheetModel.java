@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.model;
 
 
+import java.util.List;
+
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
@@ -58,4 +60,12 @@ public interface SpreadsheetModel {
    * @return The string
    */
   String getRawContents(Coord coord);
+
+  /**
+   * Gets the list of coordinates at which there is an ErrorValue
+   *
+   * @return the list of coordinates
+   */
+
+  List<Coord> getErrorCoords();
 }

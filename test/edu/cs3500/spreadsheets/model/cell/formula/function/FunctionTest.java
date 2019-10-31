@@ -30,9 +30,24 @@ import static org.junit.Assert.assertTrue;
 public class FunctionTest {
 
   Function sumFunctionOne;
+  Function sumFunctionTwo;
+  Function sumFunctionThree;
+  Function sumFunctionFour;
+
   Function productFunctionOne;
-  Function lessThanFunction;
-  Function capitalizeFunction;
+  Function productFunctionTwo;
+  Function productFunctionThree;
+  Function productFunctionFour;
+
+  Function lessThanFunctionOne;
+  Function lessThanFunctionTwo;
+  Function lessThanFunctionThree;
+  Function lessThanFunctionFour;
+
+  Function capitalizeFunctionOne;
+  Function capitalizeFunctionTwo;
+  Function capitalizeFunctionThree;
+  Function capitalizeFunctionFour;
 
   Function cyclicFunctionSumOne;
   Function cyclicFunctionSumTwo;
@@ -62,17 +77,21 @@ public class FunctionTest {
     cellB1 = new ValueCell("3.0", new DoubleValue(3.0));
     cellC1 = new ValueCell("hello world", new StringValue("hello world"));
     cellD1 = new ValueCell("true", new BooleanValue(true));
-    cellA2 = new FormulaCell(new CellReference(new Coord(1, 1), new Coord(1, 1)),
+    cellA2 = new FormulaCell(new CellReference(new Coord(1, 1),
+            new Coord(1, 1)),
             "= A1");
     cellB2 = new FormulaCell(new CellReference(new Coord(1, 2),
             new Coord(1, 2)), "= A2");
     cellC2 = new FormulaCell(new CellReference(new Coord(3, 1),
             new Coord(3, 1)), "= C1");
-    cellD2 = new FormulaCell(new CellReference(new Coord(1, 1), new Coord(3, 2)),
+    cellD2 = new FormulaCell(new CellReference(new Coord(1, 1),
+            new Coord(3, 2)),
             "= A1:C3");
-    cellA3 = new FormulaCell(new CellReference(new Coord(2, 3), new Coord(2, 3)),
+    cellA3 = new FormulaCell(new CellReference(new Coord(2, 3),
+            new Coord(2, 3)),
             "= B3");
-    cellB3 = new FormulaCell(new CellReference(new Coord(1, 3), new Coord(1, 3)),
+    cellB3 = new FormulaCell(new CellReference(new Coord(1, 3),
+            new Coord(1, 3)),
             "= A3");
 
     cells = new Hashtable<>();
@@ -94,22 +113,50 @@ public class FunctionTest {
     evaluated.put(new StringValue("hello world"), new StringValue("hello world"));
     evaluated.put(new BooleanValue(true), new BooleanValue(true));
     evaluated.put(new CellReference(new Coord(1, 1), new Coord(1, 1)),
-            new DoubleValue(1.0));
+            new DoubleValue(6.0));
     evaluated.put(new CellReference(new Coord(1, 2), new Coord(1, 2)),
-            new DoubleValue(1.0));
+            new DoubleValue(6.0));
     evaluated.put(new CellReference(new Coord(3, 1), new Coord(3, 1)),
             new StringValue("hello world"));
     evaluated.put(new CellReference(new Coord(1, 1), new Coord(3, 2)),
             new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference.")));
 
+
     sumFunctionOne = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
             cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+    sumFunctionTwo = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+    sumFunctionThree = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
+            new CellReference(new Coord(1, 1), new Coord(2, 2)))));
+    sumFunctionFour = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
+
     productFunctionOne = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
             cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
-    lessThanFunction = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
+    productFunctionTwo = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+    productFunctionThree = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
+            new CellReference(new Coord(1, 1), new Coord(2, 2)))));
+    productFunctionFour = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
             cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
-    capitalizeFunction = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
+
+    lessThanFunctionOne = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+    lessThanFunctionTwo = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+    lessThanFunctionThree = new Function(EFunctions.LESSTHAN, Arrays.asList(
+            new CellReference(new Coord(1, 1), new Coord(2, 2))));
+    lessThanFunctionFour = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
+            cellC1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+
+    capitalizeFunctionOne = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
             cellC1.evaluate(cells, evaluated))));
+    capitalizeFunctionTwo = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
+            cellC1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
+    capitalizeFunctionThree = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
+            new CellReference(new Coord(3, 1), new Coord(3, 2)))));
+    capitalizeFunctionFour = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
+            cellA1.evaluate(cells, evaluated))));
 
     cyclicFunctionSumOne = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 3), new Coord(1, 3)),
@@ -134,9 +181,19 @@ public class FunctionTest {
   @Test
   public void testEvaluate() {
     assertEquals(9.0, sumFunctionOne.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(12.0, sumFunctionTwo.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(21.0, sumFunctionThree.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(6.0, sumFunctionFour.evaluate(cells, evaluated).getValue(), tolerance);
+
     assertEquals(18.0, productFunctionOne.evaluate(cells, evaluated).getValue(), tolerance);
-    assertEquals(false, lessThanFunction.evaluate(cells, evaluated).getValue());
-    assertEquals("HELLO WORLD", capitalizeFunction.evaluate(cells, evaluated).getValue());
+    assertEquals(12.0, productFunctionTwo.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(21.0, productFunctionThree.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(6.0, productFunctionFour.evaluate(cells, evaluated).getValue(), tolerance);
+
+    assertEquals(false, lessThanFunctionOne.evaluate(cells, evaluated).getValue());
+    assertEquals("HELLO WORLD", capitalizeFunctionOne.evaluate(cells, evaluated).getValue());
+
+
   }
 
   @Test
@@ -155,7 +212,7 @@ public class FunctionTest {
             cells, new HashSet<>()));
     assertFalse(productFunctionOne.containsCyclicalReference(new HashSet<>(),
             cells, new HashSet<>()));
-    assertFalse(lessThanFunction.containsCyclicalReference(new HashSet<>(),
+    assertFalse(lessThanFunctionOne.containsCyclicalReference(new HashSet<>(),
             cells, new HashSet<>()));
   }
 
@@ -165,21 +222,9 @@ public class FunctionTest {
     assertEquals(18.0, productFunctionOne.accept(
             new ProductFunction(cells, evaluated)), tolerance);
     //TODO: ... accept should return Double but evaluates to false.... add cases for intertwined functions?
-    assertEquals(0.0, lessThanFunction.accept(new LessThanFunction(cells, evaluated)), tolerance);
-    assertEquals("HELLO WORLD", capitalizeFunction.accept(
+    assertEquals(0.0, lessThanFunctionOne.accept(new SumFunction(cells, evaluated)), tolerance);
+    assertEquals("HELLO WORLD", capitalizeFunctionOne.accept(
             new CapitalizeFunction(cells, evaluated)));
-  }
-
-  @Test
-  public void testGetArgs() {
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), sumFunctionOne.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), productFunctionOne.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), lessThanFunction.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellC1.evaluate(cells, evaluated))),
-            capitalizeFunction.getArgs());
   }
 
   @Test
@@ -202,23 +247,23 @@ public class FunctionTest {
     assertFalse(sumFunctionOne.equals(productFunctionOne));
 
     assertTrue(productFunctionOne.equals(productFunctionOne));
-    assertTrue(lessThanFunction.equals(lessThanFunction));
-    assertTrue(capitalizeFunction.equals(capitalizeFunction));
+    assertTrue(lessThanFunctionOne.equals(lessThanFunctionOne));
+    assertTrue(capitalizeFunctionOne.equals(capitalizeFunctionOne));
   }
 
   @Test
   public void testHashcode() {
-    assertEquals(-1274899087, sumFunctionOne.hashCode());
-    assertEquals(-2003654199, productFunctionOne.hashCode());
-    assertEquals(801431534, lessThanFunction.hashCode());
-    assertEquals(-1479408768, capitalizeFunction.hashCode());
+    assertTrue(sumFunctionOne.hashCode() == sumFunctionOne.hashCode());
+    assertTrue(productFunctionOne.hashCode() == productFunctionOne.hashCode());
+    assertTrue(lessThanFunctionOne.hashCode() == lessThanFunctionOne.hashCode());
+    assertTrue(capitalizeFunctionOne.hashCode() == capitalizeFunctionOne.hashCode());
   }
 
   @Test
   public void testToString() {
     assertEquals("SUM, [6.000000, 3.000000]", sumFunctionOne.toString());
     assertEquals("PRODUCT, [6.000000, 3.000000]", productFunctionOne.toString());
-    assertEquals("LESSTHAN, [6.000000, 3.000000]", lessThanFunction.toString());
-    assertEquals("CAPITALIZE, [\"hello world\"]", capitalizeFunction.toString());
+    assertEquals("LESSTHAN, [6.000000, 3.000000]", lessThanFunctionOne.toString());
+    assertEquals("CAPITALIZE, [\"hello world\"]", capitalizeFunctionOne.toString());
   }
 }

@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
+import edu.cs3500.spreadsheets.model.IFunc;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;

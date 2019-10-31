@@ -32,6 +32,11 @@ public class DoubleValue implements Value {
   }
 
   @Override
+  public <R> R accept(ValueVisitor<R> visitor) {
+    return visitor.visitDouble(this);
+  }
+
+  @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
       Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return false;
