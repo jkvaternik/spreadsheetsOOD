@@ -5,12 +5,17 @@ import static org.junit.Assert.assertEquals;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
+import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.EFunctions;
 import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+import edu.cs3500.spreadsheets.sexp.Parser;
+import edu.cs3500.spreadsheets.sexp.Sexp;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 
 /**
@@ -37,6 +42,22 @@ public class SexpVisitorFormulaTest {
 
   @Test
   public void visitSList() {
+    List<Formula> args = new ArrayList<>();
+    args.add(new DoubleValue(5.0));
+    args.add(new StringValue("hi"));
+    args.add(new CellReference(new Coord(1, 1), new Coord(3, 3)));
+
+    List<Sexp> sexps = new ArrayList<>();
+    sexps.add(Parser.parse("(SUM 5 \"hi\" A1:C3)"));
+
+    assertEquals(new Function(EFunctions.SUM, args), visitor.visitSList(sexps));
+
+    List<Sexp> sexpsInv = new ArrayList<>();
+    sexpsInv.add(Parser.parse("UNDERLINE"));
+    sexpsInv.add(Parser.parse("\"hi\""));
+
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid formula")),
+        visitor.visitSList(sexpsInv));
 
   }
 

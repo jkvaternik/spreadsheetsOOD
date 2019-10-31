@@ -62,8 +62,14 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
       String cell2 = s.substring(s.indexOf(":") + 1);
       if (Coord.validCellString(cell1)
           && Coord.validCellString(cell2)) {
-        return new CellReference(Coord.cellStringToCoord(cell1),
-            Coord.cellStringToCoord(cell2));
+        Coord from = Coord.cellStringToCoord(cell1);
+        Coord to = Coord.cellStringToCoord(cell2);
+        if (from.col <= to.col && from.row <= to.col) {
+          return new CellReference(Coord.cellStringToCoord(cell1),
+              Coord.cellStringToCoord(cell2));
+        } else {
+          return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
+        }
       } else {
         return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
       }
