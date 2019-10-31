@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Objects;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -14,7 +15,6 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
-import java.util.Objects;
 
 public class Function implements IFunction {
   private List<Formula> args;
@@ -22,14 +22,14 @@ public class Function implements IFunction {
 
   /**
    * Creates a function with the given arguments.
+   *
    * @param args The arguments
    */
   public Function(EFunctions func, List<Formula> args) {
     if (args == null) {
       this.args = new ArrayList<>();
       this.func = func;
-    }
-    else {
+    } else {
       this.args = args;
       this.func = func;
     }
@@ -104,7 +104,7 @@ public class Function implements IFunction {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     for (Formula arg : this.args) {
       if (arg.containsCyclicalReference(visitedCoords, cells, coordsNoCycle)) {
         return true;
@@ -122,7 +122,7 @@ public class Function implements IFunction {
   public boolean equals(Object other) {
     if (other instanceof Function) {
       return this.func == ((Function) other).func
-          && this.args.equals(((Function) other).args);
+              && this.args.equals(((Function) other).args);
     } else {
       return false;
     }

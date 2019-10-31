@@ -1,12 +1,13 @@
 package edu.cs3500.spreadsheets;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet.Builder;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 /**
  * The main class for our program.
@@ -14,6 +15,7 @@ import java.io.FileReader;
 public class BeyondGood {
   /**
    * The main entry point.
+   *
    * @param args any command-line arguments
    */
   public static void main(String[] args) {

@@ -1,19 +1,20 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Objects;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
-
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Objects;
 
 /**
  * Represents a string value in a spreadsheet cell.
  */
 public class StringValue implements Value {
   private String value;
+
   /**
    * Creates an instance of a string value.
    */
@@ -38,7 +39,8 @@ public class StringValue implements Value {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells,
+                                           HashSet<Coord> coordsNoCycle) {
     return false;
   }
 
@@ -49,7 +51,8 @@ public class StringValue implements Value {
 
   @Override
   public String toString() {
-    return String.format("\"%s\"", this.value.replace("\\", "\\\\").replace("\"", "\\\""));
+    return String.format("\"%s\"", this.value.replace("\\", "\\\\")
+            .replace("\"", "\\\""));
   }
 
   @Override

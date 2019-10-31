@@ -19,6 +19,7 @@ public class Coord {
 
   /**
    * Converts from the A-Z column naming system to a 1-indexed numeric value.
+   *
    * @param name the column name
    * @return the corresponding column index
    */
@@ -34,6 +35,7 @@ public class Coord {
 
   /**
    * Converts a 1-based column index into the A-Z column naming system.
+   *
    * @param index the column index
    * @return the corresponding column name
    */
@@ -50,6 +52,7 @@ public class Coord {
   /**
    * Determines if the given string is a valid representation of a cell. For it to be valid, it must
    * contain only alphanumeric characters, where all the letters come before all of the numbers.
+   *
    * @param cell The string to check
    * @return Whether or not the string is a valid cell
    */
@@ -81,8 +84,9 @@ public class Coord {
   }
 
   /**
-   * Converts the given cell string to a coordinate.
-   * Invariant: The given cell is guaranteed to be a valid coordinate.
+   * Converts the given cell string to a coordinate. Invariant: The given cell is guaranteed to be a
+   * valid coordinate.
+   *
    * @param cell The cell string
    * @return The coordinate of the cell
    */
@@ -113,7 +117,7 @@ public class Coord {
     }
     Coord coord = (Coord) o;
     return row == coord.row
-        && col == coord.col;
+            && col == coord.col;
   }
 
   @Override

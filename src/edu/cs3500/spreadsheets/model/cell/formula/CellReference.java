@@ -1,5 +1,11 @@
 package edu.cs3500.spreadsheets.model.cell.formula;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Objects;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.BlankCell;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -7,25 +13,20 @@ import edu.cs3500.spreadsheets.model.cell.formula.function.FormulaVisitor;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Objects;
-
 /**
- * Represents a reference to one or more spreadsheet cells.
- * TODO: Consider having two subclasses, one for single references and one for multi references.
+ * Represents a reference to one or more spreadsheet cells. TODO: Consider having two subclasses,
+ * one for single references and one for multi references.
  */
 public class CellReference implements Formula {
   Coord from;
   Coord to;
 
   /**
-   * Creates a cell reference based on the boundary coordinates of the reference region.
-   * Note: If from.equals(to), that represents just a single cell reference.
+   * Creates a cell reference based on the boundary coordinates of the reference region. Note: If
+   * from.equals(to), that represents just a single cell reference.
+   *
    * @param from The from coord (top left of rectangle)
-   * @param to The to coord (bottom right of rectangle)
+   * @param to   The to coord (bottom right of rectangle)
    */
   public CellReference(Coord from, Coord to) {
     this.from = from;
@@ -56,7 +57,7 @@ public class CellReference implements Formula {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     for (Coord coord : this.getAllCoords()) {
       if (cells.containsKey(coord) && !coordsNoCycle.contains(coord)) {
         if (visitedCoords.contains(coord)) {
@@ -94,6 +95,7 @@ public class CellReference implements Formula {
   /**
    * Gets all of the cells that are part of this cell reference, based on the given cells in the
    * spreadsheet.
+   *
    * @param cells The cells at each coordinate in the spreadsheet
    * @return All of the cells in this reference
    */
@@ -124,7 +126,7 @@ public class CellReference implements Formula {
   public boolean equals(Object other) {
     if (other instanceof CellReference) {
       return this.from.equals(((CellReference) other).from)
-          && this.to.equals((((CellReference) other).to));
+              && this.to.equals((((CellReference) other).to));
     } else {
       return false;
     }

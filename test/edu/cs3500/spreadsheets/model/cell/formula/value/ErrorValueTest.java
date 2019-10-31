@@ -1,17 +1,19 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Objects;
 
 import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.ProductFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Objects;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link ErrorValueTest}.
@@ -30,7 +32,7 @@ public class ErrorValueTest {
   public void testEquals() {
     assertTrue(e1.equals(e1));
     assertTrue(e1.equals(
-        new ErrorValue(new IllegalArgumentException("Function could not be evaluated."))));
+            new ErrorValue(new IllegalArgumentException("Function could not be evaluated."))));
     assertFalse(e1.equals(e2));
     assertFalse(e2.equals(new IllegalStateException("Cell cannot reference itself.")));
   }
@@ -55,22 +57,22 @@ public class ErrorValueTest {
     assertEquals("Function could not be evaluated.", e1.getValue().getMessage());
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidCapitalizeFunctionArg() {
     e2.accept(new CapitalizeFunction(new Hashtable<>(), new Hashtable<>()));
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidSumFunctionArg() {
     e1.accept(new SumFunction(new Hashtable<>(), new Hashtable<>()));
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidProductFunctionArg() {
     e2.accept(new ProductFunction(new Hashtable<>(), new Hashtable<>()));
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidLessThanFunctionArg() {
     e1.accept(new LessThanFunction(new Hashtable<>(), new Hashtable<>()));
   }

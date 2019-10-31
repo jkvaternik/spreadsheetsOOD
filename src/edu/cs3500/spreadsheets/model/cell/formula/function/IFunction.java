@@ -1,7 +1,5 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
-import java.util.List;
-
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 
 public interface IFunction extends Formula {

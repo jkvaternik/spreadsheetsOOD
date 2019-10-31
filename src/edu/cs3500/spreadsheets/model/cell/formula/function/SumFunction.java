@@ -1,6 +1,5 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents the sum function.
@@ -19,6 +19,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 public class SumFunction implements FormulaVisitor<Double> {
   private Hashtable<Coord, Cell> cells;
   private Hashtable<Formula, Value> values;
+
   /**
    * Constructs an instance of the SumFunction function object
    */

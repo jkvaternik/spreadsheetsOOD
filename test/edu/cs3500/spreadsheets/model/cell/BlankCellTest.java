@@ -1,15 +1,17 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Objects;
+
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Objects;
-import org.junit.Test;
 
 /**
  * Tests for {@link BlankCell}.

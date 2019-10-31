@@ -1,17 +1,19 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Objects;
 
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Objects;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link ValueCell}.
@@ -21,7 +23,7 @@ public class ValueCellTest {
   ValueCell dv = new ValueCell("6.0", new DoubleValue(6.0));
   ValueCell sv = new ValueCell("hi", new StringValue("hi"));
   ValueCell ev = new ValueCell("#ERR",
-      new ErrorValue(new IllegalArgumentException("Cell cannot reference itself.")));
+          new ErrorValue(new IllegalArgumentException("Cell cannot reference itself.")));
 
 
   @Test
@@ -30,7 +32,7 @@ public class ValueCellTest {
     assertEquals(new StringValue("hi"), sv.evaluate(new Hashtable<>(), new Hashtable<>()));
     assertEquals(new DoubleValue(6.0), dv.evaluate(new Hashtable<>(), new Hashtable<>()));
     assertEquals(new ErrorValue(new IllegalArgumentException("Cell cannot reference itself.")),
-        ev.evaluate(new Hashtable<>(), new Hashtable<>()));
+            ev.evaluate(new Hashtable<>(), new Hashtable<>()));
   }
 
   @Test
@@ -72,6 +74,6 @@ public class ValueCellTest {
     assertEquals(dv.hashCode(), Objects.hash("6.0", new DoubleValue(6.0)));
     assertEquals(sv.hashCode(), Objects.hash("hi", new StringValue("hi")));
     assertEquals(ev.hashCode(), Objects.hash("#ERR",
-        new ErrorValue(new IllegalArgumentException("Cell cannot reference itself."))));
+            new ErrorValue(new IllegalArgumentException("Cell cannot reference itself."))));
   }
 }

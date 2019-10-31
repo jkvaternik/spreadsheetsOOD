@@ -1,7 +1,9 @@
 package edu.cs3500.spreadsheets.model.cell;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
@@ -14,9 +16,8 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.sexp.Parser;
 import edu.cs3500.spreadsheets.sexp.Sexp;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link SexpVisitorFormula}.
@@ -57,36 +58,38 @@ public class SexpVisitorFormulaTest {
     sexpsInv.add(Parser.parse("\"hi\""));
 
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid formula")),
-        visitor.visitSList(sexpsInv));
+            visitor.visitSList(sexpsInv));
 
   }
 
   @Test
   public void visitSymbol() {
-    assertEquals(new Function(EFunctions.PRODUCT, null), visitor.visitSymbol("PRODUCT"));
+    assertEquals(new Function(EFunctions.PRODUCT, null),
+            visitor.visitSymbol("PRODUCT"));
     assertEquals(new Function(EFunctions.SUM, null), visitor.visitSymbol("SUM"));
     assertEquals(new Function(EFunctions.LESSTHAN, null), visitor.visitSymbol("<"));
-    assertEquals(new Function(EFunctions.CAPITALIZE, null), visitor.visitSymbol("CAPITALIZE"));
+    assertEquals(new Function(EFunctions.CAPITALIZE, null),
+            visitor.visitSymbol("CAPITALIZE"));
 
     assertEquals(new CellReference(new Coord(1, 1), new Coord(1, 1)),
-        visitor.visitSymbol("A1"));
+            visitor.visitSymbol("A1"));
     assertEquals(new CellReference(new Coord(1, 1), new Coord(3, 3)),
-        visitor.visitSymbol("A1:C3"));
+            visitor.visitSymbol("A1:C3"));
 
     // Now show that all illegal cell references will lead to the creation of an error value
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("1A"));
+            visitor.visitSymbol("1A"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("A12B"));
+            visitor.visitSymbol("A12B"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("A1!"));
+            visitor.visitSymbol("A1!"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("A"));
+            visitor.visitSymbol("A"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("B2:A1"));
+            visitor.visitSymbol("B2:A1"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("C:3A3"));
+            visitor.visitSymbol("C:3A3"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("C4:"));
+            visitor.visitSymbol("C4:"));
   }
 }

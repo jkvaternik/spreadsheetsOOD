@@ -6,8 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * A simple parser for {@link Sexp}s.  The details of how this class
- * works are not critical.
+ * A simple parser for {@link Sexp}s.  The details of how this class works are not critical.
  */
 public class Parser {
   /**
@@ -39,8 +38,7 @@ public class Parser {
       } else {
         return parsed;
       }
-    }
-    catch (IllegalArgumentException a) {
+    } catch (IllegalArgumentException a) {
       throw new IllegalArgumentException("Badly formatted sexp: " + in + "\n" + a);
     }
   }

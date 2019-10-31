@@ -13,7 +13,9 @@ import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link CellReference}.

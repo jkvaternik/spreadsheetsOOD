@@ -4,11 +4,13 @@ import java.util.List;
 
 /**
  * An abstracted function object for processing any {@link Sexp}ressions.
+ *
  * @param <R> The return type of this function
  */
 public interface SexpVisitor<R> {
   /**
    * Process a boolean value.
+   *
    * @param b the value
    * @return the desired result
    */
@@ -16,6 +18,7 @@ public interface SexpVisitor<R> {
 
   /**
    * Process a numeric value.
+   *
    * @param d the value
    * @return the desired result
    */
@@ -23,6 +26,7 @@ public interface SexpVisitor<R> {
 
   /**
    * Process a list value.
+   *
    * @param l the contents of the list (not yet visited)
    * @return the desired result
    */
@@ -30,6 +34,7 @@ public interface SexpVisitor<R> {
 
   /**
    * Process a symbol.
+   *
    * @param s the value
    * @return the desired result
    */
@@ -37,6 +42,7 @@ public interface SexpVisitor<R> {
 
   /**
    * Process a string value.
+   *
    * @param s the value
    * @return the desired result
    */

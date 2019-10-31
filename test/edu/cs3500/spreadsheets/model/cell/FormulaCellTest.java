@@ -3,11 +3,8 @@ package edu.cs3500.spreadsheets.model.cell;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -18,6 +15,10 @@ import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
 import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link FormulaCell}.
@@ -40,7 +41,8 @@ public class FormulaCellTest {
                   new ArrayList<>(Arrays.asList(new CellReference(new Coord(2, 1),
                           new Coord(2, 1)), new DoubleValue(1.0))))))),
           "=(SUM B1 (SUM B1 1))");
-  FormulaCell cellSelfReferenceCycleTwo = new FormulaCell(new CellReference(new Coord(2, 2), new Coord(2, 2)), "=B2");
+  FormulaCell cellSelfReferenceCycleTwo = new FormulaCell(new CellReference(
+          new Coord(2, 2), new Coord(2, 2)), "=B2");
 
   FormulaCell doubleOneCopy = new FormulaCell(new DoubleValue(3.0), "3.0");
   FormulaCell stringCopy = new FormulaCell(new StringValue(":-3"), ":-3");

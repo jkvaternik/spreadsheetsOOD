@@ -8,11 +8,19 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 
+/**
+ * Represents visitor pattern for Formula.
+ */
 public interface FormulaVisitor<R> extends IFunc<Formula, R> {
   R visitDoubleValue(DoubleValue val) throws IllegalStateException;
+
   R visitBooleanValue(BooleanValue val) throws IllegalStateException;
+
   R visitStringValue(StringValue val) throws IllegalStateException;
+
   R visitErrorValue(ErrorValue val) throws IllegalStateException;
+
   R visitCellReference(CellReference ref) throws IllegalStateException;
+
   R visitFunction(Function func) throws IllegalStateException;
 }

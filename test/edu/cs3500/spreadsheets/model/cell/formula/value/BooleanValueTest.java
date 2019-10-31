@@ -1,16 +1,18 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Objects;
 
 import edu.cs3500.spreadsheets.model.cell.formula.function.CapitalizeFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.LessThanFunction;
 import edu.cs3500.spreadsheets.model.cell.formula.function.SumFunction;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Objects;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link BooleanValue}.
@@ -61,12 +63,12 @@ public class BooleanValueTest {
     assertEquals(0.0, b3.accept(new SumFunction(new Hashtable<>(), new Hashtable<>())), 0.001);
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidCapitalizeFunctionArg() {
     b2.accept(new CapitalizeFunction(new Hashtable<>(), new Hashtable<>()));
   }
 
-  @Test (expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)
   public void testAccept_InvalidLessThanFunctionArg() {
     b1.accept(new LessThanFunction(new Hashtable<>(), new Hashtable<>()));
   }

@@ -3,26 +3,24 @@ package edu.cs3500.spreadsheets.model;
 
 import java.util.List;
 
-import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
-
 /**
  * Represents the model for a spreadsheet.
  */
 public interface SpreadsheetModel {
 
   /**
-   * Clears the cell at the given coordinate, and updates all cells which reference
-   * the cell to be cleared.
+   * Clears the cell at the given coordinate, and updates all cells which reference the cell to be
+   * cleared.
    *
    * @param coord The coordinate
    */
   void clearCell(Coord coord);
 
   /**
-   * Sets the value of the cell at the given coordinate indices to the specified value.
-   * Works for both cells which currently have contents, and those which are blank.
-   * Note, the value is just the string representation of the value to set the cell to,
-   * which can include doubles, booleans, strings, functions, etc.
+   * Sets the value of the cell at the given coordinate indices to the specified value. Works for
+   * both cells which currently have contents, and those which are blank. Note, the value is just
+   * the string representation of the value to set the cell to, which can include doubles, booleans,
+   * strings, functions, etc.
    *
    * @param coord The coordinate
    * @param value The string representation of the value

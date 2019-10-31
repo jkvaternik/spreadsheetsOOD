@@ -10,6 +10,7 @@ public interface Value extends Formula {
 
   /**
    * Gets the internal value of this Value.
+   *
    * @param <T> The type of primitive value
    * @return The primitive value
    */

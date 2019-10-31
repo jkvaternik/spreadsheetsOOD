@@ -138,7 +138,7 @@ public class FunctionTest {
     productFunctionThree = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 1), new Coord(2, 2)))));
     productFunctionFour = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+            cellA1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
 
     lessThanFunctionOne = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
             cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
@@ -185,14 +185,30 @@ public class FunctionTest {
     assertEquals(21.0, sumFunctionThree.evaluate(cells, evaluated).getValue(), tolerance);
     assertEquals(6.0, sumFunctionFour.evaluate(cells, evaluated).getValue(), tolerance);
 
-    assertEquals(18.0, productFunctionOne.evaluate(cells, evaluated).getValue(), tolerance);
-    assertEquals(12.0, productFunctionTwo.evaluate(cells, evaluated).getValue(), tolerance);
-    assertEquals(21.0, productFunctionThree.evaluate(cells, evaluated).getValue(), tolerance);
-    assertEquals(6.0, productFunctionFour.evaluate(cells, evaluated).getValue(), tolerance);
+    assertEquals(18.0, productFunctionOne.evaluate(cells, evaluated).getValue(),
+            tolerance);
+    assertEquals(36.0, productFunctionTwo.evaluate(cells, evaluated).getValue(),
+            tolerance);
+    assertEquals(648, productFunctionThree.evaluate(cells, evaluated).getValue(),
+            tolerance);
+    assertEquals(6.0, productFunctionFour.evaluate(cells, evaluated).getValue(),
+            tolerance);
 
     assertEquals(false, lessThanFunctionOne.evaluate(cells, evaluated).getValue());
-    assertEquals("HELLO WORLD", capitalizeFunctionOne.evaluate(cells, evaluated).getValue());
+    assertEquals(false, lessThanFunctionTwo.evaluate(cells, evaluated).getValue());
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            lessThanFunctionThree.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            lessThanFunctionFour.evaluate(cells, evaluated));
 
+    assertEquals("HELLO WORLD", capitalizeFunctionOne.evaluate(cells, evaluated)
+            .getValue());
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            capitalizeFunctionTwo.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            capitalizeFunctionThree.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            capitalizeFunctionFour.evaluate(cells, evaluated));
 
   }
 

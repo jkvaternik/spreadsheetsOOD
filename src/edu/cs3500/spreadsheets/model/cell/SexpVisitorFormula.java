@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import java.util.List;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
@@ -11,11 +13,11 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.sexp.Sexp;
 import edu.cs3500.spreadsheets.sexp.SexpVisitor;
-import java.util.List;
 
 public class SexpVisitorFormula implements SexpVisitor<Formula> {
   /**
    * Applies the given SExp to this visitor.
+   *
    * @param s the Sexp
    * @return The result formula
    */
@@ -50,23 +52,23 @@ public class SexpVisitorFormula implements SexpVisitor<Formula> {
   @Override
   public Formula visitSymbol(String s) {
     if ("PRODUCT".equals(s)) {
-      return new Function(EFunctions.PRODUCT,null);
+      return new Function(EFunctions.PRODUCT, null);
     } else if ("SUM".equals(s)) {
-      return new Function(EFunctions.SUM,null);
+      return new Function(EFunctions.SUM, null);
     } else if ("<".equals(s)) {
-      return new Function(EFunctions.LESSTHAN,null);
+      return new Function(EFunctions.LESSTHAN, null);
     } else if ("CAPITALIZE".equals(s)) {
-      return new Function(EFunctions.CAPITALIZE,null);
+      return new Function(EFunctions.CAPITALIZE, null);
     } else if (s.contains(":") && s.indexOf(":") < s.length() - 1) {
       String cell1 = s.substring(0, s.indexOf(":"));
       String cell2 = s.substring(s.indexOf(":") + 1);
       if (Coord.validCellString(cell1)
-          && Coord.validCellString(cell2)) {
+              && Coord.validCellString(cell2)) {
         Coord from = Coord.cellStringToCoord(cell1);
         Coord to = Coord.cellStringToCoord(cell2);
         if (from.col <= to.col && from.row <= to.col) {
           return new CellReference(Coord.cellStringToCoord(cell1),
-              Coord.cellStringToCoord(cell2));
+                  Coord.cellStringToCoord(cell2));
         } else {
           return new ErrorValue(new IllegalArgumentException("Invalid cell reference"));
         }

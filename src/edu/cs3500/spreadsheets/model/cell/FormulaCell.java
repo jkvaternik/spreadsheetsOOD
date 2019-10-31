@@ -2,11 +2,11 @@ package edu.cs3500.spreadsheets.model.cell;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Objects;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
-import java.util.Objects;
 
 
 /**
@@ -18,7 +18,8 @@ public class FormulaCell implements Cell {
 
   /**
    * Creates an instance of the formula cell based on the given formula, string, and value.
-   * @param formula The formula
+   *
+   * @param formula     The formula
    * @param rawContents The string
    */
   public FormulaCell(Formula formula, String rawContents) {
@@ -28,7 +29,7 @@ public class FormulaCell implements Cell {
 
   @Override
   public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
-      return this.formula.evaluate(cells, values);
+    return this.formula.evaluate(cells, values);
   }
 
   @Override
@@ -38,7 +39,7 @@ public class FormulaCell implements Cell {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-      Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return this.formula.containsCyclicalReference(visitedCoords, cells, coordsNoCycle);
   }
 
@@ -46,7 +47,7 @@ public class FormulaCell implements Cell {
   public boolean equals(Object other) {
     if (other instanceof FormulaCell) {
       return this.rawContents.equals(((FormulaCell) other).rawContents)
-          && this.formula.equals(((FormulaCell) other).formula);
+              && this.formula.equals(((FormulaCell) other).formula);
     } else {
       return false;
     }

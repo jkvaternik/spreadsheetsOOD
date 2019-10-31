@@ -3,15 +3,10 @@ package edu.cs3500.spreadsheets.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
-import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link SimpleSpreadsheet}.
@@ -21,6 +16,7 @@ public class SimpleSpreadsheetModelTest {
   private SimpleSpreadsheet spreadsheetOne;
   private SimpleSpreadsheet spreadsheetTwo;
   private SimpleSpreadsheet spreadsheetThree;
+  private SimpleSpreadsheet spreadsheetFour;
 
   @Before
   public void init() {
@@ -40,14 +36,39 @@ public class SimpleSpreadsheetModelTest {
       spreadsheetTwo = worksheetReaderTwo.read(builderTwo, fileReaderTwo);
 
       Readable fileReaderThree = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSelfReferenceIndirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSelfReferenceIndirect." +
+              "txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderThree =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderThree = new WorksheetReader();
       spreadsheetThree = worksheetReaderThree.read(builderThree, fileReaderThree);
+
+      Readable fileReaderFour = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
+              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSimpleSpread.txt");
+      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderFour =
+              new SimpleSpreadsheet.Builder();
+      WorksheetReader worksheetReaderFour = new WorksheetReader();
+      spreadsheetFour = worksheetReaderFour.read(builderFour, fileReaderFour);
+
     } catch (FileNotFoundException e) {
       System.out.println("File not found.");
     }
+  }
+
+  @Test
+  public void testCreateEmpty() {
+    assertEquals(0, spreadsheetTwo.getNumColumns());
+    assertEquals(0, spreadsheetTwo.getNumRows());
+  }
+
+  @Test
+  public void testCreateSpreadsheet() {
+    assertEquals(2, spreadsheetFour.getNumColumns());
+    assertEquals(2, spreadsheetFour.getNumRows());
+    assertEquals("3.000000", spreadsheetFour.getValue(new Coord(1, 1)));
+    assertEquals("4.000000", spreadsheetFour.getValue(new Coord(2, 1)));
+    assertEquals("3.000000", spreadsheetFour.getValue(new Coord(1, 2)));
+    assertEquals("7.000000", spreadsheetFour.getValue(new Coord(2, 2)));
   }
 
   @Test
@@ -68,22 +89,21 @@ public class SimpleSpreadsheetModelTest {
   @Test
   public void testSetCellValue() {
     // if a coordinate does not exist, model.getValue returns an empty StringValue
-    assertEquals(new StringValue(""), spreadsheetOne.getValue(new Coord(5, 5)));
+    assertEquals("", spreadsheetOne.getValue(new Coord(5, 5)));
     spreadsheetOne.setCellValue(new Coord(5, 5), "=(SUM 2 3)");
-    assertEquals(new DoubleValue(5.0), spreadsheetOne.getValue(new Coord(5, 5)));
+    assertEquals("5.000000", spreadsheetOne.getValue(new Coord(5, 5)));
 
-    assertEquals(new DoubleValue(3.0), spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("3.000000", spreadsheetOne.getValue(new Coord(1, 1)));
     spreadsheetOne.setCellValue(new Coord(1, 1), "=B1");
-    assertEquals(new DoubleValue(4.0), spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("4.000000", spreadsheetOne.getValue(new Coord(1, 1)));
 
     spreadsheetOne.setCellValue(new Coord(1, 1), "=(SUM A1 1)");
-    assertEquals(new ErrorValue(new IllegalArgumentException(
-            "This cell contains a cyclical reference.")), spreadsheetOne.getValue(
+    assertEquals("This cell contains a cyclical reference.", spreadsheetOne.getValue(
             new Coord(1, 1)));
 
-    assertEquals(new StringValue(""), spreadsheetTwo.getValue(new Coord(1, 1)));
+    assertEquals("", spreadsheetTwo.getValue(new Coord(1, 1)));
     spreadsheetTwo.setCellValue(new Coord(1, 1), "=(PRODUCT (SUM 2 1) 3)");
-    assertEquals(new DoubleValue(9.0), spreadsheetTwo.getValue(new Coord(1, 1)));
+    assertEquals("9.000000", spreadsheetTwo.getValue(new Coord(1, 1)));
   }
 
   @Test
@@ -118,15 +138,14 @@ public class SimpleSpreadsheetModelTest {
 
   @Test
   public void testGetValue() {
-    assertEquals(new StringValue(""), spreadsheetTwo.getValue(new Coord(1, 1)));
-    assertEquals(new DoubleValue(3.0), spreadsheetOne.getValue(new Coord(1, 1)));
-    assertEquals(new StringValue("Jack says \"Hi\" and Jill has one backslash \\ here"),
+    assertEquals("", spreadsheetTwo.getValue(new Coord(1, 1)));
+    assertEquals("3.000000", spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("\"Jack says \\\"Hi\\\" and Jill has one backslash \\\\ here\"",
             spreadsheetOne.getValue(new Coord(5, 1)));
 
-    assertEquals(new BooleanValue(false), spreadsheetOne.getValue(new Coord(2, 3)));
+    assertEquals("false", spreadsheetOne.getValue(new Coord(2, 3)));
 
-    assertEquals(new ErrorValue(
-                    new IllegalArgumentException("This cell contains a cyclical reference.")),
+    assertEquals("This cell contains a cyclical reference.",
             spreadsheetThree.getValue(new Coord(2, 1)));
   }
 
@@ -139,7 +158,8 @@ public class SimpleSpreadsheetModelTest {
 
     assertEquals("=(< A3 10)", spreadsheetOne.getRawContents(new Coord(2, 3)));
 
-    assertEquals("=(SUM A1 1)", spreadsheetThree.getRawContents(new Coord(2, 1)));
+    assertEquals("=(SUM A1 1)", spreadsheetThree.getRawContents(
+            new Coord(2, 1)));
   }
 
 }
