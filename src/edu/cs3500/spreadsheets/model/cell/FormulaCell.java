@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
+import java.util.Objects;
 
 
 /**
@@ -40,5 +41,25 @@ public class FormulaCell implements Cell {
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
       Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
     return this.formula.containsCyclicalReference(visitedCoords, cells, coordsNoCycle);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof FormulaCell) {
+      return this.rawContents.equals(((FormulaCell) other).rawContents)
+          && this.formula.equals(((FormulaCell) other).formula);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.rawContents, this.formula.hashCode());
+  }
+
+  @Override
+  public String toString() {
+    return this.rawContents;
   }
 }
