@@ -62,7 +62,7 @@ public class SexpVisitorFormulaTest {
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
         visitor.visitSymbol("A"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
-        visitor.visitSymbol("B1:A1"));
+        visitor.visitSymbol("B2:A1"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),
         visitor.visitSymbol("C:3A3"));
     assertEquals(new ErrorValue(new IllegalArgumentException("Invalid cell reference")),

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a reference to one or more spreadsheet cells.
@@ -117,5 +118,23 @@ public class CellReference implements Formula {
     }
 
     return allCells;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof CellReference) {
+      return this.from.equals(((CellReference) other).from)
+          && this.to.equals((((CellReference) other).to));
+    } else {
+      return false;
+    }
+  }
+
+  public int hashCode() {
+    return Objects.hash(this.from, this.to);
+  }
+
+  public String toString() {
+    return this.from.toString() + ", " + this.to.toString();
   }
 }
