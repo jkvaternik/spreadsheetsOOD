@@ -38,7 +38,8 @@ public class ValueCell implements Cell {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells,
+                                           HashSet<Coord> coordsNoCycle) {
     return false;
   }
 

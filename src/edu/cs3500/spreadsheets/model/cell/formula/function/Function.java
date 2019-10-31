@@ -16,6 +16,9 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
+/**
+ * Represents Function in a Formula.
+ */
 public class Function implements IFunction {
   private List<Formula> args;
   private EFunctions func;
@@ -89,6 +92,8 @@ public class Function implements IFunction {
             values.put(this, new StringValue(toCap.toUpperCase()));
             return new StringValue(toCap.toUpperCase());
           }
+        default:
+          // does not reach this
       }
       return new ErrorValue(new IllegalArgumentException("Function could not be evaluated."));
     } catch (IllegalStateException e) {
@@ -104,7 +109,8 @@ public class Function implements IFunction {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells,
+                                           HashSet<Coord> coordsNoCycle) {
     for (Formula arg : this.args) {
       if (arg.containsCyclicalReference(visitedCoords, cells, coordsNoCycle)) {
         return true;

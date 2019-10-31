@@ -32,11 +32,7 @@ public class BlankCell implements Cell {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof BlankCell) {
-      return true;
-    } else {
-      return false;
-    }
+    return other instanceof BlankCell;
   }
 
   @Override

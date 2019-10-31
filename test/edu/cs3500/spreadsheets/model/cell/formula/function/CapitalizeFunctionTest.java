@@ -111,15 +111,15 @@ public class CapitalizeFunctionTest {
   @Test
   public void testVisitSingleCellReference() {
     CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
-    assertEquals("hello", func.visitCellReference
-            (new CellReference(new Coord(3, 1), new Coord(3, 1))));
+    assertEquals("hello", func.visitCellReference(
+            new CellReference(new Coord(3, 1), new Coord(3, 1))));
   }
 
   @Test
   public void testVisitDoubleCellReference() {
     CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
-    assertEquals("hello", func.visitCellReference
-            (new CellReference(new Coord(4, 1), new Coord(4, 1))));
+    assertEquals("hello", func.visitCellReference(
+            new CellReference(new Coord(4, 1), new Coord(4, 1))));
   }
 
   @Test(expected = IllegalStateException.class)

@@ -67,8 +67,8 @@ public class ProductFunction implements FormulaVisitor<Double> {
   }
 
   @Override
-  public Double apply(Formula arg1) {
-    return arg1.accept(this);
+  public Double apply(Formula formula) {
+    return formula.accept(this);
   }
 
   /**

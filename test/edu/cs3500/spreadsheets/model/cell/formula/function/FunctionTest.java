@@ -237,7 +237,6 @@ public class FunctionTest {
     assertEquals(9.0, sumFunctionOne.accept(new SumFunction(cells, evaluated)), tolerance);
     assertEquals(18.0, productFunctionOne.accept(
             new ProductFunction(cells, evaluated)), tolerance);
-    //TODO: ... accept should return Double but evaluates to false.... add cases for intertwined functions?
     assertEquals(0.0, lessThanFunctionOne.accept(new SumFunction(cells, evaluated)), tolerance);
     assertEquals("HELLO WORLD", capitalizeFunctionOne.accept(
             new CapitalizeFunction(cells, evaluated)));
@@ -250,10 +249,25 @@ public class FunctionTest {
     Function lessThan = new Function(EFunctions.LESSTHAN, null);
     Function toCap = new Function(EFunctions.CAPITALIZE, null);
 
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            sum.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            product.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            lessThan.evaluate(cells, evaluated));
+    assertEquals(new ErrorValue(new IllegalArgumentException("Invalid function.")),
+            toCap.evaluate(cells, evaluated));
+
     sum.addArg(new DoubleValue(3.0));
     product.addArg(new DoubleValue(34.2));
     lessThan.addArg(new DoubleValue(2.0));
+    lessThan.addArg(new DoubleValue(3.0));
     toCap.addArg(new StringValue("oof"));
+
+    assertEquals(new DoubleValue(3.0), sum.evaluate(cells, evaluated));
+    assertEquals(new DoubleValue(34.2), product.evaluate(cells, evaluated));
+    assertEquals(new BooleanValue(true), lessThan.evaluate(cells, evaluated));
+    assertEquals(new StringValue("OOF"), toCap.evaluate(cells, evaluated));
   }
 
   @Test

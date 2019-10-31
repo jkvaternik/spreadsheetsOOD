@@ -76,7 +76,8 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {
       toAdd = new FormulaCell(
-              (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()), contents);
+              (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()),
+              contents);
       this.cells.put(coord, toAdd);
       if (toAdd.containsCyclicalReference(new HashSet<>(), this.cells, new HashSet<>())) {
         this.errorCoords.add(coord);
@@ -147,9 +148,13 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     return this.errorCoords;
   }
 
+  /**
+   * Represents instance of a WorksheetBuilder which helps build a spreadsheet.
+   */
   public static class Builder implements WorksheetBuilder<SimpleSpreadsheet> {
     private SimpleSpreadsheet spreadsheet;
 
+    /** Constructor for the WorksheetBuilder. */
     public Builder() {
       this.spreadsheet = new SimpleSpreadsheet();
     }

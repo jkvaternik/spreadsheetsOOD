@@ -65,7 +65,7 @@ public class CapitalizeFunction implements FormulaVisitor<String> {
   }
 
   @Override
-  public String apply(Formula arg1) {
-    return arg1.accept(this);
+  public String apply(Formula formula) {
+    return formula.accept(this);
   }
 }

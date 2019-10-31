@@ -14,6 +14,9 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.sexp.Sexp;
 import edu.cs3500.spreadsheets.sexp.SexpVisitor;
 
+/**
+ * Represents visitor pattern for converting Sexp's to Formulas.
+ */
 public class SexpVisitorFormula implements SexpVisitor<Formula> {
   /**
    * Applies the given SExp to this visitor.

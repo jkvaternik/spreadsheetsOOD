@@ -57,7 +57,8 @@ public class CellReference implements Formula {
 
   @Override
   public boolean containsCyclicalReference(HashSet<Coord> visitedCoords,
-                                           Hashtable<Coord, Cell> cells, HashSet<Coord> coordsNoCycle) {
+                                           Hashtable<Coord, Cell> cells,
+                                           HashSet<Coord> coordsNoCycle) {
     for (Coord coord : this.getAllCoords()) {
       if (cells.containsKey(coord) && !coordsNoCycle.contains(coord)) {
         if (visitedCoords.contains(coord)) {

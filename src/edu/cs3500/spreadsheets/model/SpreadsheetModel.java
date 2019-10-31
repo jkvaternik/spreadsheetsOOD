@@ -60,7 +60,7 @@ public interface SpreadsheetModel {
   String getRawContents(Coord coord);
 
   /**
-   * Gets the list of coordinates at which there is an ErrorValue
+   * Gets the list of coordinates at which there is an ErrorValue.
    *
    * @return the list of coordinates
    */

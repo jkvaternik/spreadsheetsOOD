@@ -1,5 +1,9 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+
+/**
+ * Represents a function object that determines whether or not a value is an ErrorValue.
+ */
 public class IsErrorFunction implements ValueVisitor<Boolean> {
   @Override
   public Boolean visitBoolean(BooleanValue val) {
@@ -23,7 +27,7 @@ public class IsErrorFunction implements ValueVisitor<Boolean> {
 
 
   @Override
-  public Boolean apply(Value arg1) throws IllegalStateException {
-    return arg1.accept(this);
+  public Boolean apply(Value val) throws IllegalStateException {
+    return val.accept(this);
   }
 }

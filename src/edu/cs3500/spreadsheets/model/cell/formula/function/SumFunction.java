@@ -21,7 +21,7 @@ public class SumFunction implements FormulaVisitor<Double> {
   private Hashtable<Formula, Value> values;
 
   /**
-   * Constructs an instance of the SumFunction function object
+   * Constructs an instance of the SumFunction function object.
    */
   public SumFunction(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
     this.cells = cells;

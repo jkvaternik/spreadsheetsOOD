@@ -9,6 +9,12 @@ public class Coord {
   public final int row;
   public final int col;
 
+  /**
+   * Constructs a Coordinate in a spreadsheet.
+   *
+   * @param col index of column
+   * @param row index of row
+   */
   public Coord(int col, int row) {
     if (row < 1 || col < 1) {
       throw new IllegalArgumentException("Coordinates should be strictly positive");

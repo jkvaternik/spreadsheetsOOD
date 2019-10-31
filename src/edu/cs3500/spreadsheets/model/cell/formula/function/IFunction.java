@@ -2,6 +2,9 @@ package edu.cs3500.spreadsheets.model.cell.formula.function;
 
 import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 
+/**
+ * Represents a Function.
+ */
 public interface IFunction extends Formula {
 
   /**

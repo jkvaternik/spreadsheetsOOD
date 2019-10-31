@@ -64,7 +64,7 @@ public class LessThanFunction implements FormulaVisitor<Double> {
   }
 
   @Override
-  public Double apply(Formula arg1) throws IllegalStateException {
-    return arg1.accept(this);
+  public Double apply(Formula formula) throws IllegalStateException {
+    return formula.accept(this);
   }
 }
