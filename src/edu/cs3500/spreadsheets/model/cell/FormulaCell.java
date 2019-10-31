@@ -27,7 +27,6 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  // TODO: Add a Cell->Value map so we only evaluate each cell once (memoize)
   public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
       return this.formula.evaluate(cells, values);
   }

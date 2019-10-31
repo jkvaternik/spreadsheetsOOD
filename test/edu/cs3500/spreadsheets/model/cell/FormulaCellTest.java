@@ -1,38 +1,142 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.cell.formula.CellReference;
+import edu.cs3500.spreadsheets.model.cell.formula.function.EFunctions;
+import edu.cs3500.spreadsheets.model.cell.formula.function.Function;
+import edu.cs3500.spreadsheets.model.cell.formula.value.BooleanValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.DoubleValue;
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 
 /**
  * Tests for {@link FormulaCell}.
  */
 public class FormulaCellTest {
+
+  FormulaCell doubleOne = new FormulaCell(new DoubleValue(3.0), "3.0");
+  FormulaCell doubleTwo = new FormulaCell(new DoubleValue(8.0), "8.0");
+  FormulaCell stringEmpty = new FormulaCell(new StringValue(""), "");
+  FormulaCell string = new FormulaCell(new StringValue(":-3"), ":-3");
+  FormulaCell boolTrue = new FormulaCell(new BooleanValue(true), "true");
+  FormulaCell cellSingleRef = new FormulaCell(new CellReference(
+          new Coord(1, 1), new Coord(1, 1)), "=A1");
+  FormulaCell cellFunction = new FormulaCell(new Function(EFunctions.SUM, new ArrayList<>(
+          Arrays.asList(new CellReference(new Coord(1, 1), new Coord(1, 2))))),
+          "=SUM(A1:A2)");
+  FormulaCell cellSelfReferenceCycleOne = new FormulaCell(new Function(EFunctions.SUM,
+          new ArrayList<>(Arrays.asList(new CellReference(new Coord(2, 1),
+                  new Coord(2, 1)), new Function(EFunctions.SUM,
+                  new ArrayList<>(Arrays.asList(new CellReference(new Coord(2, 1),
+                          new Coord(2, 1)), new DoubleValue(1.0))))))),
+          "=(SUM B1 (SUM B1 1))");
+  FormulaCell cellSelfReferenceCycleTwo = new FormulaCell(new CellReference(new Coord(2, 2), new Coord(2, 2)), "=B2");
+
+  FormulaCell doubleOneCopy = new FormulaCell(new DoubleValue(3.0), "3.0");
+  FormulaCell stringCopy = new FormulaCell(new StringValue(":-3"), ":-3");
+
+  Hashtable<Coord, Cell> cells;
+
+  @Before
+  public void init() {
+    cells = new Hashtable<>();
+    cells.put(new Coord(1, 1), doubleOne);
+    cells.put(new Coord(1, 2), doubleTwo);
+    cells.put(new Coord(2, 1), cellSelfReferenceCycleOne);
+    cells.put(new Coord(2, 2), cellSelfReferenceCycleTwo);
+
+  }
+
   @Test
   public void testEvaluate() {
-
+    assertEquals(new DoubleValue(3.0), doubleOne.evaluate(cells, new Hashtable<>()));
+    assertEquals(new DoubleValue(8.0), doubleTwo.evaluate(cells, new Hashtable<>()));
+    assertEquals(new StringValue(""), stringEmpty.evaluate(cells, new Hashtable<>()));
+    assertEquals(new StringValue(":-3"), string.evaluate(cells, new Hashtable<>()));
+    assertEquals(new BooleanValue(true), boolTrue.evaluate(cells, new Hashtable<>()));
+    assertEquals(new DoubleValue(3.0), cellSingleRef.evaluate(cells, new Hashtable<>()));
+    assertEquals(new DoubleValue(11.0), cellFunction.evaluate(cells, new Hashtable<>()));
   }
 
+  // TODO: do we want to remove this? same thing as toString...
   @Test
   public void testGetRawContents() {
-
+    assertEquals("3.0", doubleOne.getRawContents());
+    assertEquals("8.0", doubleTwo.getRawContents());
+    assertEquals("", stringEmpty.getRawContents());
+    assertEquals(":-3", string.getRawContents());
+    assertEquals("true", boolTrue.getRawContents());
+    assertEquals("=A1", cellSingleRef.getRawContents());
+    assertEquals("=SUM(A1:A2)", cellFunction.getRawContents());
   }
 
   @Test
-  public void testContainsCycle() {
+  public void testContainsNoCycle() {
+    assertFalse(doubleOne.containsCyclicalReference(new HashSet<>(), new Hashtable<>(),
+            new HashSet<>()));
+    assertFalse(string.containsCyclicalReference(new HashSet<>(), new Hashtable<>(),
+            new HashSet<>()));
+    assertFalse(boolTrue.containsCyclicalReference(new HashSet<>(), new Hashtable<>(),
+            new HashSet<>()));
+    assertFalse(cellSingleRef.containsCyclicalReference(new HashSet<>(), new Hashtable<>(),
+            new HashSet<>()));
+    assertFalse(cellFunction.containsCyclicalReference(new HashSet<>(), new Hashtable<>(),
+            new HashSet<>()));
+  }
 
+  @Test
+  public void testContainsDirectCycle() {
+    assertTrue(cellSelfReferenceCycleOne.containsCyclicalReference(new HashSet<>(), cells,
+            new HashSet<>()));
+    assertTrue(cellSelfReferenceCycleTwo.containsCyclicalReference(new HashSet<>(), cells,
+            new HashSet<>()));
   }
 
   @Test
   public void testToString() {
-
+    assertEquals("3.0", doubleOne.toString());
+    assertEquals("8.0", doubleTwo.toString());
+    assertEquals("", stringEmpty.toString());
+    assertEquals(":-3", string.toString());
+    assertEquals("true", boolTrue.toString());
+    assertEquals("=A1", cellSingleRef.toString());
+    assertEquals("=SUM(A1:A2)", cellFunction.toString());
   }
 
   @Test
   public void testEquals() {
+    assertTrue(doubleOne.equals(doubleOne));
+    assertTrue(doubleOne.equals(doubleOneCopy));
+    assertFalse(doubleTwo.equals(doubleOne));
+    assertFalse(doubleOne.equals(doubleTwo));
 
+    assertTrue(string.equals(string));
+    assertTrue(string.equals(stringCopy));
+    assertFalse(string.equals(stringEmpty));
+    assertFalse(stringEmpty.equals(string));
+
+    assertFalse(doubleTwo.equals(cellFunction));
+    assertFalse(cellSingleRef.equals(boolTrue));
   }
 
   @Test
   public void testHashcode() {
-
+    assertEquals(1075832139, doubleOne.hashCode());
+    assertEquals(1077553958, doubleTwo.hashCode());
+    assertEquals(1830880, string.hashCode());
+    assertEquals(992, stringEmpty.hashCode());
+    assertEquals(110642401, boolTrue.hashCode());
+    assertEquals(1914933, cellSingleRef.hashCode());
+    assertEquals(1838663027, cellFunction.hashCode());
   }
 }

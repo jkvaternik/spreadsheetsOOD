@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for {@link SimpleSpreadsheet}.

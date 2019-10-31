@@ -44,8 +44,8 @@ public class CellReference implements Formula {
       return value;
     } else {
       values.put(this,
-          new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference")));
-      return new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference"));
+              new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference.")));
+      return new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference."));
     }
   }
 

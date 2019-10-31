@@ -1,8 +1,12 @@
 package edu.cs3500.spreadsheets.model.cell.formula.function;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.cell.Cell;
@@ -15,27 +19,25 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link CapitalizeFunction}.
  */
 public class CapitalizeFunctionTest {
-  private FormulaCell cellA1;
-  private FormulaCell cellB1;
-  private FormulaCell cellC1;
-  private FormulaCell cellD1;
-  private FormulaCell cellE1;
-  private FormulaCell cellA2;
+  FormulaCell cellA1;
+  FormulaCell cellB1;
+  FormulaCell cellC1;
+  FormulaCell cellD1;
+  FormulaCell cellE1;
+  FormulaCell cellA2;
 
-  private Hashtable<Coord, Cell> spreadsheet;
-  private Hashtable<Formula, Value> evaluated;
+  Hashtable<Coord, Cell> cells;
+  Hashtable<Formula, Value> evaluated;
 
-  private Value valueDoubleOne;
-  private Value valueDoubleTwo;
-  private Value valueStringOne;
-
+  Value valueDoubleOne;
+  Value valueDoubleTwo;
+  Value valueStringOne;
 
   @Before
   public void init() {
@@ -59,33 +61,30 @@ public class CapitalizeFunctionTest {
     evaluated.put(new CellReference(new Coord(4, 1), new Coord(3, 1)),
             valueStringOne);
 
-    spreadsheet = new Hashtable<>();
-    spreadsheet.put(new Coord(1, 1), cellA1);
-    spreadsheet.put(new Coord(2, 1), cellB1);
-    spreadsheet.put(new Coord(3, 1), cellC1);
-    spreadsheet.put(new Coord(4, 1), cellD1);
-    spreadsheet.put(new Coord(5, 1), cellE1);
-    spreadsheet.put(new Coord(6, 1), cellA2);
+    cells = new Hashtable<>();
+    cells.put(new Coord(1, 1), cellA1);
+    cells.put(new Coord(2, 1), cellB1);
+    cells.put(new Coord(3, 1), cellC1);
+    cells.put(new Coord(4, 1), cellD1);
+    cells.put(new Coord(5, 1), cellE1);
+    cells.put(new Coord(6, 1), cellA2);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testVisitDoubleValueOne() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitDoubleValue(new DoubleValue(3.0));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testVisitDoubleValueTwo() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitDoubleValue(new DoubleValue(0.0));
   }
 
   @Test
   public void testVisitStringValue() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     assertEquals("", func.visitStringValue(new StringValue("")));
     assertEquals("23", func.visitStringValue(new StringValue("23")));
     assertEquals("hello", func.visitStringValue(new StringValue("hello")));
@@ -93,55 +92,104 @@ public class CapitalizeFunctionTest {
 
   @Test(expected = IllegalStateException.class)
   public void testVisitBoolValueOne() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitBooleanValue(new BooleanValue(true));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testVisitBoolValueTwo() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitBooleanValue(new BooleanValue(false));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testVisitErrorValue() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitErrorValue(new ErrorValue(new IllegalArgumentException("Invalid function")));
   }
 
   @Test
   public void testVisitSingleCellReference() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     assertEquals("hello", func.visitCellReference
             (new CellReference(new Coord(3, 1), new Coord(3, 1))));
   }
 
   @Test
   public void testVisitDoubleCellReference() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     assertEquals("hello", func.visitCellReference
             (new CellReference(new Coord(4, 1), new Coord(4, 1))));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testInvalidVisitCellReference() {
-    init();
-    CapitalizeFunction func = new CapitalizeFunction(spreadsheet, evaluated);
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
     func.visitCellReference(new CellReference(new Coord(1, 1), new Coord(4, 1)));
   }
 
   @Test
   public void testVisitFunction() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    List<Formula> args = new ArrayList<>(Arrays.asList(valueStringOne));
+    assertEquals("HELLO", func.visitFunction(new Function(EFunctions.CAPITALIZE, args)));
+  }
 
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidVisitFunctionOne() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    List<Formula> args = new ArrayList<>(Arrays.asList(valueDoubleOne));
+    func.visitFunction(new Function(EFunctions.CAPITALIZE, args));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidVisitFunctionTwo() {
+
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    List<Formula> args = new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo));
+    func.visitFunction(new Function(EFunctions.SUM, args));
   }
 
   @Test
   public void testApply() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    assertEquals("hello", func.apply(valueStringOne));
+    assertEquals("hello", func.apply(new CellReference(new Coord(3, 1),
+            new Coord(3, 1))));
+    assertEquals("hello", func.apply(new CellReference(new Coord(4, 1),
+            new Coord(4, 1))));
+    List<Formula> args = new ArrayList<>(Arrays.asList(valueStringOne));
+    assertEquals("HELLO", func.apply(new Function(EFunctions.CAPITALIZE, args)));
+  }
 
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidApplyNumber() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    func.apply(valueDoubleOne);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidApplyBoolean() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    func.apply(new BooleanValue(true));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidApplyError() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    func.apply(new ErrorValue(new IllegalArgumentException("Invalid function.")));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidApplyCellRef() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    func.apply(new CellReference(new Coord(2, 1), new Coord(2, 1)));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidApplyFunction() {
+    CapitalizeFunction func = new CapitalizeFunction(cells, evaluated);
+    func.apply(new Function(EFunctions.SUM, new ArrayList<>(
+            Arrays.asList(valueDoubleTwo, valueDoubleOne))));
   }
 }
