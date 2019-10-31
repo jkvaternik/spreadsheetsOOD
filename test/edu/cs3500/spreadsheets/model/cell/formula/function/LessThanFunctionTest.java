@@ -40,6 +40,8 @@ public class LessThanFunctionTest {
   Value valueDoubleTwo;
   Value valueStringOne;
 
+  double tolerance;
+
 
   @Before
   public void init() {
@@ -70,6 +72,8 @@ public class LessThanFunctionTest {
     cells.put(new Coord(4, 1), cellD1);
     cells.put(new Coord(5, 1), cellE1);
     cells.put(new Coord(6, 1), cellA2);
+
+    tolerance = 0.00000001;
   }
 
   @Test
@@ -113,10 +117,10 @@ public class LessThanFunctionTest {
   @Test
   public void testVisitCellReference() {
     LessThanFunction func = new LessThanFunction(cells, evaluated);
-    assertEquals(new Double(3.0), func.visitCellReference(
-            new CellReference(new Coord(1, 1), new Coord(1, 1))));
-    assertEquals(new Double(4.0), func.visitCellReference(
-            new CellReference(new Coord(2, 1), new Coord(2, 1))));
+    assertEquals(3.0, func.visitCellReference(
+            new CellReference(new Coord(1, 1), new Coord(1, 1))), tolerance);
+    assertEquals(4.0, func.visitCellReference(
+            new CellReference(new Coord(2, 1), new Coord(2, 1))), tolerance);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -129,13 +133,13 @@ public class LessThanFunctionTest {
   @Test
   public void testVisitFunction() {
     LessThanFunction func = new LessThanFunction(cells, evaluated);
-    assertEquals(new Double(7.0), func.visitFunction(new Function(EFunctions.SUM,
-            new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo)))));
-    assertEquals(new Double(14.0), func.visitFunction(new Function(EFunctions.SUM,
+    assertEquals(7.0, func.visitFunction(new Function(EFunctions.SUM,
+            new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo)))), tolerance);
+    assertEquals(14.0, func.visitFunction(new Function(EFunctions.SUM,
             new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo, new Function(
                     EFunctions.SUM,
                     new ArrayList<>(Arrays.asList(new CellReference(new Coord(1, 1),
-                            new Coord(2, 1))))))))));
+                            new Coord(2, 1))))))))), tolerance);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -155,14 +159,14 @@ public class LessThanFunctionTest {
   @Test
   public void testApply() {
     LessThanFunction func = new LessThanFunction(cells, evaluated);
-    assertEquals(new Double(3.0), func.apply(valueDoubleOne));
-    assertEquals(new Double(4.0), func.apply(valueDoubleTwo));
-    assertEquals(new Double(3.0), func.apply(new CellReference(new Coord(1, 1),
-            new Coord(1, 1))));
-    assertEquals(new Double(4.0), func.apply(new CellReference(new Coord(2, 1),
-            new Coord(2, 1))));
+    assertEquals(3.0, func.apply(valueDoubleOne), tolerance);
+    assertEquals(4.0, func.apply(valueDoubleTwo), tolerance);
+    assertEquals(3.0, func.apply(new CellReference(new Coord(1, 1),
+            new Coord(1, 1))), tolerance);
+    assertEquals(4.0, func.apply(new CellReference(new Coord(2, 1),
+            new Coord(2, 1))), tolerance);
     List<Formula> args = new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo));
-    assertEquals(new Double(7.0), func.apply(new Function(EFunctions.SUM, args)));
+    assertEquals(7.0, func.apply(new Function(EFunctions.SUM, args)), tolerance);
   }
 
   @Test(expected = IllegalStateException.class)

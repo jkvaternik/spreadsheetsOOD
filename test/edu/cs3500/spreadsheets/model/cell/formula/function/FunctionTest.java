@@ -161,11 +161,11 @@ public class FunctionTest {
 
   @Test
   public void testAccept() {
-    assertEquals(new Double(9.0), sumFunctionOne.accept(new SumFunction(cells, evaluated)));
-    assertEquals(new Double(18.0), productFunctionOne.accept(
-            new ProductFunction(cells, evaluated)));
+    assertEquals(9.0, sumFunctionOne.accept(new SumFunction(cells, evaluated)), tolerance);
+    assertEquals(18.0, productFunctionOne.accept(
+            new ProductFunction(cells, evaluated)), tolerance);
     //TODO: ... accept should return Double but evaluates to false.... add cases for intertwined functions?
-//    assertEquals(false, lessThanFunction.accept(new LessThanFunction(cells, evaluated)));
+    assertEquals(0.0, lessThanFunction.accept(new LessThanFunction(cells, evaluated)), tolerance);
     assertEquals("HELLO WORLD", capitalizeFunction.accept(
             new CapitalizeFunction(cells, evaluated)));
   }

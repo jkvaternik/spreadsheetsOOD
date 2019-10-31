@@ -40,6 +40,8 @@ public class SumFunctionTest {
   Value valueDoubleTwo;
   Value valueStringOne;
 
+  double tolerance;
+
 
   @Before
   public void init() {
@@ -71,28 +73,30 @@ public class SumFunctionTest {
     cells.put(new Coord(4, 1), cellD1);
     cells.put(new Coord(5, 1), cellE1);
     cells.put(new Coord(6, 1), cellA2);
+
+    tolerance = 0.000001;
   }
 
   @Test
   public void testVisitDoubleValue() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(14.0), func.visitDoubleValue(new DoubleValue(14.0)));
-    assertEquals(new Double(0.0), func.visitDoubleValue(new DoubleValue(0.0)));
-    assertEquals(new Double(1.2323), func.visitDoubleValue(new DoubleValue(1.2323)));
+    assertEquals(14.0, func.visitDoubleValue(new DoubleValue(14.0)), tolerance);
+    assertEquals(0.0, func.visitDoubleValue(new DoubleValue(0.0)), tolerance);
+    assertEquals(1.2323, func.visitDoubleValue(new DoubleValue(1.2323)), tolerance);
   }
 
   @Test
   public void testVisitStringValue() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.visitStringValue(new StringValue(":~)")));
-    assertEquals(new Double(0.0), func.visitStringValue(new StringValue("")));
+    assertEquals(0.0, func.visitStringValue(new StringValue(":~)")), tolerance);
+    assertEquals(0.0, func.visitStringValue(new StringValue("")), tolerance);
   }
 
   @Test
   public void testVisitBoolValue() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.visitBooleanValue(new BooleanValue(true)));
-    assertEquals(new Double(0.0), func.visitBooleanValue(new BooleanValue(false)));
+    assertEquals(0.0, func.visitBooleanValue(new BooleanValue(true)), tolerance);
+    assertEquals(0.0, func.visitBooleanValue(new BooleanValue(false)), tolerance);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -104,79 +108,79 @@ public class SumFunctionTest {
   @Test
   public void testVisitCellReference() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(2.0), func.visitCellReference(
-            new CellReference(new Coord(1, 1), new Coord(1, 1))));
-    assertEquals(new Double(5.0), func.visitCellReference(
-            new CellReference(new Coord(2, 1), new Coord(2, 1))));
-    assertEquals(new Double(2.0), func.visitCellReference(
-            new CellReference(new Coord(4, 1), new Coord(4, 1))));
-    assertEquals(new Double(14.0), func.visitCellReference(new CellReference(
-            new Coord(1, 1), new Coord(5, 1))));
+    assertEquals(2.0, func.visitCellReference(
+            new CellReference(new Coord(1, 1), new Coord(1, 1))), tolerance);
+    assertEquals(5.0, func.visitCellReference(
+            new CellReference(new Coord(2, 1), new Coord(2, 1))), tolerance);
+    assertEquals(2.0, func.visitCellReference(
+            new CellReference(new Coord(4, 1), new Coord(4, 1))), tolerance);
+    assertEquals(14.0, func.visitCellReference(new CellReference(
+            new Coord(1, 1), new Coord(5, 1))), tolerance);
   }
 
   @Test
   public void testVisitFunction() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(7.0), func.visitFunction(new Function(EFunctions.SUM,
-            new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo)))));
-    assertEquals(new Double(16.0), func.visitFunction(new Function(EFunctions.SUM,
+    assertEquals(7.0, func.visitFunction(new Function(EFunctions.SUM,
+            new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo)))), tolerance);
+    assertEquals(16.0, func.visitFunction(new Function(EFunctions.SUM,
             new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo, new Function(
                     EFunctions.SUM,
                     new ArrayList<>(Arrays.asList(new CellReference(new Coord(1, 1),
-                            new Coord(2, 1)), valueDoubleOne))))))));
-    assertEquals(new Double(0.0), func.visitFunction(new Function(EFunctions.SUM,
-            new ArrayList<>(Arrays.asList(valueStringOne)))));
-    assertEquals(new Double(0.0), func.visitFunction(new Function(EFunctions.CAPITALIZE,
-            new ArrayList<>(Arrays.asList(valueStringOne)))));
-    assertEquals(new Double(2.0), func.visitFunction(new Function(EFunctions.SUM,
-            new ArrayList<>(Arrays.asList(valueStringOne, valueDoubleOne)))));
+                            new Coord(2, 1)), valueDoubleOne))))))), tolerance);
+    assertEquals(0.0, func.visitFunction(new Function(EFunctions.SUM,
+            new ArrayList<>(Arrays.asList(valueStringOne)))), tolerance);
+    assertEquals(0.0, func.visitFunction(new Function(EFunctions.CAPITALIZE,
+            new ArrayList<>(Arrays.asList(valueStringOne)))), tolerance);
+    assertEquals(2.0, func.visitFunction(new Function(EFunctions.SUM,
+            new ArrayList<>(Arrays.asList(valueStringOne, valueDoubleOne)))), tolerance);
   }
 
   @Test
   public void testApply() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(2.0), func.apply(valueDoubleOne));
-    assertEquals(new Double(5.0), func.apply(valueDoubleTwo));
-    assertEquals(new Double(2.0), func.apply(new CellReference(new Coord(1, 1),
-            new Coord(1, 1))));
-    assertEquals(new Double(5.0), func.apply(new CellReference(new Coord(2, 1),
-            new Coord(2, 1))));
-    assertEquals(new Double(2.0), func.apply(new CellReference(new Coord(4, 1),
-            new Coord(4, 1))));
+    assertEquals(2.0, func.apply(valueDoubleOne), tolerance);
+    assertEquals(5.0, func.apply(valueDoubleTwo), tolerance);
+    assertEquals(2.0, func.apply(new CellReference(new Coord(1, 1),
+            new Coord(1, 1))), tolerance);
+    assertEquals(5.0, func.apply(new CellReference(new Coord(2, 1),
+            new Coord(2, 1))), tolerance);
+    assertEquals(2.0, func.apply(new CellReference(new Coord(4, 1),
+            new Coord(4, 1))), tolerance);
     List<Formula> args = new ArrayList<>(Arrays.asList(valueDoubleOne, valueDoubleTwo));
-    assertEquals(new Double(7.0), func.apply(new Function(EFunctions.SUM, args)));
+    assertEquals(7.0, func.apply(new Function(EFunctions.SUM, args)), tolerance);
   }
 
   @Test
   public void testInvalidApplyString() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.apply(valueStringOne));
+    assertEquals(0.0, func.apply(valueStringOne), tolerance);
   }
 
   @Test
   public void testInvalidApplyEmptyString() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.apply(new StringValue("")));
+    assertEquals(0.0, func.apply(new StringValue("")), tolerance);
   }
 
   @Test
   public void testInvalidBoolApplyOne() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.apply(new BooleanValue(true)));
-    assertEquals(new Double(0.0), func.apply(new BooleanValue(false)));
+    assertEquals(0.0, func.apply(new BooleanValue(true)), tolerance);
+    assertEquals(0.0, func.apply(new BooleanValue(false)), tolerance);
   }
 
   @Test
   public void testInvalidCellReference() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.apply(new CellReference(new Coord(3, 1),
-            new Coord(3, 1))));
+    assertEquals(0.0, func.apply(new CellReference(new Coord(3, 1),
+            new Coord(3, 1))), tolerance);
   }
 
   @Test
   public void testInvalidApplyFunction() {
     SumFunction func = new SumFunction(cells, evaluated);
-    assertEquals(new Double(0.0), func.apply(new Function(EFunctions.CAPITALIZE,
-            new ArrayList<>(Arrays.asList(valueStringOne)))));
+    assertEquals(0.0, func.apply(new Function(EFunctions.CAPITALIZE,
+            new ArrayList<>(Arrays.asList(valueStringOne)))), tolerance);
   }
 }
