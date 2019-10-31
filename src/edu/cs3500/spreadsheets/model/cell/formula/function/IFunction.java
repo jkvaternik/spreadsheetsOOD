@@ -7,13 +7,6 @@ import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 public interface IFunction extends Formula {
 
   /**
-   * Gets the arguments to this function.
-   *
-   * @return The arguments
-   */
-  List<Formula> getArgs();
-
-  /**
    * Adds an argument to the function.
    *
    * @param arg The argument to add

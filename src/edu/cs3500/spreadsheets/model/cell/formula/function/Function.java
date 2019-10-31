@@ -114,11 +114,6 @@ public class Function implements IFunction {
   }
 
   @Override
-  public List<Formula> getArgs() {
-    return this.args;
-  }
-
-  @Override
   public void addArg(Formula arg) {
     this.args.add(arg);
   }

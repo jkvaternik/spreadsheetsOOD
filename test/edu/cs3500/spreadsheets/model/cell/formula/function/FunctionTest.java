@@ -171,18 +171,6 @@ public class FunctionTest {
   }
 
   @Test
-  public void testGetArgs() {
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), sumFunctionOne.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), productFunctionOne.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellA1.evaluate(cells, evaluated),
-            cellB1.evaluate(cells, evaluated))), lessThanFunction.getArgs());
-    assertEquals(new ArrayList<>(Arrays.asList(cellC1.evaluate(cells, evaluated))),
-            capitalizeFunction.getArgs());
-  }
-
-  @Test
   public void testAddArgs() {
     Function sum = new Function(EFunctions.SUM, null);
     Function product = new Function(EFunctions.PRODUCT, null);
