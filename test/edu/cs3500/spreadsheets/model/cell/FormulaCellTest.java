@@ -112,6 +112,12 @@ public class FormulaCellTest {
   }
 
   @Test
+  public void testReferencesCell() {
+    assertFalse(doubleOne.referencesCell(new Coord(1, 1)));
+    assertTrue(cellSingleRef.referencesCell(new Coord(1, 1)));
+  }
+
+  @Test
   public void testToString() {
     assertEquals("3.0", doubleOne.toString());
     assertEquals("8.0", doubleTwo.toString());

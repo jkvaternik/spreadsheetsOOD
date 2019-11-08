@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -57,6 +58,11 @@ public class DoubleValueTest {
   public void testGetValue() {
     assertEquals(5.6, d2.getValue(), 0.0001);
     assertEquals(-5.6, d3.getValue(), 0.0001);
+  }
+
+  @Test
+  public void testReferencesCell() {
+    assertFalse(d3.referencesCell(new Coord(12, 199)));
   }
 
   @Test

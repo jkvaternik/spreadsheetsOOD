@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -57,6 +58,11 @@ public class StringValueTest {
   public void testGetValue() {
     assertEquals("Jack says \"Hi\". Jill has one backslash \\ here.", s1.getValue());
     assertEquals("\\hello", s2.getValue());
+  }
+
+  @Test
+  public void testReferencesCell() {
+    assertFalse(s1.referencesCell(new Coord(12, 199)));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -55,6 +56,11 @@ public class ErrorValueTest {
   @Test
   public void testGetValue() {
     assertEquals("Function could not be evaluated.", e1.getValue().getMessage());
+  }
+
+  @Test
+  public void testReferencesCell() {
+    assertFalse(e1.referencesCell(new Coord(12, 199)));
   }
 
   @Test(expected = IllegalStateException.class)

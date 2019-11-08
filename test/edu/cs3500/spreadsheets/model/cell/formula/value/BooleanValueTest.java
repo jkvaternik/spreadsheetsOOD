@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell.formula.value;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -56,6 +57,11 @@ public class BooleanValueTest {
   public void testGetValue() {
     assertEquals(true, b1.getValue());
     assertEquals(false, b2.getValue());
+  }
+
+  @Test
+  public void testReferencesCell() {
+    assertFalse(b1.referencesCell(new Coord(12, 199)));
   }
 
   @Test

@@ -246,6 +246,12 @@ public class FunctionTest {
   }
 
   @Test
+  public void testReferencesCell() {
+    assertTrue(cyclicFunctionSumOne.referencesCell(new Coord(1, 3)));
+    assertFalse(cyclicFunctionSumOne.referencesCell(new Coord(3, 3)));
+  }
+
+  @Test
   public void testAddArgs() {
     Function sum = new Function(EFunctions.SUM, null);
     Function product = new Function(EFunctions.PRODUCT, null);

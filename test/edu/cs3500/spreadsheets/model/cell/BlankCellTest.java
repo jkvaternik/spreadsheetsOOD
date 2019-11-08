@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -32,6 +33,11 @@ public class BlankCellTest {
   @Test
   public void testContainsCycle() {
     assertFalse(bc.containsCyclicalReference(new HashSet<>(), new Hashtable<>(), new HashSet<>()));
+  }
+
+  @Test
+  public void testReferencesCell() {
+    assertFalse(bc.referencesCell(new Coord(1, 1)));
   }
 
   @Test

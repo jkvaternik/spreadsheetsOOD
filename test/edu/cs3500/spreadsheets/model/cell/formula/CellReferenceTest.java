@@ -100,6 +100,14 @@ public class CellReferenceTest {
   }
 
   @Test
+  public void testReferencesCell() {
+    assertFalse(refMultiRegion.referencesCell(new Coord(12, 199)));
+    assertTrue(refMultiRegion.referencesCell(new Coord(2, 2)));
+    assertTrue(refMultiRegion.referencesCell(new Coord(3, 2)));
+    assertTrue(refMultiRegion.referencesCell(new Coord(1, 1)));
+  }
+
+  @Test
   public void testAccept() {
     assertEquals(12.0, refSingle.accept(new SumFunction(cells,
             new Hashtable<>())), tolerance);
