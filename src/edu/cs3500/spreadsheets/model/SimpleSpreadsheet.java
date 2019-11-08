@@ -76,13 +76,15 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {
       toAdd = new FormulaCell(
-              (new Parser().parse(contents.substring(1))).accept(new SexpVisitorFormula()),
+              (Parser.parse(contents.substring(1))).accept(new SexpVisitorFormula()),
               contents);
       this.cells.put(coord, toAdd);
       if (toAdd.containsCyclicalReference(new HashSet<>(), this.cells, new HashSet<>())) {
         this.errorCoords.add(coord);
-        this.cells.put(coord, new FormulaCell(new ErrorValue(
-                new IllegalStateException("This cell contains a cyclical reference.")), contents));
+        toAdd = new FormulaCell(new ErrorValue(
+            new IllegalStateException("This cell contains a cyclical reference.")), contents);
+        toAdd.evaluate(cells, new Hashtable<>());
+        this.cells.put(coord, toAdd);
       } else {
         toAdd.evaluate(this.cells, new Hashtable<>());
         if (toAdd.getValue().accept(new IsErrorFunction())) {
