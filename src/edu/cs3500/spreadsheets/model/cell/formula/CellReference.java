@@ -18,8 +18,8 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * one for single references and one for multi references.
  */
 public class CellReference implements Formula {
-  Coord from;
-  Coord to;
+  private final Coord from;
+  private final Coord to;
 
   /**
    * Creates a cell reference based on the boundary coordinates of the reference region. Note: If
@@ -40,7 +40,7 @@ public class CellReference implements Formula {
     }
     List<Cell> refs = this.getAllCells(cells);
     if (refs.size() == 1) {
-      Value value = refs.get(0).evaluate(cells, values);
+      Value value = refs.get(0).getValue();
       values.put(this, value);
       return value;
     } else {

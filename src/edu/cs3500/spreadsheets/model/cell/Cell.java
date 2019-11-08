@@ -8,9 +8,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.Formula;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
- * Represents one cell in a spreadsheet. TODO: Consider making this an abstract class, since the
- * only thing that changes between implementations is the evaluate() method. Both also have value
- * and cellString fields.
+ * Represents one cell in a spreadsheet.
  */
 public interface Cell {
 

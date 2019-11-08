@@ -53,7 +53,7 @@ public class SumFunction implements FormulaVisitor<Double> {
     List<Cell> references = ref.getAllCells(this.cells);
     double result = 0.0;
     for (Cell c : references) {
-      result += this.apply(c.evaluate(this.cells, values));
+      result += this.apply(c.getValue());
     }
     return result;
   }

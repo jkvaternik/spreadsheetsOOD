@@ -53,7 +53,7 @@ public class CapitalizeFunction implements FormulaVisitor<String> {
   public String visitCellReference(CellReference ref) throws IllegalStateException {
     List<Cell> references = ref.getAllCells(this.cells);
     if (references.size() == 1) {
-      return this.apply(references.get(0).evaluate(this.cells, this.values));
+      return this.apply(references.get(0).getValue());
     } else {
       throw new IllegalStateException("Invalid argument to CAPITALIZE.");
     }

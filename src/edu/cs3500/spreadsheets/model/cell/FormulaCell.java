@@ -14,8 +14,8 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents a cell which contains a formula.
  */
 public class FormulaCell implements Cell {
-  private Formula formula;
-  private String rawContents;
+  private final Formula formula;
+  private final String rawContents;
   private Value value;
 
   /**
