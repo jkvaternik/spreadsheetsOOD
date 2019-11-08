@@ -79,7 +79,7 @@ public class CellReferenceTest {
 
   @Test
   public void testEvaluate() {
-    assertEquals(cellA1.evaluate(cells, new Hashtable<>()),
+    assertEquals(cellA1.getValue(),
             refSingle.evaluate(cells, new Hashtable<>()));
     assertEquals(new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference.")),
             refMultiRow.evaluate(cells, new Hashtable<>()));

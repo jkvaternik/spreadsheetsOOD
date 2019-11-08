@@ -56,6 +56,7 @@ public class ProductFunction implements FormulaVisitor<Double> {
     List<Cell> references = ref.getAllCells(this.cells);
     double result = 1.0;
     for (Cell c : references) {
+      c.evaluate(this.cells, this.values);
       result = result * this.apply(c.getValue());
     }
     return result;

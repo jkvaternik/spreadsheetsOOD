@@ -21,7 +21,7 @@ public class BlankCellTest {
 
   @Test
   public void testEvaluate() {
-    assertEquals(new StringValue(""), bc.evaluate(new Hashtable<>(), new Hashtable<>()));
+    assertEquals(new StringValue(""), bc.getValue());
   }
 
   @Test

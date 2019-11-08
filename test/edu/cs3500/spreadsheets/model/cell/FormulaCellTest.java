@@ -54,20 +54,27 @@ public class FormulaCellTest {
     cells = new Hashtable<>();
     cells.put(new Coord(1, 1), doubleOne);
     cells.put(new Coord(1, 2), doubleTwo);
+    cells.put(new Coord(1, 3), stringEmpty);
+    cells.put(new Coord(1, 4), string);
+    cells.put(new Coord(1, 5), boolTrue);
+    cells.put(new Coord(1, 6), cellFunction);
+
+    for (Cell c : cells.values()) {
+      c.evaluate(cells, new Hashtable<>());
+    }
+
     cells.put(new Coord(2, 1), cellSelfReferenceCycleOne);
     cells.put(new Coord(2, 2), cellSelfReferenceCycleTwo);
-
   }
 
   @Test
   public void testEvaluate() {
-    assertEquals(new DoubleValue(3.0), doubleOne.evaluate(cells, new Hashtable<>()));
-    assertEquals(new DoubleValue(8.0), doubleTwo.evaluate(cells, new Hashtable<>()));
-    assertEquals(new StringValue(""), stringEmpty.evaluate(cells, new Hashtable<>()));
-    assertEquals(new StringValue(":-3"), string.evaluate(cells, new Hashtable<>()));
-    assertEquals(new BooleanValue(true), boolTrue.evaluate(cells, new Hashtable<>()));
-    assertEquals(new DoubleValue(3.0), cellSingleRef.evaluate(cells, new Hashtable<>()));
-    assertEquals(new DoubleValue(11.0), cellFunction.evaluate(cells, new Hashtable<>()));
+    assertEquals(new DoubleValue(3.0), doubleOne.getValue());
+    assertEquals(new DoubleValue(8.0), doubleTwo.getValue());
+    assertEquals(new StringValue(""), stringEmpty.getValue());
+    assertEquals(new StringValue(":-3"), string.getValue());
+    assertEquals(new BooleanValue(true), boolTrue.getValue());
+    assertEquals(new DoubleValue(11.0), cellFunction.getValue());
   }
 
   // TODO: do we want to remove this? same thing as toString...

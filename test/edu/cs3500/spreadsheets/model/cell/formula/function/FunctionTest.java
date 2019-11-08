@@ -107,6 +107,10 @@ public class FunctionTest {
     cells.put(new Coord(4, 2), cellD2);
     cells.put(new Coord(1, 3), cellA3);
     cells.put(new Coord(2, 3), cellB3);
+    
+    for (Cell c : cells.values()) {
+      c.evaluate(cells, evaluated);
+    }
 
     evaluated.put(new DoubleValue(6.0), new DoubleValue(6.0));
     evaluated.put(new DoubleValue(3.0), new DoubleValue(3.0));
@@ -121,42 +125,41 @@ public class FunctionTest {
     evaluated.put(new CellReference(new Coord(1, 1), new Coord(3, 2)),
             new ErrorValue(new IllegalArgumentException("Can't evaluate a multi-reference.")));
 
-
     sumFunctionOne = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellB1.getValue())));
     sumFunctionTwo = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellA1.getValue())));
     sumFunctionThree = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 1), new Coord(2, 2)))));
     sumFunctionFour = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellC1.getValue())));
 
     productFunctionOne = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellB1.getValue())));
     productFunctionTwo = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellA1.getValue())));
     productFunctionThree = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 1), new Coord(2, 2)))));
     productFunctionFour = new Function(EFunctions.PRODUCT, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellC1.getValue())));
 
     lessThanFunctionOne = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellB1.getValue())));
     lessThanFunctionTwo = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated), cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue(), cellA1.getValue())));
     lessThanFunctionThree = new Function(EFunctions.LESSTHAN, Arrays.asList(
             new CellReference(new Coord(1, 1), new Coord(2, 2))));
     lessThanFunctionFour = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
-            cellC1.evaluate(cells, evaluated), cellB1.evaluate(cells, evaluated))));
+            cellC1.getValue(), cellB1.getValue())));
 
     capitalizeFunctionOne = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
-            cellC1.evaluate(cells, evaluated))));
+            cellC1.getValue())));
     capitalizeFunctionTwo = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
-            cellC1.evaluate(cells, evaluated), cellC1.evaluate(cells, evaluated))));
+            cellC1.getValue(), cellC1.getValue())));
     capitalizeFunctionThree = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(3, 1), new Coord(3, 2)))));
     capitalizeFunctionFour = new Function(EFunctions.CAPITALIZE, new ArrayList<>(Arrays.asList(
-            cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue())));
 
     cyclicFunctionSumOne = new Function(EFunctions.SUM, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 3), new Coord(1, 3)),
@@ -170,10 +173,10 @@ public class FunctionTest {
             new CellReference(new Coord(2, 3), new Coord(2, 3)))));
     cyclicFunctionLessThanOne = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(1, 3), new Coord(1, 3)),
-            cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue())));
     cyclicFunctionLessThanTwo = new Function(EFunctions.LESSTHAN, new ArrayList<>(Arrays.asList(
             new CellReference(new Coord(2, 3), new Coord(2, 3)),
-            cellA1.evaluate(cells, evaluated))));
+            cellA1.getValue())));
 
     tolerance = 0.00000001;
   }

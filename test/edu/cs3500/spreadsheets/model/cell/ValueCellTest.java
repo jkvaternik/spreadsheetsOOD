@@ -28,11 +28,11 @@ public class ValueCellTest {
 
   @Test
   public void testEvaluate() {
-    assertEquals(new BooleanValue(true), bv.evaluate(new Hashtable<>(), new Hashtable<>()));
-    assertEquals(new StringValue("hi"), sv.evaluate(new Hashtable<>(), new Hashtable<>()));
-    assertEquals(new DoubleValue(6.0), dv.evaluate(new Hashtable<>(), new Hashtable<>()));
+    assertEquals(new BooleanValue(true), bv.getValue());
+    assertEquals(new StringValue("hi"), sv.getValue());
+    assertEquals(new DoubleValue(6.0), dv.getValue());
     assertEquals(new ErrorValue(new IllegalArgumentException("Cell cannot reference itself.")),
-            ev.evaluate(new Hashtable<>(), new Hashtable<>()));
+            ev.getValue());
   }
 
   @Test
