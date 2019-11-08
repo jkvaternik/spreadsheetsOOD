@@ -85,7 +85,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
                 new IllegalStateException("This cell contains a cyclical reference.")), contents));
       } else {
         toAdd.evaluate(this.cells, new Hashtable<>());
-        if (toAdd.evaluate(this.cells, new Hashtable<>()).accept(new IsErrorFunction())) {
+        if (toAdd.getValue().accept(new IsErrorFunction())) {
           this.errorCoords.add(coord);
         }
         this.cells.put(coord, toAdd);
@@ -99,6 +99,29 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     } else {
       toAdd = new ValueCell(contents, new StringValue(contents));
       this.cells.put(coord, toAdd);
+    }
+
+    // After altering the value of a cell, re-evaluate all cells which depend on it
+    this.reEvaluateCells(coord);
+  }
+
+  /**
+   * Re-evaluates every cell that depends on the Cell at the given Coord, then recursively
+   * re-evaluates all of those cell's dependants.
+   * INVARIANT: This method will not run until we check for cycles, so it is guaranteed that this
+   * recursion will terminate.
+   * Side Note: A cell may be re-evaluated multiple times (i.e. if C1 references A1 and B1, and B1
+   * references A1), but at the termination of the recursion, it will have the correct value.
+   *
+   * @param coord The coordinate of the cell that changed
+   */
+  private void reEvaluateCells(Coord coord) {
+    if (this.cells.containsKey(coord)) {
+      for (Cell cell : this.cells.values()) {
+        if (cell.referencesCell(coord)) {
+          cell.evaluate(cells, new Hashtable<>());
+        }
+      }
     }
   }
 
@@ -127,7 +150,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public String getValue(Coord coord) {
     if (this.cells.containsKey(coord)) {
-      return this.cells.get(coord).evaluate(this.cells, new Hashtable<>()).toString();
+      return this.cells.get(coord).getValue().toString();
     } else {
       return "";
     }

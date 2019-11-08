@@ -13,9 +13,10 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
  * Represents a blank cell.
  */
 public class BlankCell implements Cell {
+
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
-    return new StringValue("");
+  public void evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+    //Do nothing, since BlankCell's always have a constant value
   }
 
   @Override
@@ -28,6 +29,16 @@ public class BlankCell implements Cell {
                                            Hashtable<Coord, Cell> cells,
                                            HashSet<Coord> coordsNoCycle) {
     return false;
+  }
+
+  @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
+  public Value getValue() {
+    return new StringValue("");
   }
 
   @Override

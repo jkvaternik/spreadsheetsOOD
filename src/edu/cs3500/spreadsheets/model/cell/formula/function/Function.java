@@ -120,6 +120,16 @@ public class Function implements IFunction {
   }
 
   @Override
+  public boolean referencesCell(Coord coord) {
+    for (Formula arg : this.args) {
+      if (arg.referencesCell(coord)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
   public void addArg(Formula arg) {
     this.args.add(arg);
   }

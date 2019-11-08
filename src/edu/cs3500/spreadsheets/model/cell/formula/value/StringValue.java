@@ -45,6 +45,11 @@ public class StringValue implements Value {
   }
 
   @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
   public String getValue() {
     return this.value;
   }

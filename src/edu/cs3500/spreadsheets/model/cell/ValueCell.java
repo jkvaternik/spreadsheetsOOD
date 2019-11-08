@@ -27,8 +27,8 @@ public class ValueCell implements Cell {
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
-    return this.value;
+  public void evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+    //Do nothing, as a ValueCell's value never changes.
   }
 
   @Override
@@ -41,6 +41,16 @@ public class ValueCell implements Cell {
                                            Hashtable<Coord, Cell> cells,
                                            HashSet<Coord> coordsNoCycle) {
     return false;
+  }
+
+  @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
+  public Value getValue() {
+    return this.value;
   }
 
   @Override

@@ -76,6 +76,11 @@ public class CellReference implements Formula {
     return false;
   }
 
+  @Override
+  public boolean referencesCell(Coord coord) {
+    return this.getAllCoords().contains(coord);
+  }
+
   private List<Coord> getAllCoords() {
     int fromCol = from.col;
     int fromRow = from.row;

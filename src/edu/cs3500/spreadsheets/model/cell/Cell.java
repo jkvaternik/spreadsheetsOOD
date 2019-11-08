@@ -21,7 +21,7 @@ public interface Cell {
    * @param values The formulas which have already been computed (for optimization)
    * @return The evaluated value
    */
-  Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values);
+  void evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values);
 
 
   /**
@@ -44,4 +44,17 @@ public interface Cell {
    */
   boolean containsCyclicalReference(HashSet<Coord> visitedCoords, Hashtable<Coord, Cell> cells,
                                     HashSet<Coord> coordsNoCycle);
+
+  /**
+   * Determines if this cell references the cell at the given Coord.
+   * @param coord The coord of the reference cell.
+   * @return Whether or not this cell references the cell at the Coord.
+   */
+  boolean referencesCell(Coord coord);
+
+  /**
+   * Gets the Value of the given cell.
+   * @return The Value
+   */
+  Value getValue();
 }

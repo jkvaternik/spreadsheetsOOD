@@ -45,6 +45,11 @@ public class BooleanValue implements Value {
   }
 
   @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
   public Boolean getValue() {
     return this.value;
   }

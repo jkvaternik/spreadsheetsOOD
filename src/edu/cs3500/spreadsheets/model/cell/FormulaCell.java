@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.model.cell;
 
+import edu.cs3500.spreadsheets.model.cell.formula.value.StringValue;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 public class FormulaCell implements Cell {
   private Formula formula;
   private String rawContents;
+  private Value value;
 
   /**
    * Creates an instance of the formula cell based on the given formula, string, and value.
@@ -25,11 +27,12 @@ public class FormulaCell implements Cell {
   public FormulaCell(Formula formula, String rawContents) {
     this.formula = formula;
     this.rawContents = rawContents;
+    this.value = new StringValue("");
   }
 
   @Override
-  public Value evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
-    return this.formula.evaluate(cells, values);
+  public void evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values) {
+    this.value = this.formula.evaluate(cells, values);
   }
 
   @Override
@@ -42,6 +45,16 @@ public class FormulaCell implements Cell {
                                            Hashtable<Coord, Cell> cells,
                                            HashSet<Coord> coordsNoCycle) {
     return this.formula.containsCyclicalReference(visitedCoords, cells, coordsNoCycle);
+  }
+
+  @Override
+  public boolean referencesCell(Coord coord) {
+    return this.formula.referencesCell(coord);
+  }
+
+  @Override
+  public Value getValue() {
+    return this.value;
   }
 
   @Override

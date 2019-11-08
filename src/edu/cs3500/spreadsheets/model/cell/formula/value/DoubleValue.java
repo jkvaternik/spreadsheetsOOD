@@ -45,6 +45,11 @@ public class DoubleValue implements Value {
   }
 
   @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
   public Double getValue() {
     return this.value;
   }

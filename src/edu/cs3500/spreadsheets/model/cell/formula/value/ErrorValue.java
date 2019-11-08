@@ -45,6 +45,11 @@ public class ErrorValue implements Value {
   }
 
   @Override
+  public boolean referencesCell(Coord coord) {
+    return false;
+  }
+
+  @Override
   public Exception getValue() {
     return this.value;
   }

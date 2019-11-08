@@ -10,7 +10,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
  * Represents a cell formula. A formula can be a value, a function, or a reference to one or more
- * cells. TODO: Determine what methods should be in this interface.
+ * cells.
  */
 public interface Formula {
   /**
@@ -44,4 +44,11 @@ public interface Formula {
    */
   boolean containsCyclicalReference(HashSet<Coord> visitedCoords, Hashtable<Coord, Cell> cells,
                                     HashSet<Coord> coordsNoCycle);
+
+  /**
+   * Determines if this formula references the cell at the given Coord.
+   * @param coord The coord of the reference cell.
+   * @return Whether or not this formula references the cell at the Coord.
+   */
+  boolean referencesCell(Coord coord);
 }
