@@ -146,7 +146,7 @@ public class SimpleSpreadsheetModelTest {
     assertEquals("false", spreadsheetOne.getValue(new Coord(2, 3)));
 
     assertEquals("This cell contains a cyclical reference.",
-            spreadsheetThree.getValue(new Coord(2, 1)));
+            spreadsheetThree.getValue(new Coord(1, 1)));
   }
 
   @Test
