@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.view;
+package edu.cs3500.spreadsheets.model;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;

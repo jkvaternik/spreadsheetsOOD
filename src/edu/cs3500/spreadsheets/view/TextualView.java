@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.ViewModel;
 import java.io.IOException;
 
 /**
@@ -21,9 +22,9 @@ public class TextualView implements View {
     int cols = this.viewModel.getNumColumns();
     for (int row = 1; row < rows; row++) {
       for (int col = 1; col < cols; col++) {
-        String val = this.viewModel.getValue(new Coord(row, col));
+        String val = this.viewModel.getRawContents(new Coord(row, col));
         try {
-          this.ap.append(val + "\n");
+          this.ap.append(val).append("\n");
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }
