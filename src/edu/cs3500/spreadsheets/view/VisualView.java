@@ -1,7 +1,9 @@
 package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.model.ViewModel;
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -9,6 +11,7 @@ import javax.swing.JFrame;
  */
 public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
+  private final JTable table;
 
   /*
     TODO (Idea for how to do this):
@@ -18,16 +21,29 @@ public class VisualView extends JFrame implements View {
    */
 
   public VisualView(ViewModel viewModel) {
+
+    //Make the frame
+    super("Spreadsheet");
+    this.setSize(500,500);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    //Set the layout of the different components
+    this.setLayout(new BorderLayout());
     this.viewModel = viewModel;
+    this.table = new JTable(10, 10);
+
+    this.add(table);
+
+    this.pack();
   }
 
   @Override
   public void makeVisible() {
-
+    this.setVisible(true);
   }
 
   @Override
   public void refresh() {
-
+    this.repaint();
   }
 }

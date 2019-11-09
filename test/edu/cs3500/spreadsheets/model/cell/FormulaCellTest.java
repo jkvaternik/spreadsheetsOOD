@@ -77,7 +77,6 @@ public class FormulaCellTest {
     assertEquals(new DoubleValue(11.0), cellFunction.getValue());
   }
 
-  // TODO: do we want to remove this? same thing as toString...
   @Test
   public void testGetRawContents() {
     assertEquals("3.0", doubleOne.getRawContents());
