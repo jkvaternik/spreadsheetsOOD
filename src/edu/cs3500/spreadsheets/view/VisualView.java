@@ -2,9 +2,10 @@ package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JTable;
+
+import java.awt.*;
+
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -15,7 +16,6 @@ import javax.swing.table.TableModel;
  */
 public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
-  private final JTable table;
 
   /*
     TODO:
@@ -27,26 +27,13 @@ public class VisualView extends JFrame implements View {
 
     //Make the frame
     super("Spreadsheet");
-    this.setSize(500,500);
+    this.setSize(500, 400);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setResizable(false);
 
-    //Sets up the Table model
-    int numRows = viewModel.getNumRows();
-    int numCols = viewModel.getNumColumns();
-    TableModel tm = new DefaultTableModel(Math.max(25, numRows), Math.max(25, numCols));
-    for (int row = 1; row <= numRows; row++) {
-      for (int col = 1; col <= numCols; col++) {
-        tm.setValueAt(viewModel.getValue(new Coord(col, row)), row - 1, col - 1);
-      }
-    }
-
-
-    //Set the layout of the different components
-    this.setLayout(new BorderLayout());
     this.viewModel = viewModel;
-    this.table = new JTable(tm);
 
-    this.add(table);
+    this.add(new SpreadsheetPanel(viewModel));
 
     this.pack();
   }
