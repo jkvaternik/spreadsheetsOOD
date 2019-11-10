@@ -16,10 +16,16 @@ public class SpreadsheetPanel extends JPanel {
 
   public SpreadsheetPanel(ViewModel viewModel) {
 
+    // TODO: Ask about scrolling and adding rows/columns to TableModel
+
     //Sets up the Table model
     int numRows = viewModel.getNumRows();
     int numCols = viewModel.getNumColumns();
-    TableModel tm = new DefaultTableModel(Math.max(26, numRows), Math.max(26, numCols));
+    TableModel tm = new DefaultTableModel(Math.max(26, numRows), Math.max(26, numCols)) {
+      public boolean isCellEditable(int row, int column) {
+        return false;
+      }
+    };
     for (int row = 1; row <= numRows; row++) {
       for (int col = 1; col <= numCols; col++) {
         tm.setValueAt(viewModel.getValue(new Coord(col, row)), row - 1, col - 1);
@@ -36,26 +42,31 @@ public class SpreadsheetPanel extends JPanel {
     this.table.setPreferredScrollableViewportSize(new Dimension(600, 400));
     this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-    DefaultListModel lm = new DefaultListModel();
-    for (int row = 1; row <= numRows; row++) {
-      lm.add(row - 1, row);
+    DefaultListModel rowLM = new DefaultListModel();
+    for (int row = 1; row <= table.getRowCount(); row++) {
+      rowLM.add(row - 1, row);
     }
 
-    JList rowHeader = new JList(lm);
+    DefaultListModel colLM = new DefaultListModel();
+    for (int col = 1; col <= table.getColumnCount(); col++) {
+      colLM.add(col - 1, Coord.colIndexToName(col));
+    }
+
+    JList rowHeader = new JList(rowLM);
     rowHeader.setFixedCellWidth(50);
-    rowHeader.setFixedCellHeight(table.getRowHeight() + table.getRowMargin());
-    rowHeader.setCellRenderer(new RowHeader(this.table));
+    rowHeader.setFixedCellHeight(table.getRowHeight());
+    rowHeader.setCellRenderer(new HeaderRenderer(this.table));
 
     JScrollPane scrollPane = new JScrollPane(this.table);
-
+    scrollPane.setRowHeaderView(rowHeader);
     this.add(scrollPane);
 
   }
 }
 
-class RowHeader extends JLabel implements ListCellRenderer {
+class HeaderRenderer extends JLabel implements ListCellRenderer {
 
-  RowHeader(JTable table) {
+  HeaderRenderer(JTable table) {
     JTableHeader header = table.getTableHeader();
     setOpaque(true);
     setBorder(UIManager.getBorder("TableHeader.cellBorder"));
@@ -63,6 +74,7 @@ class RowHeader extends JLabel implements ListCellRenderer {
     setForeground(header.getForeground());
     setBackground(header.getBackground());
     setFont(header.getFont());
+    setBackground(Color.lightGray);
   }
 
   public Component getListCellRendererComponent(JList list, Object value, int index,
