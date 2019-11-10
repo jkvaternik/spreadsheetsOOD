@@ -18,10 +18,9 @@ public class VisualView extends JFrame implements View {
   private final JTable table;
 
   /*
-    TODO (Idea for how to do this):
-     - Keep track of the top left and bottom right cell that are currently "in scope"
-     - Render columns and rows, and get the cell's value for each cell in the range (and display it)
-     - When we implement scrolling, all that should need to be updated is the "in scope" Coords.
+    TODO:
+      - Add row/col headers
+      - Add scrollPane
    */
 
   public VisualView(ViewModel viewModel) {
