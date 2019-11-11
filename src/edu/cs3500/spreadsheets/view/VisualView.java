@@ -16,10 +16,12 @@ import javax.swing.table.TableModel;
  */
 public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
-  private final SpreadsheetPanel spreadsheetPanel;
+  private SpreadsheetPanel spreadsheetPanel;
   private final JButton editButton;
+  private final JButton increaseSizeButton;
   private final JPanel editPanel;
   private final JTextField userInputField;
+
 
   /*
     TODO:
@@ -38,7 +40,7 @@ public class VisualView extends JFrame implements View {
 
     // Set up the layout of the main spreadsheet spreadsheet
     this.setLayout(new BorderLayout());
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, 50);
     this.spreadsheetPanel.setPreferredSize(new Dimension(500, 400));
     this.add(this.spreadsheetPanel, BorderLayout.CENTER);
 
@@ -54,6 +56,10 @@ public class VisualView extends JFrame implements View {
     // Set up the edit button (but have it do nothing for now)
     this.editButton = new JButton("Edit Cell");
     this.editPanel.add(this.editButton);
+
+    // Set up the increase size button (but have it do nothing for now)
+    this.increaseSizeButton = new JButton("Increase Size");
+    this.editPanel.add(this.increaseSizeButton);
 
     this.pack();
   }
