@@ -14,13 +14,15 @@ import javax.swing.table.TableModel;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 
-public class SpreadsheetPanel extends JPanel {
+public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
   private final ViewModel viewModel;
   int size;
   private final int CELL_WIDTH = 75;
   private final int CELL_HEIGHT = 25;
 
-  public SpreadsheetPanel(ViewModel viewModel, int size) {
+  private int maxUnitIncrement;
+
+  public SpreadsheetPanel(ViewModel viewModel, int size, int increment) {
 
     /* TODO: New plan
               - 3 Components in our frame: Row header, column header, and cells
@@ -32,6 +34,7 @@ public class SpreadsheetPanel extends JPanel {
     super();
     this.viewModel = viewModel;
     this.size = size;
+    this.maxUnitIncrement = increment;
 
     // Set up background
     this.setBackground(Color.WHITE);
@@ -71,6 +74,66 @@ public class SpreadsheetPanel extends JPanel {
     }
     g2d.setClip(initClip);
     g2d.setTransform(initState);
+  }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
+    Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
+    scrollRectToVisible(r);
+  }
+
+  @Override
+  public void mouseMoved(MouseEvent e) {
+
+  }
+
+  @Override
+  public Dimension getPreferredScrollableViewportSize() {
+    return super.getPreferredSize();
+  }
+
+  @Override
+  public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+//    //Get the current position.
+//    int currentPosition = 0;
+//    if (orientation == SwingConstants.HORIZONTAL) {
+//      currentPosition = visibleRect.x;
+//    } else {
+//      currentPosition = visibleRect.y;
+//    }
+//
+//    //Return the number of pixels between currentPosition
+//    //and the nearest tick mark in the indicated direction.
+//    if (direction < 0) {
+//      int newPosition = currentPosition -
+//              (currentPosition / maxUnitIncrement)
+//                      * maxUnitIncrement;
+//      return (newPosition == 0) ? maxUnitIncrement : newPosition;
+//    } else {
+//      return ((currentPosition / maxUnitIncrement) + 1)
+//              * maxUnitIncrement
+//              - currentPosition;
+//    }
+    return maxUnitIncrement;
+  }
+
+  @Override
+  public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+    if (orientation == SwingConstants.HORIZONTAL) {
+      return visibleRect.width - maxUnitIncrement;
+    } else {
+      return visibleRect.height - maxUnitIncrement;
+    }
+  }
+
+  @Override
+  public boolean getScrollableTracksViewportWidth() {
+    return false;
+  }
+
+  @Override
+  public boolean getScrollableTracksViewportHeight() {
+    return false;
   }
 }
 
