@@ -16,8 +16,13 @@ public class SpreadsheetPanel extends JPanel {
 
   public SpreadsheetPanel(ViewModel viewModel) {
 
-    // TODO: Ask about scrolling and adding rows/columns to TableModel
-
+    /* TODO: New plan
+              - 3 Components in our frame: Row header, column header, and cells
+              - The cell component consists of a Graphics2D drawing of a bunch of lines
+              - For controlling, we will have the notion of highlighting a cell and will have an
+                input text field where you can set the value of the highlighted cell
+              - Scrolling will be hard, but everything else should be easy
+     */
     //Sets up the Table model
     int numRows = viewModel.getNumRows();
     int numCols = viewModel.getNumColumns();
