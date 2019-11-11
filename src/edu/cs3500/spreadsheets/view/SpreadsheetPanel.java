@@ -47,11 +47,6 @@ public class SpreadsheetPanel extends JPanel {
       rowLM.add(row - 1, row);
     }
 
-    DefaultListModel colLM = new DefaultListModel();
-    for (int col = 1; col <= table.getColumnCount(); col++) {
-      colLM.add(col - 1, Coord.colIndexToName(col));
-    }
-
     JList rowHeader = new JList(rowLM);
     rowHeader.setFixedCellWidth(50);
     rowHeader.setFixedCellHeight(table.getRowHeight());
