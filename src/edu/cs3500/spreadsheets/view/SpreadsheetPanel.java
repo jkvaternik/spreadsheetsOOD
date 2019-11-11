@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -57,15 +58,19 @@ public class SpreadsheetPanel extends JPanel {
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
 
+    // Save the states prior to drawing, and restore them after
+    AffineTransform initState = g2d.getTransform();
+    Shape initClip = g2d.getClip();
+
     for (int row = 1; row <= maxCellRow; row++) {
       for (int col = 1; col <= maxCellCol; col++) {
         String value = this.viewModel.getValue(new Coord(col, row));
-        AffineTransform initState = g2d.getTransform();
-        g2d.setClip((col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
+        g2d.setClip((col - 1) * this.CELL_WIDTH, (row - 1) * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
         g2d.drawString(value, (col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT);
-        g2d.setTransform(initState);
       }
     }
+    g2d.setClip(initClip);
+    g2d.setTransform(initState);
   }
 }
 
