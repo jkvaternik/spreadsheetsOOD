@@ -2,6 +2,10 @@ package edu.cs3500.spreadsheets.view;
 
 import java.awt.*;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -12,70 +16,61 @@ import edu.cs3500.spreadsheets.model.ViewModel;
 
 public class SpreadsheetPanel extends JPanel {
   private final ViewModel viewModel;
-  private final JTable table;
+  int size;
+  private final int CELL_WIDTH = 75;
+  private final int CELL_HEIGHT = 25;
 
-  public SpreadsheetPanel(ViewModel viewModel) {
+  public SpreadsheetPanel(ViewModel viewModel, int size) {
 
-    // TODO: Ask about scrolling and adding rows/columns to TableModel
-
-    //Sets up the Table model
-    int numRows = viewModel.getNumRows();
-    int numCols = viewModel.getNumColumns();
-    TableModel tm = new DefaultTableModel(Math.max(26, numRows), Math.max(26, numCols)) {
-      public boolean isCellEditable(int row, int column) {
-        return false;
-      }
-    };
-    for (int row = 1; row <= numRows; row++) {
-      for (int col = 1; col <= numCols; col++) {
-        tm.setValueAt(viewModel.getValue(new Coord(col, row)), row - 1, col - 1);
-      }
-    }
-
-    // Set the layout of the different components
-    this.setLayout(new BorderLayout());
+    /* TODO: New plan
+              - 3 Components in our frame: Row header, column header, and cells
+              - The cell component consists of a Graphics2D drawing of a bunch of lines
+              - For controlling, we will have the notion of highlighting a cell and will have an
+                input text field where you can set the value of the highlighted cell
+              - Scrolling will be hard, but everything else should be easy
+     */
+    super();
     this.viewModel = viewModel;
-    this.table = new JTable(tm);
+    this.size = size;
 
-    // Set the table UI properties
-    this.table.setGridColor(Color.gray);
-    this.table.setPreferredScrollableViewportSize(new Dimension(600, 400));
-    this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    // Set up background
+    this.setBackground(Color.WHITE);
+  }
 
-    DefaultListModel rowLM = new DefaultListModel();
-    for (int row = 1; row <= table.getRowCount(); row++) {
-      rowLM.add(row - 1, row);
+  @Override
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setColor(Color.BLACK);
+
+    int maxHeight = this.size * this.CELL_HEIGHT;
+    int maxWidth = this.size * this.CELL_WIDTH;
+
+    // Draw all of the cell borders
+    for (int horizLine = 0; horizLine <= size; horizLine++) {
+      g2d.drawLine(0, horizLine * CELL_HEIGHT, maxWidth, horizLine * CELL_HEIGHT);
+    }
+    for (int vertLine = 0; vertLine <= size; vertLine++) {
+      g2d.drawLine(vertLine * CELL_WIDTH, 0, vertLine * CELL_WIDTH, maxHeight);
     }
 
-    JList rowHeader = new JList(rowLM);
-    rowHeader.setFixedCellWidth(50);
-    rowHeader.setFixedCellHeight(table.getRowHeight());
-    rowHeader.setCellRenderer(new HeaderRenderer(this.table));
+    //Display all of the correct text
+    int maxCellRow = this.viewModel.getNumRows();
+    int maxCellCol = this.viewModel.getNumColumns();
 
-    JScrollPane scrollPane = new JScrollPane(this.table);
-    scrollPane.setRowHeaderView(rowHeader);
-    this.add(scrollPane);
+    // Save the states prior to drawing, and restore them after
+    AffineTransform initState = g2d.getTransform();
+    Shape initClip = g2d.getClip();
 
-  }
-}
-
-class HeaderRenderer extends JLabel implements ListCellRenderer {
-
-  HeaderRenderer(JTable table) {
-    JTableHeader header = table.getTableHeader();
-    setOpaque(true);
-    setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-    setHorizontalAlignment(CENTER);
-    setForeground(header.getForeground());
-    setBackground(header.getBackground());
-    setFont(header.getFont());
-    setBackground(Color.lightGray);
-  }
-
-  public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                boolean isSelected, boolean cellHasFocus) {
-    setText(value.toString());
-    return this;
+    for (int row = 1; row <= maxCellRow; row++) {
+      for (int col = 1; col <= maxCellCol; col++) {
+        String value = this.viewModel.getValue(new Coord(col, row));
+        g2d.setClip((col - 1) * this.CELL_WIDTH, (row - 1) * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
+        g2d.drawString(value, (col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT);
+      }
+    }
+    g2d.setClip(initClip);
+    g2d.setTransform(initState);
   }
 }
 
