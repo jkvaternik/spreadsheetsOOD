@@ -40,9 +40,11 @@ public class VisualView extends JFrame implements View {
 
     // Set up the layout of the main spreadsheet spreadsheet
     this.setLayout(new BorderLayout());
+    // TODO: Make the initial spreadsheet 50 or the max of number of rows/cols
     this.spreadsheetPanel = new SpreadsheetPanel(viewModel, 50);
-    this.spreadsheetPanel.setPreferredSize(new Dimension(500, 400));
-    this.add(this.spreadsheetPanel, BorderLayout.CENTER);
+    this.spreadsheetPanel.setPreferredSize(new Dimension(1000, 400));
+    JScrollPane scrollPane = new JScrollPane(this.spreadsheetPanel);
+    this.add(scrollPane, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
     this.editPanel = new JPanel();

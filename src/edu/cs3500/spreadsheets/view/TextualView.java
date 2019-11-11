@@ -2,7 +2,10 @@ package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.IOException;
+import javax.swing.Scrollable;
 
 /**
  * Represents a textual view of a spreadsheet. This view writes the model to an appendable.
