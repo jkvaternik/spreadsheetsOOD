@@ -38,11 +38,11 @@ public class VisualView extends JFrame implements View {
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(1000, 600));
     // Modify JScrollPane
-    DefaultListModel rowsList = new DefaultListModel();
-    DefaultListModel colsList = new DefaultListModel();
+    DefaultListModel<String> rowsList = new DefaultListModel<>();
+    DefaultListModel<String> colsList = new DefaultListModel<>();
 
     for (int i = 0; i < this.getMaxDimension().height; i++) {
-      rowsList.add(i, i + 1);
+      rowsList.add(i, Integer.toString(i + 1));
     }
 
     for (int j = 0; j < this.getMaxDimension().width; j++) {
@@ -50,8 +50,8 @@ public class VisualView extends JFrame implements View {
     }
 
     // Create row and column headers
-    JList rows = new JList(rowsList);
-    JList cols = new JList(colsList);
+    JList<String> rows = new JList<>(rowsList);
+    JList<String> cols = new JList<>(colsList);
 
     rows.setFixedCellWidth(75);
     rows.setFixedCellHeight(25);
@@ -108,7 +108,7 @@ public class VisualView extends JFrame implements View {
     return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
   }
 
-  class HeaderRenderer extends JLabel implements ListCellRenderer {
+  static class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
 
     HeaderRenderer() {
       setOpaque(true);
@@ -119,9 +119,8 @@ public class VisualView extends JFrame implements View {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                  boolean isSelected, boolean cellHasFocus) {
-      setText(value.toString());
+    public Component getListCellRendererComponent(JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) {
+      setText(value);
       return this;
     }
   }

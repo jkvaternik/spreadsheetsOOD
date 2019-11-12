@@ -1,20 +1,20 @@
 package edu.cs3500.spreadsheets;
 
-import edu.cs3500.spreadsheets.model.SpreadsheetModel;
-import edu.cs3500.spreadsheets.model.ViewModel;
-import edu.cs3500.spreadsheets.view.TextualView;
-import edu.cs3500.spreadsheets.view.View;
-import edu.cs3500.spreadsheets.view.VisualView;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet.Builder;
+import edu.cs3500.spreadsheets.model.SpreadsheetModel;
+import edu.cs3500.spreadsheets.model.ViewModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
-import java.io.FileWriter;
-import java.io.IOException;
+import edu.cs3500.spreadsheets.view.TextualView;
+import edu.cs3500.spreadsheets.view.View;
+import edu.cs3500.spreadsheets.view.VisualView;
 
 /**
  * The main class for our program.
@@ -64,7 +64,7 @@ public class BeyondGood {
           if (spreadsheet.getErrorCoords().size() != 0) {
             for (Coord c : spreadsheet.getErrorCoords()) {
               System.out.println("Error in " + Coord.colIndexToName(c.col) + c.row + ": "
-                  + spreadsheet.getValue(c));
+                      + spreadsheet.getValue(c));
             }
           }
 
@@ -86,13 +86,12 @@ public class BeyondGood {
           SimpleSpreadsheet spreadsheet = worksheetReader.read(builder, fileReader);
           ViewModel viewModel = new ViewModel(spreadsheet);
 
-          Appendable fileWriter = new FileWriter(args[3]);
+          PrintWriter fileWriter = new PrintWriter(args[3]);
           View view = new TextualView(fileWriter, viewModel);
           view.makeVisible();
+          fileWriter.close();
         } catch (FileNotFoundException e) {
           System.out.print("File was not found.");
-        } catch (IOException e) {
-          System.out.print("Invalid output file.");
         }
       } else {
         System.out.print("Invalid command");
