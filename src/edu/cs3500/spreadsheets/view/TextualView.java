@@ -25,9 +25,12 @@ public class TextualView implements View {
     int cols = this.viewModel.getNumColumns();
     for (int row = 1; row < rows; row++) {
       for (int col = 1; col < cols; col++) {
+        String coordString = Coord.colIndexToName(col) + row;
         String val = this.viewModel.getRawContents(new Coord(row, col));
         try {
-          this.ap.append(val).append("\n");
+          if (!(val.equals(""))) {
+            this.ap.append(coordString).append(" ").append(val).append("\n");
+          }
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }
