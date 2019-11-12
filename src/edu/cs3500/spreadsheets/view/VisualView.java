@@ -68,9 +68,9 @@ public class VisualView extends JFrame implements View {
     cols.setFixedCellWidth(75);
     cols.setFixedCellHeight(25);
 
-    rows.setCellRenderer(new RowRenderer());
+    rows.setCellRenderer(new HeaderRenderer());
 
-    cols.setCellRenderer(new RowRenderer());
+    cols.setCellRenderer(new HeaderRenderer());
     cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
     // Shows the column header in one row (preventing it from wrapping)
     cols.setVisibleRowCount(1);
@@ -110,25 +110,7 @@ public class VisualView extends JFrame implements View {
     this.repaint();
   }
 
-  class RowRenderer extends JLabel implements ListCellRenderer {
-
-    RowRenderer() {
-      setOpaque(true);
-      setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-      setHorizontalAlignment(CENTER);
-      setForeground(Color.white);
-      setBackground(Color.lightGray);
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                  boolean isSelected, boolean cellHasFocus) {
-      setText(value.toString());
-      return this;
-    }
-  }
-
-  class HeaderRenderer extends JLabel implements TableCellRenderer {
+  class HeaderRenderer extends JLabel implements ListCellRenderer {
 
     HeaderRenderer() {
       setOpaque(true);
@@ -139,8 +121,8 @@ public class VisualView extends JFrame implements View {
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                   boolean hasFocus, int row, int column) {
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+                                                  boolean isSelected, boolean cellHasFocus) {
       setText(value.toString());
       return this;
     }
