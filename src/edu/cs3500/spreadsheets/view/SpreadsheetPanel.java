@@ -81,24 +81,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-    //Get the current position.
-    int currentPosition = 0;
     if (orientation == SwingConstants.HORIZONTAL) {
-      currentPosition = visibleRect.x;
-      if (direction < 0) {
-        int newPosition = currentPosition - (currentPosition / maxXIncrement) * maxXIncrement;
-        return (newPosition == 0) ? maxXIncrement : newPosition;
-      } else {
-        return ((currentPosition / maxXIncrement) + 1) * maxXIncrement - currentPosition;
-      }
+      return maxXIncrement;
     } else {
-      currentPosition = visibleRect.y;
-      if (direction < 0) {
-        int newPosition = currentPosition - (currentPosition / maxYIncrement) * maxYIncrement;
-        return (newPosition == 0) ? maxYIncrement : newPosition;
-      } else {
-        return ((currentPosition / maxYIncrement) + 1) * maxYIncrement - currentPosition;
-      }
+      return maxYIncrement;
     }
   }
 
