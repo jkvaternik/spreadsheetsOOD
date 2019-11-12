@@ -15,9 +15,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final int CELL_WIDTH = 75;
   private final int CELL_HEIGHT = 25;
 
-  private int maxUnitIncrement;
+  private final int maxXIncrement = CELL_WIDTH;
+  private final int maxYIncrement = CELL_HEIGHT;
 
-  public SpreadsheetPanel(ViewModel viewModel, Dimension size, int increment) {
+  public SpreadsheetPanel(ViewModel viewModel, Dimension size) {
 
     /* TODO: New plan
               - 3 Components in our frame: Row header, column header, and cells
@@ -29,7 +30,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     super();
     this.viewModel = viewModel;
     this.size = size;
-    this.maxUnitIncrement = increment;
 
     this.setPreferredSize(new Dimension(CELL_WIDTH * size.width, CELL_HEIGHT * size.height));
 
@@ -89,36 +89,33 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-    // TODO: make it scrollable by different increments horizontally and vertically?
-//    //Get the current position.
-////    int currentPosition = 0;
-////    if (orientation == SwingConstants.HORIZONTAL) {
-////      currentPosition = visibleRect.x;
-////    } else {
-////      currentPosition = visibleRect.y;
-////    }
-////
-////    //Return the number of pixels between currentPosition
-////    //and the nearest tick mark in the indicated direction.
-////    if (direction < 0) {
-////      int newPosition = currentPosition -
-////              (currentPosition / maxUnitIncrement)
-////                      * maxUnitIncrement;
-////      return (newPosition == 0) ? maxUnitIncrement : newPosition;
-////    } else {
-////      return ((currentPosition / maxUnitIncrement) + 1)
-////              * maxUnitIncrement
-////              - currentPosition;
-////    }
-    return maxUnitIncrement;
+    //Get the current position.
+    int currentPosition = 0;
+    if (orientation == SwingConstants.HORIZONTAL) {
+      currentPosition = visibleRect.x;
+      if (direction < 0) {
+        int newPosition = currentPosition - (currentPosition / maxXIncrement) * maxXIncrement;
+        return (newPosition == 0) ? maxXIncrement : newPosition;
+      } else {
+        return ((currentPosition / maxXIncrement) + 1) * maxXIncrement - currentPosition;
+      }
+    } else {
+      currentPosition = visibleRect.y;
+      if (direction < 0) {
+        int newPosition = currentPosition - (currentPosition / maxYIncrement) * maxYIncrement;
+        return (newPosition == 0) ? maxYIncrement : newPosition;
+      } else {
+        return ((currentPosition / maxYIncrement) + 1) * maxYIncrement - currentPosition;
+      }
+    }
   }
 
   @Override
   public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
     if (orientation == SwingConstants.HORIZONTAL) {
-      return visibleRect.width - maxUnitIncrement;
+      return visibleRect.width - maxXIncrement;
     } else {
-      return visibleRect.height - maxUnitIncrement;
+      return visibleRect.height - maxYIncrement;
     }
   }
 
