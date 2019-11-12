@@ -19,14 +19,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final int maxYIncrement = CELL_HEIGHT;
 
   public SpreadsheetPanel(ViewModel viewModel, Dimension size) {
-
-    /* TODO: New plan
-              - 3 Components in our frame: Row header, column header, and cells
-              - The cell component consists of a Graphics2D drawing of a bunch of lines
-              - For controlling, we will have the notion of highlighting a cell and will have an
-                input text field where you can set the value of the highlighted cell
-              - Scrolling will be hard, but everything else should be easy
-     */
     super();
     this.viewModel = viewModel;
     this.size = size;
