@@ -27,7 +27,7 @@ public class VisualView extends JFrame implements View {
   public VisualView(ViewModel viewModel) {
     //Make the frame
     super("Spreadsheet");
-    this.setSize(500, 400);
+    this.setSize(1000, 600);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setResizable(false);
 
@@ -40,8 +40,7 @@ public class VisualView extends JFrame implements View {
     this.spreadsheetPanel = new SpreadsheetPanel(viewModel, this.getMaxDimension(), 25);
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
-    scrollPane.setPreferredSize(new Dimension(500, 400));
-
+    scrollPane.setPreferredSize(new Dimension(1000, 600));
     // Modify JScrollPane
     DefaultListModel rowsList = new DefaultListModel();
     DefaultListModel colsList = new DefaultListModel();
