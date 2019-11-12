@@ -24,12 +24,6 @@ public class VisualView extends JFrame implements View {
   private final JTextField userInputField;
   private final JScrollPane scrollPane;
 
-  /*
-    TODO:
-      - Add row/col headers
-      - Add scrollPane
-   */
-
   public VisualView(ViewModel viewModel) {
     //Make the frame
     super("Spreadsheet");
@@ -41,7 +35,6 @@ public class VisualView extends JFrame implements View {
 
     // Set up the layout of the main spreadsheet spreadsheet
     this.setLayout(new BorderLayout());
-    // TODO: Make the initial spreadsheet 50 or the max of number of rows/cols
 
     // Create SpreadsheetPanel and add to ScrollPane
     this.spreadsheetPanel = new SpreadsheetPanel(viewModel, this.getMaxDimension(), 25);
@@ -61,6 +54,7 @@ public class VisualView extends JFrame implements View {
       colsList.add(j, Coord.colIndexToName(j + 1));
     }
 
+    // Create row and column headers
     JList rows = new JList(rowsList);
     JList cols = new JList(colsList);
 
