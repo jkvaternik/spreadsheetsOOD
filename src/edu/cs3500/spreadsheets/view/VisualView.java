@@ -1,15 +1,11 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.ViewModel;
-
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
+
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.ViewModel;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -105,6 +101,13 @@ public class VisualView extends JFrame implements View {
     this.repaint();
   }
 
+  private Dimension getMaxDimension() {
+    int maxRows = this.viewModel.getNumRows();
+    int maxCol = this.viewModel.getNumColumns();
+
+    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
+  }
+
   class HeaderRenderer extends JLabel implements ListCellRenderer {
 
     HeaderRenderer() {
@@ -121,12 +124,5 @@ public class VisualView extends JFrame implements View {
       setText(value.toString());
       return this;
     }
-  }
-
-  private Dimension getMaxDimension() {
-    int maxRows = this.viewModel.getNumRows();
-    int maxCol = this.viewModel.getNumColumns();
-
-    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
   }
 }
