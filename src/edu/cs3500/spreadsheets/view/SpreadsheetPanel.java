@@ -11,13 +11,13 @@ import edu.cs3500.spreadsheets.model.ViewModel;
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
   private final ViewModel viewModel;
-  int size;
+  Dimension size;
   private final int CELL_WIDTH = 75;
   private final int CELL_HEIGHT = 25;
 
   private int maxUnitIncrement;
 
-  public SpreadsheetPanel(ViewModel viewModel, int size, int increment) {
+  public SpreadsheetPanel(ViewModel viewModel, Dimension size, int increment) {
 
     /* TODO: New plan
               - 3 Components in our frame: Row header, column header, and cells
@@ -31,7 +31,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     this.size = size;
     this.maxUnitIncrement = increment;
 
-    this.setPreferredSize(new Dimension(CELL_WIDTH * size, CELL_HEIGHT * size));
+    this.setPreferredSize(new Dimension(CELL_WIDTH * size.width, CELL_HEIGHT * size.height));
 
     // Set up background
     this.setBackground(Color.WHITE);
@@ -43,14 +43,14 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     Graphics2D g2d = (Graphics2D) g;
     g2d.setColor(Color.BLACK);
 
-    int maxHeight = this.size * this.CELL_HEIGHT;
-    int maxWidth = this.size * this.CELL_WIDTH;
+    int maxHeight = this.size.width * this.CELL_HEIGHT;
+    int maxWidth = this.size.height * this.CELL_WIDTH;
 
     // Draw all of the cell borders
-    for (int horizLine = 0; horizLine <= size; horizLine++) {
+    for (int horizLine = 0; horizLine <= size.height; horizLine++) {
       g2d.drawLine(0, horizLine * CELL_HEIGHT, maxWidth, horizLine * CELL_HEIGHT);
     }
-    for (int vertLine = 0; vertLine <= size; vertLine++) {
+    for (int vertLine = 0; vertLine <= size.width; vertLine++) {
       g2d.drawLine(vertLine * CELL_WIDTH, 0, vertLine * CELL_WIDTH, maxHeight);
     }
 

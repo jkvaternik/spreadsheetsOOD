@@ -24,7 +24,6 @@ public class VisualView extends JFrame implements View {
   private final JTextField userInputField;
   private final JScrollPane scrollPane;
 
-
   /*
     TODO:
       - Add row/col headers
@@ -45,7 +44,7 @@ public class VisualView extends JFrame implements View {
     // TODO: Make the initial spreadsheet 50 or the max of number of rows/cols
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, 20, 25);
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, this.getMaxDimension(), 25);
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(500, 400));
@@ -54,9 +53,12 @@ public class VisualView extends JFrame implements View {
     DefaultListModel rowsList = new DefaultListModel();
     DefaultListModel colsList = new DefaultListModel();
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < this.getMaxDimension().height; i++) {
       rowsList.add(i, i + 1);
-      colsList.add(i, Coord.colIndexToName(i + 1));
+    }
+
+    for (int j = 0; j < this.getMaxDimension().width; j++) {
+      colsList.add(j, Coord.colIndexToName(j + 1));
     }
 
     JList rows = new JList(rowsList);
@@ -126,5 +128,12 @@ public class VisualView extends JFrame implements View {
       setText(value.toString());
       return this;
     }
+  }
+
+  private Dimension getMaxDimension() {
+    int maxRows = this.viewModel.getNumRows();
+    int maxCol = this.viewModel.getNumColumns();
+
+    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
   }
 }
