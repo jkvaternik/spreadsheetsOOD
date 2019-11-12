@@ -8,6 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 /**
@@ -16,11 +17,12 @@ import javax.swing.table.TableModel;
  */
 public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
-  private SpreadsheetPanel spreadsheetPanel;
+  private final SpreadsheetPanel spreadsheetPanel;
   private final JButton editButton;
   private final JButton increaseSizeButton;
   private final JPanel editPanel;
   private final JTextField userInputField;
+  private final JScrollPane scrollPane;
 
 
   /*
@@ -42,10 +44,40 @@ public class VisualView extends JFrame implements View {
     this.setLayout(new BorderLayout());
     // TODO: Make the initial spreadsheet 50 or the max of number of rows/cols
 
+    // Create SpreadsheetPanel and add to ScrollPane
     this.spreadsheetPanel = new SpreadsheetPanel(viewModel, 20, 25);
-    this.spreadsheetPanel.setPreferredSize(new Dimension(75 * 20, 25 * 20));
-    JScrollPane scrollPane = new JScrollPane(this.spreadsheetPanel);
+
+    this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(500, 400));
+
+    // Modify JScrollPane
+    DefaultListModel rowsList = new DefaultListModel();
+    DefaultListModel colsList = new DefaultListModel();
+
+    for (int i = 0; i < 20; i++) {
+      rowsList.add(i, i + 1);
+      colsList.add(i, Coord.colIndexToName(i + 1));
+    }
+
+    JList rows = new JList(rowsList);
+    JList cols = new JList(colsList);
+
+    rows.setFixedCellWidth(75);
+    rows.setFixedCellHeight(25);
+
+    cols.setFixedCellWidth(75);
+    cols.setFixedCellHeight(25);
+
+    rows.setCellRenderer(new RowRenderer());
+
+    cols.setCellRenderer(new RowRenderer());
+    cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    // Shows the column header in one row (preventing it from wrapping)
+    cols.setVisibleRowCount(1);
+
+    scrollPane.setColumnHeaderView(cols);
+    scrollPane.setRowHeaderView(rows);
+
     this.add(scrollPane, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
@@ -76,5 +108,41 @@ public class VisualView extends JFrame implements View {
   @Override
   public void refresh() {
     this.repaint();
+  }
+
+  class RowRenderer extends JLabel implements ListCellRenderer {
+
+    RowRenderer() {
+      setOpaque(true);
+      setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+      setHorizontalAlignment(CENTER);
+      setForeground(Color.white);
+      setBackground(Color.lightGray);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+                                                  boolean isSelected, boolean cellHasFocus) {
+      setText(value.toString());
+      return this;
+    }
+  }
+
+  class HeaderRenderer extends JLabel implements TableCellRenderer {
+
+    HeaderRenderer() {
+      setOpaque(true);
+      setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+      setHorizontalAlignment(CENTER);
+      setForeground(Color.white);
+      setBackground(Color.lightGray);
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                   boolean hasFocus, int row, int column) {
+      setText(value.toString());
+      return this;
+    }
   }
 }

@@ -1,15 +1,10 @@
 package edu.cs3500.spreadsheets.view;
 
 import java.awt.*;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import javax.sound.sampled.Clip;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
@@ -36,6 +31,8 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     this.size = size;
     this.maxUnitIncrement = increment;
 
+    this.setPreferredSize(new Dimension(CELL_WIDTH * size, CELL_HEIGHT * size));
+
     // Set up background
     this.setBackground(Color.WHITE);
   }
@@ -61,19 +58,17 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
 
-    // Save the states prior to drawing, and restore them after
-    AffineTransform initState = g2d.getTransform();
+    // Save the clip state prior to drawing, and restore them after
     Shape initClip = g2d.getClip();
 
     for (int row = 1; row <= maxCellRow; row++) {
       for (int col = 1; col <= maxCellCol; col++) {
         String value = this.viewModel.getValue(new Coord(col, row));
         g2d.setClip((col - 1) * this.CELL_WIDTH, (row - 1) * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
-        g2d.drawString(value, (col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT);
+        g2d.drawString(value, (col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT - this.CELL_HEIGHT / 3);
       }
     }
     g2d.setClip(initClip);
-    g2d.setTransform(initState);
   }
 
   @Override
@@ -95,25 +90,25 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
 //    //Get the current position.
-//    int currentPosition = 0;
-//    if (orientation == SwingConstants.HORIZONTAL) {
-//      currentPosition = visibleRect.x;
-//    } else {
-//      currentPosition = visibleRect.y;
-//    }
-//
-//    //Return the number of pixels between currentPosition
-//    //and the nearest tick mark in the indicated direction.
-//    if (direction < 0) {
-//      int newPosition = currentPosition -
-//              (currentPosition / maxUnitIncrement)
-//                      * maxUnitIncrement;
-//      return (newPosition == 0) ? maxUnitIncrement : newPosition;
-//    } else {
-//      return ((currentPosition / maxUnitIncrement) + 1)
-//              * maxUnitIncrement
-//              - currentPosition;
-//    }
+////    int currentPosition = 0;
+////    if (orientation == SwingConstants.HORIZONTAL) {
+////      currentPosition = visibleRect.x;
+////    } else {
+////      currentPosition = visibleRect.y;
+////    }
+////
+////    //Return the number of pixels between currentPosition
+////    //and the nearest tick mark in the indicated direction.
+////    if (direction < 0) {
+////      int newPosition = currentPosition -
+////              (currentPosition / maxUnitIncrement)
+////                      * maxUnitIncrement;
+////      return (newPosition == 0) ? maxUnitIncrement : newPosition;
+////    } else {
+////      return ((currentPosition / maxUnitIncrement) + 1)
+////              * maxUnitIncrement
+////              - currentPosition;
+////    }
     return maxUnitIncrement;
   }
 
