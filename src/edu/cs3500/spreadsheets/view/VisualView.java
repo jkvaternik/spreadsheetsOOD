@@ -5,11 +5,10 @@ import edu.cs3500.spreadsheets.model.ViewModel;
 
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
+
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -17,12 +16,11 @@ import javax.swing.table.TableModel;
  */
 public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
-  private final SpreadsheetPanel spreadsheetPanel;
   private final JButton editButton;
   private final JButton increaseSizeButton;
   private final JPanel editPanel;
   private final JTextField userInputField;
-  private final JScrollPane scrollPane;
+  private SpreadsheetScrollPanel scrollPanel;
 
   public VisualView(ViewModel viewModel) {
     //Make the frame
@@ -36,44 +34,11 @@ public class VisualView extends JFrame implements View {
     // Set up the layout of the main spreadsheet spreadsheet
     this.setLayout(new BorderLayout());
 
-    // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, this.getMaxDimension());
-
-    this.scrollPane = new JScrollPane(this.spreadsheetPanel);
-    scrollPane.setPreferredSize(new Dimension(1000, 600));
-    // Modify JScrollPane
-    DefaultListModel rowsList = new DefaultListModel();
-    DefaultListModel colsList = new DefaultListModel();
-
-    for (int i = 0; i < this.getMaxDimension().height; i++) {
-      rowsList.add(i, i + 1);
-    }
-
-    for (int j = 0; j < this.getMaxDimension().width; j++) {
-      colsList.add(j, Coord.colIndexToName(j + 1));
-    }
-
-    // Create row and column headers
-    JList rows = new JList(rowsList);
-    JList cols = new JList(colsList);
-
-    rows.setFixedCellWidth(75);
-    rows.setFixedCellHeight(25);
-
-    cols.setFixedCellWidth(75);
-    cols.setFixedCellHeight(25);
-
-    rows.setCellRenderer(new HeaderRenderer());
-
-    cols.setCellRenderer(new HeaderRenderer());
-    cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    // Shows the column header in one row (preventing it from wrapping)
-    cols.setVisibleRowCount(1);
-
-    scrollPane.setColumnHeaderView(cols);
-    scrollPane.setRowHeaderView(rows);
-
-    this.add(scrollPane, BorderLayout.CENTER);
+    // Set up the scroll panel and its internal non-scrolling panel
+    this.scrollPanel = new SpreadsheetScrollPanel(this.viewModel,
+        new Dimension(Math.max(26, this.viewModel.getNumColumns()),
+            Math.max(26, this.viewModel.getNumRows())));
+    this.add(this.scrollPanel, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
     this.editPanel = new JPanel();
@@ -90,6 +55,14 @@ public class VisualView extends JFrame implements View {
 
     // Set up the increase size button (but have it do nothing for now)
     this.increaseSizeButton = new JButton("Increase Size");
+    this.increaseSizeButton.addActionListener(e -> {
+      int oldWidth = VisualView.this.scrollPanel.size.width;
+      int oldHeight = VisualView.this.scrollPanel.size.height;
+      Dimension newDimension = new Dimension(oldWidth + 26, oldHeight + 26);
+      scrollPanel.setSpreadsheetPanel(this.viewModel, newDimension);
+      scrollPanel.setRowAndColHeaders(newDimension);
+      this.refresh();
+    });
     this.editPanel.add(this.increaseSizeButton);
 
     this.pack();
@@ -103,30 +76,5 @@ public class VisualView extends JFrame implements View {
   @Override
   public void refresh() {
     this.repaint();
-  }
-
-  class HeaderRenderer extends JLabel implements ListCellRenderer {
-
-    HeaderRenderer() {
-      setOpaque(true);
-      setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-      setHorizontalAlignment(CENTER);
-      setForeground(Color.white);
-      setBackground(Color.lightGray);
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                  boolean isSelected, boolean cellHasFocus) {
-      setText(value.toString());
-      return this;
-    }
-  }
-
-  private Dimension getMaxDimension() {
-    int maxRows = this.viewModel.getNumRows();
-    int maxCol = this.viewModel.getNumColumns();
-
-    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
   }
 }
