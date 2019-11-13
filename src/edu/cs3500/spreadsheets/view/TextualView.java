@@ -2,12 +2,10 @@ package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import javax.swing.Scrollable;
+import java.util.List;
 
 /**
  * Represents a textual view of a spreadsheet. This view writes the model to an appendable.
@@ -58,7 +56,7 @@ public class TextualView implements View {
   }
 
   @Override
-  public void highlightCell(Coord cellCoord) {
+  public void highlightCells(List<Coord> cellCoords) {
     //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }
 }

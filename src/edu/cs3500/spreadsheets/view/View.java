@@ -3,6 +3,7 @@ package edu.cs3500.spreadsheets.view;
 import edu.cs3500.spreadsheets.model.Coord;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 /**
  * Represents a view for a spreadsheet.
@@ -34,8 +35,10 @@ public interface View {
   void addActionListener(ActionListener listener);
 
   /**
-   * Highlights the cell at the given Coordinate.
-   * @param cellCoord The coordinate of the cell
+   * Highlights the cells at the given Coordinates. In the process, it de-highlights any previously
+   * highlighted cells.
+   * @param cellCoords The coordinates of the cells.
+   *                   If this is null or empty, all cells are de-highlighted.
    */
-  void highlightCell(Coord cellCoord);
+  void highlightCells(List<Coord> cellCoords);
 }

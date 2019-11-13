@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.event.MouseListener;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -33,12 +35,13 @@ public class VisualView extends JFrame implements View {
     this.setResizable(false);
 
     this.viewModel = viewModel;
+    //To start, there isn't a highlighted Cell
 
     // Set up the layout of the main spreadsheet spreadsheet
     this.setLayout(new BorderLayout());
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, new ArrayList<>());
 
     int numRows = this.getMaxDimension().height;
     int numCols = this.getMaxDimension().width;
@@ -106,8 +109,8 @@ public class VisualView extends JFrame implements View {
   }
 
   @Override
-  public void highlightCell(Coord cellCoord) {
-    //TODO: Figure out best way to do this
+  public void highlightCells(List<Coord> cellCoords) {
+    this.spreadsheetPanel.setHighlightedCells(cellCoords);
   }
 
   private Dimension getMaxDimension() {

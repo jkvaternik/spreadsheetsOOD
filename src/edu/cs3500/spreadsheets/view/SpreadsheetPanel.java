@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import java.util.List;
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -17,10 +18,12 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final int maxYIncrement = CELL_HEIGHT;
 
   private final ViewModel viewModel;
+  private final List<Coord> highlightedCells;
 
-  public SpreadsheetPanel(ViewModel viewModel) {
+  public SpreadsheetPanel(ViewModel viewModel, List<Coord> highlightedCells) {
     super();
     this.viewModel = viewModel;
+    this.highlightedCells = highlightedCells;
 
     // Set up background
     this.setBackground(Color.WHITE);
@@ -47,17 +50,41 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
 
-    // Save the clip state prior to drawing, and restore them after
+    // Save the clip state prior to drawing, and restore it after
     Shape initClip = g2d.getClip();
+
+    // Check for highlighted cells first so that the contents still appear over the highlight
+    for (Coord c : this.highlightedCells) {
+      g2d.setClip((c.col - 1) * CELL_WIDTH, (c.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      // Save previous color to restore after we are done highlighting the cell
+      Color prevColor = g2d.getColor();
+      g2d.setColor(Color.YELLOW);
+      g2d.fillRect((c.col - 1) * CELL_WIDTH, (c.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.setColor(prevColor);
+    }
 
     for (int row = 1; row <= maxCellRow; row++) {
       for (int col = 1; col <= maxCellCol; col++) {
-        String value = this.viewModel.getValue(new Coord(col, row));
-        g2d.setClip((col - 1) * this.CELL_WIDTH, (row - 1) * this.CELL_HEIGHT, this.CELL_WIDTH, this.CELL_HEIGHT);
-        g2d.drawString(value, (col - 1) * this.CELL_WIDTH, row * this.CELL_HEIGHT - this.CELL_HEIGHT / 3);
+        Coord coord = new Coord(col, row);
+        String value = this.viewModel.getValue(coord);
+        g2d.setClip((col - 1) * CELL_WIDTH, (row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+        g2d.drawString(value, (col - 1) * CELL_WIDTH, row * CELL_HEIGHT - CELL_HEIGHT / 3);
       }
     }
     g2d.setClip(initClip);
+  }
+
+  /**
+   * Changes the highlightedCells of this spreadsheet panel. It de-highlights any previously
+   * highlighted cells.
+   * @param cellCoords The Coords of the new highlighted cells.
+   *                   If this is null or empty, all cells are de-highlighted.
+   */
+  void setHighlightedCells(List<Coord> cellCoords) {
+    this.highlightedCells.clear();
+    if (cellCoords != null) {
+      this.highlightedCells.addAll(cellCoords);
+    }
   }
 
   @Override
