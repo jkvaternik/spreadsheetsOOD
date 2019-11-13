@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -12,8 +14,10 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  * coordinates, and supports the capability of scrolling the table.
  */
 public class VisualView extends JFrame implements View {
+  private static final int INCREMENT_AMOUNT = 26;
+
   private final ViewModel viewModel;
-  private final SpreadsheetPanel spreadsheetPanel;
+  private SpreadsheetPanel spreadsheetPanel;
   private final JButton editButton;
   private final JButton increaseSizeButton;
   private final JPanel editPanel;
@@ -33,19 +37,79 @@ public class VisualView extends JFrame implements View {
     this.setLayout(new BorderLayout());
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, this.getMaxDimension());
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
+
+    int numRows = this.getMaxDimension().height;
+    int numCols = this.getMaxDimension().width;
+
+    this.spreadsheetPanel.setPreferredSize(new Dimension(75 * numCols, 25 * numRows));
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(1000, 600));
     // Modify JScrollPane
+    this.setHeaders(numCols, numRows);
+    this.add(scrollPane, BorderLayout.CENTER);
+
+    // Set up the panel which contains the text field and the edit button
+    this.editPanel = new JPanel();
+    this.editPanel.setLayout(new FlowLayout());
+    this.add(this.editPanel, BorderLayout.SOUTH);
+
+    // Set up the input text field and add it to its panel
+    this.userInputField = new JTextField(25);
+    this.editPanel.add(this.userInputField);
+
+    // Set up the edit button (but have it do nothing for now)
+    this.editButton = new JButton("Edit Cell");
+    this.editPanel.add(this.editButton);
+
+    // Set up the increase size button (but have it do nothing for now)
+    this.increaseSizeButton = new JButton("Increase Size");
+    this.increaseSizeButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int oldH = VisualView.this.spreadsheetPanel.getPreferredSize().height / 25;
+        int oldW = VisualView.this.spreadsheetPanel.getPreferredSize().width / 75;
+        System.out.println("Height: " + oldH + " Width: " + oldW);
+
+        VisualView.this.spreadsheetPanel.setPreferredSize(new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
+        VisualView.this.spreadsheetPanel.revalidate();
+        VisualView.this.spreadsheetPanel.repaint();
+
+        VisualView.this.setHeaders(oldW + 26, oldH + 26);
+      }
+    });
+    this.editPanel.add(this.increaseSizeButton);
+
+    this.pack();
+  }
+
+  @Override
+  public void makeVisible() {
+    this.setVisible(true);
+  }
+
+  @Override
+  public void refresh() {
+    this.repaint();
+  }
+
+  private Dimension getMaxDimension() {
+    int maxRows = this.viewModel.getNumRows();
+    int maxCol = this.viewModel.getNumColumns();
+
+    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
+  }
+
+  private void setHeaders(int width, int height) {
     DefaultListModel<String> rowsList = new DefaultListModel<>();
     DefaultListModel<String> colsList = new DefaultListModel<>();
 
-    for (int i = 0; i < this.getMaxDimension().height; i++) {
+    for (int i = 0; i < height + 26; i++) {
       rowsList.add(i, Integer.toString(i + 1));
     }
 
-    for (int j = 0; j < this.getMaxDimension().width; j++) {
+    for (int j = 0; j < width + 26; j++) {
       colsList.add(j, Coord.colIndexToName(j + 1));
     }
 
@@ -68,44 +132,6 @@ public class VisualView extends JFrame implements View {
 
     scrollPane.setColumnHeaderView(cols);
     scrollPane.setRowHeaderView(rows);
-
-    this.add(scrollPane, BorderLayout.CENTER);
-
-    // Set up the panel which contains the text field and the edit button
-    this.editPanel = new JPanel();
-    this.editPanel.setLayout(new FlowLayout());
-    this.add(this.editPanel, BorderLayout.SOUTH);
-
-    // Set up the input text field and add it to its panel
-    this.userInputField = new JTextField(25);
-    this.editPanel.add(this.userInputField);
-
-    // Set up the edit button (but have it do nothing for now)
-    this.editButton = new JButton("Edit Cell");
-    this.editPanel.add(this.editButton);
-
-    // Set up the increase size button (but have it do nothing for now)
-    this.increaseSizeButton = new JButton("Increase Size");
-    this.editPanel.add(this.increaseSizeButton);
-
-    this.pack();
-  }
-
-  @Override
-  public void makeVisible() {
-    this.setVisible(true);
-  }
-
-  @Override
-  public void refresh() {
-    this.repaint();
-  }
-
-  private Dimension getMaxDimension() {
-    int maxRows = this.viewModel.getNumRows();
-    int maxCol = this.viewModel.getNumColumns();
-
-    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
   }
 
   static class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
