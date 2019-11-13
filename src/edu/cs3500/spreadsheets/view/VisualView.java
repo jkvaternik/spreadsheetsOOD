@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import java.awt.event.MouseListener;
 import java.util.List;
-import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -17,6 +16,7 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  * coordinates, and supports the capability of scrolling the table.
  */
 public class VisualView extends JFrame implements View {
+
   private static final int INCREMENT_AMOUNT = 26;
 
   private final ViewModel viewModel;
@@ -74,9 +74,9 @@ public class VisualView extends JFrame implements View {
       public void actionPerformed(ActionEvent e) {
         int oldH = VisualView.this.spreadsheetPanel.getPreferredSize().height / 25;
         int oldW = VisualView.this.spreadsheetPanel.getPreferredSize().width / 75;
-        System.out.println("Height: " + oldH + " Width: " + oldW);
 
-        VisualView.this.spreadsheetPanel.setPreferredSize(new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
+        VisualView.this.spreadsheetPanel.setPreferredSize(
+            new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
         VisualView.this.spreadsheetPanel.revalidate();
         VisualView.this.spreadsheetPanel.repaint();
 
@@ -113,13 +113,29 @@ public class VisualView extends JFrame implements View {
     this.spreadsheetPanel.setHighlightedCells(cellCoords);
   }
 
+  /**
+   * Calculates the max dimension of the starting grid. The max dimension is the number of rows and
+   * columns in the spreadsheet respectively, rounded up to the nearest multiple of 26.
+   *
+   * @return The max dimension
+   */
   private Dimension getMaxDimension() {
     int maxRows = this.viewModel.getNumRows();
     int maxCol = this.viewModel.getNumColumns();
 
-    return new Dimension(Math.max(maxRows, 26), Math.max(maxCol, 26));
+    //Round these values up the the biggest multiple of 26
+    int totalRows = (maxRows / 26 + 1) * 26;
+    int totalCols = (maxCol / 26 + 1) * 26;
+
+    return new Dimension(totalCols, totalRows);
   }
 
+  /**
+   * Set the row and column headers of the scroll pane.
+   *
+   * @param width  The width of the spreadsheet.
+   * @param height The height of the spreadsheet.
+   */
   private void setHeaders(int width, int height) {
     DefaultListModel<String> rowsList = new DefaultListModel<>();
     DefaultListModel<String> colsList = new DefaultListModel<>();
@@ -153,8 +169,14 @@ public class VisualView extends JFrame implements View {
     scrollPane.setRowHeaderView(rows);
   }
 
+  /**
+   * Represents a renderer which will display the row and column headers.
+   */
   static class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
 
+    /**
+     * A constructor to make an instance of a HeaderRenderer.
+     */
     HeaderRenderer() {
       setOpaque(true);
       setBorder(UIManager.getBorder("TableHeader.cellBorder"));
@@ -164,7 +186,8 @@ public class VisualView extends JFrame implements View {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList<? extends String> list, String value,
+        int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }
