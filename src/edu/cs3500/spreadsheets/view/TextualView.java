@@ -4,6 +4,8 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.Scrollable;
 
@@ -41,5 +43,22 @@ public class TextualView implements View {
   @Override
   public void refresh() {
     //Do nothing, as we do not want to write again to the appendable
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+    //Do nothing, since any listener can listen to this view, although this view won't have any
+    //mouse events.
+  }
+
+  @Override
+  public void addActionListener(ActionListener listener) {
+    //Do nothing, since any listener can listen to this view, although this view won't have any
+    //action events.
+  }
+
+  @Override
+  public void highlightCell(Coord cellCoord) {
+    //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }
 }

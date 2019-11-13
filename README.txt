@@ -1,5 +1,11 @@
 ASSIGNMENT 6:
 
+Methods to add for view related to callbacks:
+- addActionListener()
+- addMouseListener()
+- highlightCell()
+
+
 Changes from Assignment 5:
 - Previously, we handled re-evaluation on get time (when you got the contents of a cell) rather than
   set time (when you set the contents of a cell). We changed that for this assignment as we realized
@@ -10,7 +16,7 @@ Changes from Assignment 5:
 - We added a referencesCell() method on our Cell and Formula interfaces, which determine if they
   respectively reference a cell at the given coordinate. This was used to determine what cells would
   need to be re-evaluated when you changed a cell at a certain Coord. This process was handled by
-  the reEvaluateCells() private method in SimpleSpreadsheet. 
+  the reEvaluateCells() private method in SimpleSpreadsheet.
 
 
 ____________________________________________________________________________________________________

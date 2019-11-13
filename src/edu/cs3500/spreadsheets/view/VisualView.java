@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.MouseListener;
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -92,6 +93,21 @@ public class VisualView extends JFrame implements View {
   @Override
   public void refresh() {
     this.repaint();
+  }
+
+  @Override
+  public void addActionListener(ActionListener listener) {
+    this.editButton.addActionListener(listener);
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+    this.spreadsheetPanel.addMouseListener(listener);
+  }
+
+  @Override
+  public void highlightCell(Coord cellCoord) {
+    //TODO: Figure out best way to do this
   }
 
   private Dimension getMaxDimension() {
