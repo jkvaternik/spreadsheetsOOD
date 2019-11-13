@@ -1,9 +1,68 @@
 ASSIGNMENT 6:
 
-Methods to add for view related to callbacks:
-- addActionListener()
-- addMouseListener()
-- highlightCell()
+General structure of our View:
+- A View interface which determines the functionality of our views.
+- A TextualView and VisualView which both implement View.
+- A SpreadsheetPanel, which is where we actually draw the spreadsheet for the visual view.
+
+Now into more depth about each of these:
+
+View Interface:
+This is our view interface. It contains the following methods:
+- makeVisible(), which makes the view visible for the first time.
+- refresh(), which makes the view "re-draw" itself.
+- addMouseListener(), which adds a mouse listener to the view (for whatever reason it may want to
+  listen to our view's mouse events).
+- addActionListener(), which adds an action listener to the view (for whatever reason it may want to
+  listen to our view's action events).
+- highlightCells(), which signals to the view that the cells at the given coordinates are important
+  and should be highlighted (the meaning of this is purposefully left vague).
+
+Note: We did not think we would need to support adding a keyboard listener, but this may change
+      depending on the specs of the next assignments.
+
+
+TextualView:
+This is a textual view, which writes the contents of our spreadsheet to an appendable, which is done
+in the makeVisible() method. All the other methods do nothing, as it doesn't make much sense to
+refresh the view or highlight cells, and we don't really care about who is listening to us, as this
+view does not have any mouse or action events associated with it.
+
+
+VisualView:
+This is a GUI view, which utilizes Swing and is a JFrame. The View consists of a spreadsheet panel,
+which draws the main spreadsheet, and a toolbar which has a text field and button for editing cells
+(this feature is not working since we need a controller) and a button for increasing the size of the
+spreadsheet (this does in fact work). The main panel is also scrollable, and we use a standard
+ScrollPane to handle the scrolling. Here are how the interface methods work:
+- makeVisible() sets the view to be visible
+- refresh() repaints this view (so repaints all of its components)
+- addActionListener() adds an action listener to the edit button
+- addMouseListener() adds a mouse listener to the main panel
+- highlightCells() just calls the setHighlightedCells() method in spreadsheetPanel, passing
+  through the list of Coordinates
+
+
+SpreadsheetPanel:
+This is a JPanel which is the main component to our VisualView. It is also a Scrollable and a
+MouseMotionListener (both of these allow us to implement scrolling with just a normal ScrollPane).
+All of these interface methods are relatively straight forward to implement.
+
+The interesting part of the panel is its paintComponent() method. In this method, we first draw the
+vertical and horizontal black lines that create the grid. To do this, we keep track of the preferred
+size (which is essentially the number of rows and columns of the grid) and update it whenever we
+want to expand the spreadsheet. After drawing the grid, we check for highlighted cells and if there
+are any, we color the appropriate grid space. After this, we display all of the cell contents of the
+spreadsheet. In order to do this, we utilize a read-only ViewModel which is passed in through the
+VisualView and stored as a field.
+
+
+ViewModel:
+This is an Object adapter which implements the Spreadsheet (model) interface. It takes in a
+Spreadsheet which it delegates to for all of the observer methods. For the operation (mutator)
+methods, we opted to throw an UnsupportedArgumentException rather than just doing nothing, since we
+do not want to give the illusion that we modified the model and would rather tell the client that
+they have performed an illegal action.
 
 
 Changes from Assignment 5:

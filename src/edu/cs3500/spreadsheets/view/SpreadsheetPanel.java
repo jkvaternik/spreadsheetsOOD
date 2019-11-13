@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
@@ -20,10 +21,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final ViewModel viewModel;
   private final List<Coord> highlightedCells;
 
-  public SpreadsheetPanel(ViewModel viewModel, List<Coord> highlightedCells) {
+  public SpreadsheetPanel(ViewModel viewModel) {
     super();
     this.viewModel = viewModel;
-    this.highlightedCells = highlightedCells;
+    this.highlightedCells = new ArrayList<>();
 
     // Set up background
     this.setBackground(Color.WHITE);
@@ -46,10 +47,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       g2d.drawLine(vertLine * CELL_WIDTH, 0, vertLine * CELL_WIDTH, maxHeight);
     }
 
-    //Display all of the correct text
-    int maxCellRow = this.viewModel.getNumRows();
-    int maxCellCol = this.viewModel.getNumColumns();
-
     // Save the clip state prior to drawing, and restore it after
     Shape initClip = g2d.getClip();
 
@@ -62,6 +59,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       g2d.fillRect((c.col - 1) * CELL_WIDTH, (c.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       g2d.setColor(prevColor);
     }
+
+    //Display all of the correct text
+    int maxCellRow = this.viewModel.getNumRows();
+    int maxCellCol = this.viewModel.getNumColumns();
 
     for (int row = 1; row <= maxCellRow; row++) {
       for (int col = 1; col <= maxCellCol; col++) {

@@ -41,7 +41,7 @@ public class VisualView extends JFrame implements View {
     this.setLayout(new BorderLayout());
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, new ArrayList<>());
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
 
     int numRows = this.getMaxDimension().height;
     int numCols = this.getMaxDimension().width;
