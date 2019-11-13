@@ -1,3 +1,22 @@
+ASSIGNMENT 6:
+
+Changes from Assignment 5:
+- Previously, we handled re-evaluation on get time (when you got the contents of a cell) rather than
+  set time (when you set the contents of a cell). We changed that for this assignment as we realized
+  you needed to get the value of a cell much more frequently than you needed to set the value.
+- To handle this change, we added a Value field to our FormulaCell class. Our evaluate method for
+  cells now just updates this field, while a new getValue() method on the Cell interface actually
+  returns the value.
+- We added a referencesCell() method on our Cell and Formula interfaces, which determine if they
+  respectively reference a cell at the given coordinate. This was used to determine what cells would
+  need to be re-evaluated when you changed a cell at a certain Coord. This process was handled by
+  the reEvaluateCells() private method in SimpleSpreadsheet. 
+
+
+____________________________________________________________________________________________________
+
+ASSIGNMENT 5:
+
 General Structure of our Model:
 - A Spreadsheet which consists of a mapping of Coordinates to Cells.
 - Cells, which can either be a BlankCell, a ValueCell, or a FormulaCell.
