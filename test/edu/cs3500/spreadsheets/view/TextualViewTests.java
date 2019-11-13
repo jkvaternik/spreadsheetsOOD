@@ -225,4 +225,33 @@ public class TextualViewTests {
     }
   }
 
+  @Test
+  public void testMakeVisible() {
+    WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
+        new SimpleSpreadsheet.Builder();
+    SimpleSpreadsheet spreadsheet = builderOne
+        .createCell(1, 1, "5.0")
+        .createCell(3, 1, "Hello")
+        .createCell(2, 2, "=(SUM A1:A5)")
+        .createCell(4, 4, "=true")
+        .createCell(27, 90, "=(CAPITALIZE A1:B12)")
+        .createWorksheet();
+
+    Appendable ap = new StringBuilder();
+
+    View textView = new TextualView(ap, new ViewModel(spreadsheet));
+    assertEquals("", ap.toString());
+
+    textView.makeVisible();
+    assertEquals("A1 5.0\n" + "C1 Hello\n" + "B2 =(SUM A1:A5)\n"
+            + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
+        ap.toString());
+
+    //Add a cell to the worksheet and refresh the view. The appendable should not change.
+    spreadsheet.setCellValue(new Coord(3, 3), "-12.7");
+    textView.refresh();
+    assertEquals("A1 5.0\n" + "C1 Hello\n" + "B2 =(SUM A1:A5)\n"
+            + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
+        ap.toString());
+  }
 }
