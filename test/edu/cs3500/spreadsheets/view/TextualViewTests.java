@@ -16,7 +16,7 @@ import edu.cs3500.spreadsheets.model.WorksheetReader;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Represents tests for {@link TextualView}
+ * Represents tests for {@link TextualView}.
  */
 public class TextualViewTests {
 
@@ -30,21 +30,21 @@ public class TextualViewTests {
   public void init() {
     try {
       Readable fileReaderOne = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSampleOne.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSampleOne.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderOne = new WorksheetReader();
       spreadsheetOne = worksheetReaderOne.read(builderOne, fileReaderOne);
 
       Readable fileReaderTwo = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileEmpty.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileEmpty.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderTwo =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderTwo = new WorksheetReader();
       spreadsheetTwo = worksheetReaderTwo.read(builderTwo, fileReaderTwo);
 
       Readable fileReaderThree = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSelfReferenceDirect." +
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSelfReferenceDirect." +
               "txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderThree =
               new SimpleSpreadsheet.Builder();
@@ -52,14 +52,14 @@ public class TextualViewTests {
       spreadsheetThree = worksheetReaderThree.read(builderThree, fileReaderThree);
 
       Readable fileReaderFour = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSelfReferenceIndirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSelfReferenceIndirect.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderFour =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderFour = new WorksheetReader();
       spreadsheetFour = worksheetReaderFour.read(builderFour, fileReaderFour);
 
       Readable fileReaderFive = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSimpleSpread.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSimpleSpread.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderFive =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderFive = new WorksheetReader();
@@ -74,12 +74,12 @@ public class TextualViewTests {
   public void testTextViewSampleOne() {
     try {
       PrintWriter p1 = new PrintWriter("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySampleOne.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySampleOne.txt");
       TextualView textView = new TextualView(p1, new ViewModel(spreadsheetOne));
       textView.makeVisible();
       p1.close();
       Readable fileReaderOne = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySampleOne.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySampleOne.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReader = new WorksheetReader();
@@ -105,12 +105,12 @@ public class TextualViewTests {
   public void testTextViewEmpty() {
     try {
       PrintWriter p1 = new PrintWriter("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopyEmpty.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopyEmpty.txt");
       TextualView textView = new TextualView(p1, new ViewModel(spreadsheetTwo));
       textView.makeVisible();
       p1.close();
       Readable fileReader = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopyEmpty.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopyEmpty.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReader = new WorksheetReader();
@@ -136,12 +136,12 @@ public class TextualViewTests {
   public void testTextViewSelfRefDirect() {
     try {
       PrintWriter p1 = new PrintWriter("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySelfRefDirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySelfRefDirect.txt");
       TextualView textView = new TextualView(p1, new ViewModel(spreadsheetThree));
       textView.makeVisible();
       p1.close();
       Readable fileReader = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySelfRefDirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySelfRefDirect.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReader = new WorksheetReader();
@@ -167,12 +167,12 @@ public class TextualViewTests {
   public void testTextViewSelfRefIndirect() {
     try {
       PrintWriter p1 = new PrintWriter("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySelfRefIndirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySelfRefIndirect.txt");
       TextualView textView = new TextualView(p1, new ViewModel(spreadsheetFour));
       textView.makeVisible();
       p1.close();
       Readable fileReader = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySelfRefIndirect.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySelfRefIndirect.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReader = new WorksheetReader();
@@ -198,12 +198,12 @@ public class TextualViewTests {
   public void testTextViewSimpleSpread() {
     try {
       PrintWriter p1 = new PrintWriter("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySimpleSpread.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySimpleSpread.txt");
       TextualView textView = new TextualView(p1, new ViewModel(spreadsheetFive));
       textView.makeVisible();
       p1.close();
       Readable fileReader = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileCopySimpleSpread.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySimpleSpread.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReader = new WorksheetReader();
@@ -228,14 +228,14 @@ public class TextualViewTests {
   @Test
   public void testMakeVisible() {
     WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
-        new SimpleSpreadsheet.Builder();
+            new SimpleSpreadsheet.Builder();
     SimpleSpreadsheet spreadsheet = builderOne
-        .createCell(1, 1, "5.0")
-        .createCell(3, 1, "Hello")
-        .createCell(2, 2, "=(SUM A1:A5)")
-        .createCell(4, 4, "=true")
-        .createCell(27, 90, "=(CAPITALIZE A1:B12)")
-        .createWorksheet();
+            .createCell(1, 1, "5.0")
+            .createCell(3, 1, "Hello")
+            .createCell(2, 2, "=(SUM A1:A5)")
+            .createCell(4, 4, "=true")
+            .createCell(27, 90, "=(CAPITALIZE A1:B12)")
+            .createWorksheet();
 
     Appendable ap = new StringBuilder();
 
@@ -244,14 +244,14 @@ public class TextualViewTests {
 
     textView.makeVisible();
     assertEquals("A1 5.0\n" + "C1 Hello\n" + "B2 =(SUM A1:A5)\n"
-            + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
-        ap.toString());
+                    + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
+            ap.toString());
 
     //Add a cell to the worksheet and refresh the view. The appendable should not change.
     spreadsheet.setCellValue(new Coord(3, 3), "-12.7");
     textView.refresh();
     assertEquals("A1 5.0\n" + "C1 Hello\n" + "B2 =(SUM A1:A5)\n"
-            + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
-        ap.toString());
+                    + "D4 =true\n" + "AA90 =(CAPITALIZE A1:B12)\n",
+            ap.toString());
   }
 }

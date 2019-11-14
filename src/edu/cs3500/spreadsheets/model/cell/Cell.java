@@ -17,7 +17,6 @@ public interface Cell {
    *
    * @param cells  The coordinate to cell mapping of the spreadsheet
    * @param values The formulas which have already been computed (for optimization)
-   * @return The evaluated value
    */
   void evaluate(Hashtable<Coord, Cell> cells, Hashtable<Formula, Value> values);
 

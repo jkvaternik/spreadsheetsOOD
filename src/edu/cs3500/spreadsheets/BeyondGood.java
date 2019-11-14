@@ -2,7 +2,6 @@ package edu.cs3500.spreadsheets;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import edu.cs3500.spreadsheets.model.Coord;

@@ -1,12 +1,26 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.event.MouseListener;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
@@ -22,9 +36,6 @@ public class VisualView extends JFrame implements View {
   private final ViewModel viewModel;
   private SpreadsheetPanel spreadsheetPanel;
   private final JButton editButton;
-  private final JButton increaseSizeButton;
-  private final JPanel editPanel;
-  private final JTextField userInputField;
   private final JScrollPane scrollPane;
 
   /**
@@ -60,21 +71,21 @@ public class VisualView extends JFrame implements View {
     this.add(scrollPane, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
-    this.editPanel = new JPanel();
-    this.editPanel.setLayout(new FlowLayout());
-    this.add(this.editPanel, BorderLayout.SOUTH);
+    JPanel editPanel = new JPanel();
+    editPanel.setLayout(new FlowLayout());
+    this.add(editPanel, BorderLayout.SOUTH);
 
     // Set up the input text field and add it to its panel
-    this.userInputField = new JTextField(25);
-    this.editPanel.add(this.userInputField);
+    JTextField userInputField = new JTextField(25);
+    editPanel.add(userInputField);
 
     // Set up the edit button (but have it do nothing for now)
     this.editButton = new JButton("Edit Cell");
-    this.editPanel.add(this.editButton);
+    editPanel.add(this.editButton);
 
     // Set up the increase size button (but have it do nothing for now)
-    this.increaseSizeButton = new JButton("Increase Size");
-    this.increaseSizeButton.addActionListener(new ActionListener() {
+    JButton increaseSizeButton = new JButton("Increase Size");
+    increaseSizeButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         int oldH = VisualView.this.spreadsheetPanel.getPreferredSize().height / 25;
@@ -88,7 +99,7 @@ public class VisualView extends JFrame implements View {
         VisualView.this.setHeaders(oldW + 26, oldH + 26);
       }
     });
-    this.editPanel.add(this.increaseSizeButton);
+    editPanel.add(increaseSizeButton);
 
     this.pack();
   }

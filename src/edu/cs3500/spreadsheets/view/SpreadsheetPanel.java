@@ -1,15 +1,27 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
+
+/**
+ * Represents Swing component of the actual grid of a spreadsheet.
+ */
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
   private static final int CELL_WIDTH = 75;
@@ -21,6 +33,11 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final ViewModel viewModel;
   private final List<Coord> highlightedCells;
 
+  /**
+   * Constructs an instance of the SpreadsheetPanel based on the given ViewModel.
+   *
+   * @param viewModel the given ViewModel
+   */
   public SpreadsheetPanel(ViewModel viewModel) {
     super();
     this.viewModel = viewModel;
@@ -96,7 +113,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   @Override
   public void mouseMoved(MouseEvent e) {
-
+    // not applicable to scrolling because we only listen to mouse dragging
   }
 
   @Override

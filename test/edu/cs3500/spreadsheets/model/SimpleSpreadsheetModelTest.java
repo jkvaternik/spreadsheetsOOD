@@ -22,21 +22,21 @@ public class SimpleSpreadsheetModelTest {
   public void init() {
     try {
       Readable fileReaderOne = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSampleOne.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSampleOne.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderOne = new WorksheetReader();
       spreadsheetOne = worksheetReaderOne.read(builderOne, fileReaderOne);
 
       Readable fileReaderTwo = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileEmpty.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileEmpty.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderTwo =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderTwo = new WorksheetReader();
       spreadsheetTwo = worksheetReaderTwo.read(builderTwo, fileReaderTwo);
 
       Readable fileReaderThree = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSelfReferenceIndirect." +
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSelfReferenceIndirect." +
               "txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderThree =
               new SimpleSpreadsheet.Builder();
@@ -44,7 +44,7 @@ public class SimpleSpreadsheetModelTest {
       spreadsheetThree = worksheetReaderThree.read(builderThree, fileReaderThree);
 
       Readable fileReaderFour = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/test/edu/cs3500/textFiles/fileSimpleSpread.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSimpleSpread.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderFour =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderFour = new WorksheetReader();
