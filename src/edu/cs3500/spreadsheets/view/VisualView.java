@@ -27,6 +27,11 @@ public class VisualView extends JFrame implements View {
   private final JTextField userInputField;
   private final JScrollPane scrollPane;
 
+  /**
+   * Constructs an instance of the VisualView based on the ViewModel.
+   *
+   * @param viewModel the given ViewModel
+   */
   public VisualView(ViewModel viewModel) {
     //Make the frame
     super("Spreadsheet");
@@ -76,7 +81,7 @@ public class VisualView extends JFrame implements View {
         int oldW = VisualView.this.spreadsheetPanel.getPreferredSize().width / 75;
 
         VisualView.this.spreadsheetPanel.setPreferredSize(
-            new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
+                new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
         VisualView.this.spreadsheetPanel.revalidate();
         VisualView.this.spreadsheetPanel.repaint();
 
