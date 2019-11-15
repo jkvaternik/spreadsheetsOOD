@@ -1,3 +1,12 @@
+Have separate features and controller, so controller does not need to depend on Swing or AWT at all.
+
+
+Features ideas:
+- cell selected
+- edited selected cell
+
+____________________________________________________________________________________________________
+
 ASSIGNMENT 6:
 
 General structure of our View:
