@@ -13,7 +13,7 @@ import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
 import edu.cs3500.spreadsheets.view.TextualView;
 import edu.cs3500.spreadsheets.view.View;
-import edu.cs3500.spreadsheets.view.VisualView;
+import edu.cs3500.spreadsheets.view.VisualReadView;
 
 /**
  * The main class for our program.
@@ -31,7 +31,7 @@ public class BeyondGood {
         WorksheetBuilder<SimpleSpreadsheet> builder = new Builder();
         SpreadsheetModel spreadsheet = builder.createWorksheet();
         ViewModel viewModel = new ViewModel(spreadsheet);
-        View view = new VisualView(viewModel);
+        View view = new VisualReadView(viewModel);
         view.makeVisible();
       } else {
         System.out.print("Invalid command");
@@ -44,7 +44,7 @@ public class BeyondGood {
           WorksheetReader worksheetReader = new WorksheetReader();
           SimpleSpreadsheet spreadsheet = worksheetReader.read(builder, fileReader);
           ViewModel viewModel = new ViewModel(spreadsheet);
-          View view = new VisualView(viewModel);
+          View view = new VisualReadView(viewModel);
           view.makeVisible();
         } catch (FileNotFoundException e) {
           System.out.print("File was not found.");

@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -20,6 +21,13 @@ public interface View {
   void refresh();
 
   /**
+   * Handles the action listeners of the features from the {@link Features} interface.
+   *
+   * @param features The features
+   */
+  void addFeatures(Features features);
+
+  /**
    * Adds a mouse listener to this view to handle any mouse-related events.
    *
    * @param listener The mouse listener
@@ -27,7 +35,7 @@ public interface View {
   void addMouseListener(MouseListener listener);
 
   /**
-   * Adds an action listener to this view to handle any non-mouse-related events (i.e. buttons)
+   * Adds an action listener to this view to handle any non-mouse-related events (i.e. buttons).
    *
    * @param listener The action listener
    */

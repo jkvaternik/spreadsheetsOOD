@@ -1,27 +1,12 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.awt.event.ActionListener;
-
-import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.UIManager;
+import javax.swing.*;
 
+import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 
@@ -29,21 +14,18 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
  * coordinates, and supports the capability of scrolling the table.
  */
-public class VisualView extends JFrame implements View {
-
-  private static final int INCREMENT_AMOUNT = 26;
+public class VisualReadView extends JFrame implements View {
 
   private final ViewModel viewModel;
-  private SpreadsheetPanel spreadsheetPanel;
-  private final JButton editButton;
   private final JScrollPane scrollPane;
+  private SpreadsheetPanel spreadsheetPanel;
 
   /**
-   * Constructs an instance of the VisualView based on the ViewModel.
+   * Constructs an instance of the VisualReadView based on the ViewModel.
    *
    * @param viewModel the given ViewModel
    */
-  public VisualView(ViewModel viewModel) {
+  public VisualReadView(ViewModel viewModel) {
     //Make the frame
     super("Spreadsheet");
     this.setSize(1000, 600);
@@ -70,37 +52,6 @@ public class VisualView extends JFrame implements View {
     this.setHeaders(numCols, numRows);
     this.add(scrollPane, BorderLayout.CENTER);
 
-    // Set up the panel which contains the text field and the edit button
-    JPanel editPanel = new JPanel();
-    editPanel.setLayout(new FlowLayout());
-    this.add(editPanel, BorderLayout.SOUTH);
-
-    // Set up the input text field and add it to its panel
-    JTextField userInputField = new JTextField(25);
-    editPanel.add(userInputField);
-
-    // Set up the edit button (but have it do nothing for now)
-    this.editButton = new JButton("Edit Cell");
-    editPanel.add(this.editButton);
-
-    // Set up the increase size button (but have it do nothing for now)
-    JButton increaseSizeButton = new JButton("Increase Size");
-    increaseSizeButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        int oldH = VisualView.this.spreadsheetPanel.getPreferredSize().height / 25;
-        int oldW = VisualView.this.spreadsheetPanel.getPreferredSize().width / 75;
-
-        VisualView.this.spreadsheetPanel.setPreferredSize(
-                new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
-        VisualView.this.spreadsheetPanel.revalidate();
-        VisualView.this.spreadsheetPanel.repaint();
-
-        VisualView.this.setHeaders(oldW + 26, oldH + 26);
-      }
-    });
-    editPanel.add(increaseSizeButton);
-
     this.pack();
   }
 
@@ -115,18 +66,18 @@ public class VisualView extends JFrame implements View {
   }
 
   @Override
-  public void addActionListener(ActionListener listener) {
-    this.editButton.addActionListener(listener);
+  public void addFeatures(Features features) {
+    // Does not apply because this view is READ-ONLY
   }
 
   @Override
-  public void addMouseListener(MouseListener listener) {
-    this.spreadsheetPanel.addMouseListener(listener);
+  public void addActionListener(ActionListener listener) {
+    // Does not apply because this view is READ-ONLY
   }
 
   @Override
   public void highlightCells(List<Coord> cellCoords) {
-    this.spreadsheetPanel.setHighlightedCells(cellCoords);
+    // Does not apply because this view is READ-ONLY
   }
 
   /**
@@ -203,7 +154,7 @@ public class VisualView extends JFrame implements View {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> list, String value,
-        int index, boolean isSelected, boolean cellHasFocus) {
+                                                  int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }
