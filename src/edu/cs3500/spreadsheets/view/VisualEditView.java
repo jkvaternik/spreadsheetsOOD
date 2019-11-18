@@ -65,8 +65,8 @@ public class VisualEditView extends JFrame implements View {
     this.add(editPanel, BorderLayout.SOUTH);
 
     // Set up the input text field and add it to its panel
-    this.userInputField = new JTextField(25);
-    editPanel.add(userInputField);
+    this.userInputField = new JTextField(50);
+    editPanel.add(this.userInputField);
 
     // Set up the confirm edit button
     this.confirmEditButton = new JButton("Edit Cell");
@@ -123,7 +123,7 @@ public class VisualEditView extends JFrame implements View {
               }
               features.selectedCellEdited(userString);
             });
-    this.addMouseListener(new MouseListener() {
+    this.spreadsheetPanel.addMouseListener(new MouseListener() {
       @Override
       public void mouseClicked(MouseEvent e) {
         int clickX = e.getX();
