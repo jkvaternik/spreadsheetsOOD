@@ -31,7 +31,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private final int maxYIncrement = CELL_HEIGHT;
 
   private final ViewModel viewModel;
-  private final List<Coord> highlightedCells;
+  private Coord highlightedCell;
 
   /**
    * Constructs an instance of the SpreadsheetPanel based on the given ViewModel.
@@ -41,7 +41,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   public SpreadsheetPanel(ViewModel viewModel) {
     super();
     this.viewModel = viewModel;
-    this.highlightedCells = new ArrayList<>();
 
     // Set up background
     this.setBackground(Color.WHITE);
@@ -68,12 +67,12 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     Shape initClip = g2d.getClip();
 
     // Check for highlighted cells first so that the contents still appear over the highlight
-    for (Coord c : this.highlightedCells) {
-      g2d.setClip((c.col - 1) * CELL_WIDTH, (c.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+    if (this.highlightedCell != null) {
+      g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
       g2d.setColor(Color.YELLOW);
-      g2d.fillRect((c.col - 1) * CELL_WIDTH, (c.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       g2d.setColor(prevColor);
     }
 
@@ -95,14 +94,11 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   /**
    * Changes the highlightedCells of this spreadsheet panel. It de-highlights any previously
    * highlighted cells.
-   * @param cellCoords The Coords of the new highlighted cells.
+   * @param cellCoord The Coords of the new highlighted cells.
    *                   If this is null or empty, all cells are de-highlighted.
    */
-  void setHighlightedCells(List<Coord> cellCoords) {
-    this.highlightedCells.clear();
-    if (cellCoords != null) {
-      this.highlightedCells.addAll(cellCoords);
-    }
+  void setHighlightedCell(Coord cellCoord) {
+    this.highlightedCell = cellCoord;
   }
 
   @Override

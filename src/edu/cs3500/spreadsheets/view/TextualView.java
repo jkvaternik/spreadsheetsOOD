@@ -46,7 +46,7 @@ public class TextualView implements View {
 
   @Override
   public void addFeatures(Features features) {
-    // Do nothing, as there are no features supported by this view.
+    //Do nothing, as there are no features supported by this view.
   }
 
   @Override
@@ -62,7 +62,7 @@ public class TextualView implements View {
   }
 
   @Override
-  public void highlightCells(List<Coord> cellCoords) {
+  public void highlightCell(Coord cellCoord) {
     //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }
 }
