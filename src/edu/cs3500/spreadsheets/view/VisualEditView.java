@@ -3,8 +3,8 @@ package edu.cs3500.spreadsheets.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
 
 import javax.swing.*;
 
@@ -22,8 +22,10 @@ public class VisualEditView extends JFrame implements View {
 
   private final ViewModel viewModel;
   private SpreadsheetPanel spreadsheetPanel;
-  private final JButton editButton;
+  private final JButton confirmEditButton;
+  private final JButton rejectEditButton;
   private final JScrollPane scrollPane;
+  private final JTextField userInputField;
 
   /**
    * Constructs an instance of the VisualReadView based on the ViewModel.
@@ -63,28 +65,38 @@ public class VisualEditView extends JFrame implements View {
     this.add(editPanel, BorderLayout.SOUTH);
 
     // Set up the input text field and add it to its panel
-    JTextField userInputField = new JTextField(25);
+    this.userInputField = new JTextField(25);
     editPanel.add(userInputField);
 
-    // Set up the edit button (but have it do nothing for now)
-    this.editButton = new JButton("Edit Cell");
-    editPanel.add(this.editButton);
+    // Set up the confirm edit button
+    this.confirmEditButton = new JButton("Edit Cell");
+    this.confirmEditButton.setActionCommand("Edit Cell");
+    editPanel.add(this.confirmEditButton);
+
+    // Set up the reject edit button
+    this.rejectEditButton = new JButton("Clear edit");
+    this.rejectEditButton.setActionCommand("Clear edit");
+    this.rejectEditButton.addActionListener(e -> {
+      this.userInputField.setText("");
+    });
+
+    editPanel.add(this.rejectEditButton);
 
     // Set up the increase size button (but have it do nothing for now)
     JButton increaseSizeButton = new JButton("Increase Size");
-    increaseSizeButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height / 25;
-        int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width / 75;
+    increaseSizeButton.addActionListener(e -> {
+      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
+          / SpreadsheetPanel.CELL_HEIGHT;
+      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
+          / SpreadsheetPanel.CELL_WIDTH;
 
-        VisualEditView.this.spreadsheetPanel.setPreferredSize(
-                new Dimension(75 * (oldW + INCREMENT_AMOUNT), 25 * (oldH + INCREMENT_AMOUNT)));
-        VisualEditView.this.spreadsheetPanel.revalidate();
-        VisualEditView.this.spreadsheetPanel.repaint();
+      VisualEditView.this.spreadsheetPanel.setPreferredSize(
+          new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
+              SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
 
-        VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
-      }
+      VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
     });
     editPanel.add(increaseSizeButton);
 
@@ -103,12 +115,45 @@ public class VisualEditView extends JFrame implements View {
 
   @Override
   public void addFeatures(Features features) {
+    this.confirmEditButton
+        .addActionListener(evt -> features.selectedCellEdited(userInputField.getText()));
+    this.addMouseListener(new MouseListener() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        int clickX = e.getX();
+        int clickY = e.getY();
 
+        int coordX = clickX / SpreadsheetPanel.CELL_WIDTH + 1;
+        int coordY = clickY / SpreadsheetPanel.CELL_HEIGHT + 1;
+        Coord cellCoord = new Coord(coordX, coordY);
+        features.cellSelected(cellCoord);
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        //We only care about mouse clicks
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        //We only care about mouse clicks
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        //We only care about mouse clicks
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        //We only care about mouse clicks
+      }
+    });
   }
 
   @Override
   public void addActionListener(ActionListener listener) {
-    this.editButton.addActionListener(listener);
+    this.confirmEditButton.addActionListener(listener);
   }
 
   @Override

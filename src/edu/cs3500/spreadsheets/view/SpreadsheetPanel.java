@@ -24,8 +24,8 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  */
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
-  private static final int CELL_WIDTH = 75;
-  private static final int CELL_HEIGHT = 25;
+  static final int CELL_WIDTH = 75;
+  static final int CELL_HEIGHT = 25;
 
   private final int maxXIncrement = CELL_WIDTH;
   private final int maxYIncrement = CELL_HEIGHT;

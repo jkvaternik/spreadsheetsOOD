@@ -6,7 +6,6 @@ import edu.cs3500.spreadsheets.model.ViewModel;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Represents a textual view of a spreadsheet. This view writes the model to an appendable.
