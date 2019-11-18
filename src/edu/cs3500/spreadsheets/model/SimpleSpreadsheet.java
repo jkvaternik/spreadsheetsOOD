@@ -170,11 +170,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
 
   @Override
   public List<Coord> getErrorCoords() {
-    List<Coord> errors = new ArrayList<>();
-    for (Coord c : errorCoords) {
-      errors.add(c);
-    }
-    return errors;
+    return new ArrayList<>(this.errorCoords);
   }
 
   /**
