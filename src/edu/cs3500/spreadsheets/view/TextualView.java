@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import java.awt.event.ActionListener;
@@ -44,6 +45,11 @@ public class TextualView implements View {
   }
 
   @Override
+  public void addFeatures(Features features) {
+    //Do nothing, as there are no features supported by this view.
+  }
+
+  @Override
   public void addMouseListener(MouseListener listener) {
     //Do nothing, since any listener can listen to this view, although this view won't have any
     //mouse events.
@@ -56,7 +62,7 @@ public class TextualView implements View {
   }
 
   @Override
-  public void highlightCells(List<Coord> cellCoords) {
+  public void highlightCell(Coord cellCoord) {
     //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }
 }

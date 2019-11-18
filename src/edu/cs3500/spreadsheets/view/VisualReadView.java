@@ -67,17 +67,17 @@ public class VisualReadView extends JFrame implements View {
 
   @Override
   public void addFeatures(Features features) {
-    // Does not apply because this view is READ-ONLY
+    //Do nothing, as there are no features supported because this view is READ-ONLY.
   }
 
   @Override
   public void addActionListener(ActionListener listener) {
-    // Does not apply because this view is READ-ONLY
+    //Do nothing, since you cannot add an ActionListener because this view is READ-ONLY.
   }
 
   @Override
-  public void highlightCells(List<Coord> cellCoords) {
-    // Does not apply because this view is READ-ONLY
+  public void highlightCell(Coord cellCoord) {
+    //Do nothing, since you cannot highlight a cell because this view is READ-ONLY.
   }
 
   /**

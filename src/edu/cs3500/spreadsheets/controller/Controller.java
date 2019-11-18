@@ -25,10 +25,7 @@ public class Controller implements Features {
   @Override
   public void cellSelected(Coord coord) {
     this.selectedCoord = coord;
-    // TODO: Make highlightCells only have one cell
-    List<Coord> coords = new ArrayList<>();
-    coords.add(coord);
-    this.view.highlightCells(coords);
+    this.view.highlightCell(coord);
   }
 
   @Override

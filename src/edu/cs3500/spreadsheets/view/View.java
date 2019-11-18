@@ -45,8 +45,7 @@ public interface View {
   /**
    * Highlights the cells at the given Coordinates. In the process, it de-highlights any previously
    * highlighted cells.
-   * @param cellCoords The coordinates of the cells.
-   *                   If this is null or empty, all cells are de-highlighted.
+   * @param cellCoord The coordinate of the cell
    */
-  void highlightCells(List<Coord> cellCoords);
+  void highlightCell(Coord cellCoord);
 }

@@ -117,8 +117,8 @@ public class VisualEditView extends JFrame implements View {
   }
 
   @Override
-  public void highlightCells(List<Coord> cellCoords) {
-    this.spreadsheetPanel.setHighlightedCells(cellCoords);
+  public void highlightCell(Coord cellCoord) {
+    this.spreadsheetPanel.setHighlightedCell(cellCoord);
   }
 
   /**
