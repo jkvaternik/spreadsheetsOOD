@@ -158,16 +158,6 @@ public class VisualEditView extends JFrame implements View {
   }
 
   @Override
-  public void addActionListener(ActionListener listener) {
-    this.confirmEditButton.addActionListener(listener);
-  }
-
-  @Override
-  public void addMouseListener(MouseListener listener) {
-    this.spreadsheetPanel.addMouseListener(listener);
-  }
-
-  @Override
   public void highlightCell(Coord cellCoord) {
     this.spreadsheetPanel.setHighlightedCell(cellCoord);
     this.userInputField.setText(this.viewModel.getRawContents(cellCoord));

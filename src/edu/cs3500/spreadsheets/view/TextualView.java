@@ -49,18 +49,6 @@ public class TextualView implements View {
   }
 
   @Override
-  public void addMouseListener(MouseListener listener) {
-    //Do nothing, since any listener can listen to this view, although this view won't have any
-    //mouse events.
-  }
-
-  @Override
-  public void addActionListener(ActionListener listener) {
-    //Do nothing, since any listener can listen to this view, although this view won't have any
-    //action events.
-  }
-
-  @Override
   public void highlightCell(Coord cellCoord) {
     //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }

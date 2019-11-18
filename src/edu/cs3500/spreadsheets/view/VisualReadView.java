@@ -71,11 +71,6 @@ public class VisualReadView extends JFrame implements View {
   }
 
   @Override
-  public void addActionListener(ActionListener listener) {
-    //Do nothing, since you cannot add an ActionListener because this view is READ-ONLY.
-  }
-
-  @Override
   public void highlightCell(Coord cellCoord) {
     //Do nothing, since you cannot highlight a cell because this view is READ-ONLY.
   }
