@@ -116,7 +116,13 @@ public class VisualEditView extends JFrame implements View {
   @Override
   public void addFeatures(Features features) {
     this.confirmEditButton
-        .addActionListener(evt -> features.selectedCellEdited(userInputField.getText()));
+            .addActionListener(evt -> {
+              String userString = "";
+              if (userInputField.getText() != null) {
+                userString = userInputField.getText();
+              }
+              features.selectedCellEdited(userString);
+            });
     this.addMouseListener(new MouseListener() {
       @Override
       public void mouseClicked(MouseEvent e) {
@@ -127,6 +133,7 @@ public class VisualEditView extends JFrame implements View {
         int coordY = clickY / SpreadsheetPanel.CELL_HEIGHT + 1;
         Coord cellCoord = new Coord(coordX, coordY);
         features.cellSelected(cellCoord);
+        System.out.println(cellCoord.toString());
       }
 
       @Override
@@ -164,6 +171,7 @@ public class VisualEditView extends JFrame implements View {
   @Override
   public void highlightCell(Coord cellCoord) {
     this.spreadsheetPanel.setHighlightedCell(cellCoord);
+    this.userInputField.setText(this.viewModel.getRawContents(cellCoord));
   }
 
   /**

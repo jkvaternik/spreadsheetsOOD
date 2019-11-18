@@ -71,7 +71,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public void setCellValue(Coord coord, String contents) {
     Cell toAdd;
-    if (contents == null) {
+    if (contents == null || contents.equals("")) {
       toAdd = new BlankCell();
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {

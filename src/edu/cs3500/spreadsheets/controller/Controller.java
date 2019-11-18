@@ -25,12 +25,14 @@ public class Controller implements Features {
   public void cellSelected(Coord coord) {
     this.selectedCoord = coord;
     this.view.highlightCell(coord);
+    this.view.refresh();
   }
 
   @Override
   public void selectedCellEdited(String contents) {
     if (this.selectedCoord != null) {
       this.model.setCellValue(selectedCoord, contents);
+      this.view.refresh();
     }
   }
 }

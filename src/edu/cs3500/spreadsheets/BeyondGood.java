@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 
+import edu.cs3500.spreadsheets.controller.Controller;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet.Builder;
@@ -13,6 +14,7 @@ import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.model.WorksheetReader.WorksheetBuilder;
 import edu.cs3500.spreadsheets.view.TextualView;
 import edu.cs3500.spreadsheets.view.View;
+import edu.cs3500.spreadsheets.view.VisualEditView;
 import edu.cs3500.spreadsheets.view.VisualReadView;
 
 /**
@@ -36,6 +38,16 @@ public class BeyondGood {
       } else {
         System.out.print("Invalid command");
       }
+      if (args[0].equals("-edit")) {
+        WorksheetBuilder<SimpleSpreadsheet> builder = new Builder();
+        SpreadsheetModel spreadsheet = builder.createWorksheet();
+        ViewModel viewModel = new ViewModel(spreadsheet);
+        View view = new VisualEditView(viewModel);
+        view.makeVisible();
+        //TODO: Add controller
+      } else {
+        System.out.print("Invalid command");
+      }
     } else if (args.length == 3) {
       if (args[0].equals("-in") && args[2].equals("-gui")) {
         try {
@@ -46,6 +58,23 @@ public class BeyondGood {
           ViewModel viewModel = new ViewModel(spreadsheet);
           View view = new VisualReadView(viewModel);
           view.makeVisible();
+        } catch (FileNotFoundException e) {
+          System.out.print("File was not found.");
+        }
+      } else {
+        System.out.print("Invalid command");
+      }
+      if (args[0].equals("-in") && args[2].equals("-edit")) {
+        try {
+          Readable fileReader = new FileReader(args[1]);
+          WorksheetBuilder<SimpleSpreadsheet> builder = new Builder();
+          WorksheetReader worksheetReader = new WorksheetReader();
+          SimpleSpreadsheet spreadsheet = worksheetReader.read(builder, fileReader);
+          ViewModel viewModel = new ViewModel(spreadsheet);
+          View view = new VisualEditView(viewModel);
+          view.makeVisible();
+          Controller controller = new Controller(spreadsheet, view);
+          view.addFeatures(controller);
         } catch (FileNotFoundException e) {
           System.out.print("File was not found.");
         }
@@ -63,7 +92,8 @@ public class BeyondGood {
           if (spreadsheet.getErrorCoords().size() != 0) {
             for (Coord c : spreadsheet.getErrorCoords()) {
               System.out.println("Error in " + Coord.colIndexToName(c.col) + c.row + ": "
-                      + spreadsheet.getValue(c));
+                      // Use substring to get the exception message
+                      + spreadsheet.getValue(c).substring(6));
             }
           }
 

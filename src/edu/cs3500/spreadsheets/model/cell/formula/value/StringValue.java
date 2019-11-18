@@ -56,7 +56,7 @@ public class StringValue implements Value {
 
   @Override
   public String toString() {
-    return String.format("\"%s\"", this.value.replace("\\", "\\\\")
+    return String.format("%s", this.value.replace("\\", "\\\\")
             .replace("\"", "\\\""));
   }
 

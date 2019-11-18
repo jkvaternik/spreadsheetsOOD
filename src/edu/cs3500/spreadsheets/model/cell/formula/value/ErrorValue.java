@@ -56,7 +56,7 @@ public class ErrorValue implements Value {
 
   @Override
   public String toString() {
-    return value.getMessage();
+    return "#ERR: " + value.getMessage();
   }
 
   @Override
