@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import java.awt.event.ActionListener;
@@ -41,6 +42,11 @@ public class TextualView implements View {
   @Override
   public void refresh() {
     //Do nothing, as we do not want to write again to the appendable
+  }
+
+  @Override
+  public void addFeatures(Features features) {
+    // Do nothing, as there are no features supported by this view.
   }
 
   @Override

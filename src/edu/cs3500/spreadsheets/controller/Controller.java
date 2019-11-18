@@ -18,8 +18,7 @@ public class Controller implements Features {
   public Controller(SpreadsheetModel model, View view) {
     this.model = model;
     this.view = view;
-    // TODO: Create addFeatures() method in View
-    //this.view.addFeatures(this);
+    this.view.addFeatures(this);
   }
 
   @Override
