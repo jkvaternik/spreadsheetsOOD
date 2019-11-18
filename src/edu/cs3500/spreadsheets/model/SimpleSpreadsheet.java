@@ -75,9 +75,14 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       toAdd = new BlankCell();
       this.cells.put(coord, toAdd);
     } else if (contents.charAt(0) == '=') {
-      toAdd = new FormulaCell(
-              (Parser.parse(contents.substring(1))).accept(new SexpVisitorFormula()),
-              contents);
+      try {
+        toAdd = new FormulaCell(
+                (Parser.parse(contents.substring(1))).accept(new SexpVisitorFormula()),
+                contents);
+      } catch (IllegalArgumentException e) {
+        toAdd = new ValueCell(contents,
+                new ErrorValue(new IllegalArgumentException("Illegal formula.")));
+      }
       this.cells.put(coord, toAdd);
       if (toAdd.containsCyclicalReference(new HashSet<>(), this.cells, new HashSet<>())) {
         this.errorCoords.add(coord);

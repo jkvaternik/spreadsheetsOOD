@@ -35,16 +35,14 @@ public class BeyondGood {
         ViewModel viewModel = new ViewModel(spreadsheet);
         View view = new VisualReadView(viewModel);
         view.makeVisible();
-      } else {
-        System.out.print("Invalid command");
-      }
-      if (args[0].equals("-edit")) {
+      } else if (args[0].equals("-edit")) {
         WorksheetBuilder<SimpleSpreadsheet> builder = new Builder();
         SpreadsheetModel spreadsheet = builder.createWorksheet();
         ViewModel viewModel = new ViewModel(spreadsheet);
         View view = new VisualEditView(viewModel);
         view.makeVisible();
-        //TODO: Add controller
+        Controller controller = new Controller(spreadsheet, view);
+        view.addFeatures(controller);
       } else {
         System.out.print("Invalid command");
       }
@@ -61,10 +59,7 @@ public class BeyondGood {
         } catch (FileNotFoundException e) {
           System.out.print("File was not found.");
         }
-      } else {
-        System.out.print("Invalid command");
-      }
-      if (args[0].equals("-in") && args[2].equals("-edit")) {
+      } else if (args[0].equals("-in") && args[2].equals("-edit")) {
         try {
           Readable fileReader = new FileReader(args[1]);
           WorksheetBuilder<SimpleSpreadsheet> builder = new Builder();

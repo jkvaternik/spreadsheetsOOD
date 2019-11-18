@@ -133,7 +133,6 @@ public class VisualEditView extends JFrame implements View {
         int coordY = clickY / SpreadsheetPanel.CELL_HEIGHT + 1;
         Coord cellCoord = new Coord(coordX, coordY);
         features.cellSelected(cellCoord);
-        System.out.println(cellCoord.toString());
       }
 
       @Override

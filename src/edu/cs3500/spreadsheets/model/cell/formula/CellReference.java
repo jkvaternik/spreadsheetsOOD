@@ -14,8 +14,7 @@ import edu.cs3500.spreadsheets.model.cell.formula.value.ErrorValue;
 import edu.cs3500.spreadsheets.model.cell.formula.value.Value;
 
 /**
- * Represents a reference to one or more spreadsheet cells. TODO: Consider having two subclasses,
- * one for single references and one for multi references.
+ * Represents a reference to one or more spreadsheet cells.
  */
 public class CellReference implements Formula {
   private final Coord from;
@@ -105,7 +104,6 @@ public class CellReference implements Formula {
    * @param cells The cells at each coordinate in the spreadsheet
    * @return All of the cells in this reference
    */
-  //TODO: How do we not make this public???
   public List<Cell> getAllCells(Hashtable<Coord, Cell> cells) {
     int fromCol = from.col;
     int fromRow = from.row;
