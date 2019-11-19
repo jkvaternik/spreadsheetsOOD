@@ -184,7 +184,6 @@ public class VisualEditView extends JFrame implements View {
     });
 
     this.addKeyListener(new KeyListener() {
-
       @Override
       public void keyTyped(KeyEvent e) {
         //Do nothing
