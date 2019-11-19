@@ -273,6 +273,11 @@ public class VisualEditView extends JFrame implements View {
           default:
             //Do nothing if no other keys were typed
         }
+        try {
+          wait(1);
+        } catch (InterruptedException ex) {
+          // Do nothing, pls don't break
+        }
       }
     });
   }
