@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.PrintWriter;
 
 import javax.swing.*;
 
@@ -157,7 +158,16 @@ public class VisualEditView extends JFrame implements View {
       int returnVal = fileChooser.showSaveDialog(this);
 
       if (returnVal == JFileChooser.APPROVE_OPTION) {
-
+        PrintWriter fileWriter = null;
+        try {
+          // get file path from save dialog
+          fileWriter = new PrintWriter("");
+        } catch (FileNotFoundException ex) {
+          ex.printStackTrace();
+        }
+        View view = new TextualView(fileWriter, this.viewModel);
+        view.makeVisible();
+        fileWriter.close();
       }
     });
 
