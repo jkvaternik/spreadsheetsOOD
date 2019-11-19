@@ -8,4 +8,6 @@ import edu.cs3500.spreadsheets.model.Coord;
 public interface Features {
   void cellSelected(Coord coord);
   void selectedCellEdited(String contents);
+  void movedHighlightedCell(Direction direction);
+  void deletedSelectedCell();
 }

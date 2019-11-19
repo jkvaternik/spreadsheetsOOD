@@ -35,4 +35,34 @@ public class Controller implements Features {
       this.view.refresh();
     }
   }
+
+  @Override
+  public void movedHighlightedCell(Direction direction) {
+    int newCol = this.selectedCoord.col;
+    int newRow = this.selectedCoord.row;
+    switch (direction) {
+      case UP:
+        newRow -= 1;
+        break;
+      case DOWN:
+        newRow += 1;
+        break;
+      case LEFT:
+        newCol -= 1;
+        break;
+      case RIGHT:
+        newCol += 1;
+        break;
+      default:
+        //Do nothing if entered direction was null
+    }
+    this.selectedCoord = new Coord(newCol, newRow);
+    this.view.refresh();
+  }
+
+  @Override
+  public void deletedSelectedCell() {
+    this.model.setCellValue(selectedCoord, null);
+    this.view.refresh();
+  }
 }
