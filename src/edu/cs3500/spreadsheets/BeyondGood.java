@@ -42,7 +42,6 @@ public class BeyondGood {
         View view = new VisualEditView(viewModel);
         view.makeVisible();
         Controller controller = new Controller(spreadsheet, view);
-        view.addFeatures(controller);
       } else {
         System.out.print("Invalid command");
       }
@@ -69,7 +68,6 @@ public class BeyondGood {
           View view = new VisualEditView(viewModel);
           view.makeVisible();
           Controller controller = new Controller(spreadsheet, view);
-          view.addFeatures(controller);
         } catch (FileNotFoundException e) {
           System.out.print("File was not found.");
         }

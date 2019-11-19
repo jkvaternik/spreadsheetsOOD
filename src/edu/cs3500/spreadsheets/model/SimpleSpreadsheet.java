@@ -63,9 +63,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
 
   @Override
   public void clearCell(Coord coord) {
-    if (this.cells.containsKey(coord)) {
-      this.cells.remove(coord);
-    }
+    this.setCellValue(coord, "");
   }
 
   @Override

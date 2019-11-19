@@ -71,7 +71,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
-      g2d.setColor(Color.YELLOW);
+      g2d.setColor(Color.CYAN);
       g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       g2d.setColor(prevColor);
     }
