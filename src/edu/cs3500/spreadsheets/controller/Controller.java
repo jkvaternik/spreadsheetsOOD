@@ -56,7 +56,12 @@ public class Controller implements Features {
       default:
         //Do nothing if entered direction was null
     }
-    this.selectedCoord = new Coord(newCol, newRow);
+    try {
+      this.selectedCoord = new Coord(newCol, newRow);
+      this.view.highlightCell(selectedCoord);
+    } catch (IllegalArgumentException e) {
+      //If the new coord is illegal, catch the exception and keep the original coord
+    }
     this.view.refresh();
   }
 

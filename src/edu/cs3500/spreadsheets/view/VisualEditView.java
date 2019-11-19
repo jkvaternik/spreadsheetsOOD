@@ -109,11 +109,15 @@ public class VisualEditView extends JFrame implements View {
   @Override
   public void makeVisible() {
     this.setVisible(true);
+    this.setFocusable(true);
+    this.requestFocus();
   }
 
   @Override
   public void refresh() {
     this.repaint();
+    this.setFocusable(true);
+    this.requestFocus();
   }
 
   @Override
@@ -162,6 +166,11 @@ public class VisualEditView extends JFrame implements View {
     this.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
+        //Do nothing
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
         switch (e.getKeyCode()) {
           case KeyEvent.VK_ENTER:
@@ -188,13 +197,8 @@ public class VisualEditView extends JFrame implements View {
       }
 
       @Override
-      public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-      }
-
-      @Override
       public void keyReleased(KeyEvent e) {
-        System.out.println(e.getKeyCode());
+        //We only care about key typed
       }
     });
   }
