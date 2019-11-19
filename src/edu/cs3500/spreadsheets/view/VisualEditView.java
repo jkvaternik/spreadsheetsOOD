@@ -1,5 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Controller;
 import edu.cs3500.spreadsheets.controller.Direction;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,12 +9,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import javax.swing.*;
 
 import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.ViewModel;
+import edu.cs3500.spreadsheets.model.WorksheetReader;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -23,7 +29,7 @@ public class VisualEditView extends JFrame implements View {
 
   private static final int INCREMENT_AMOUNT = 26;
 
-  private final ViewModel viewModel;
+  private ViewModel viewModel;
   private SpreadsheetPanel spreadsheetPanel;
   private final JButton confirmEditButton;
   private final JButton rejectEditButton;
@@ -110,12 +116,50 @@ public class VisualEditView extends JFrame implements View {
     JMenu menu = new JMenu("File");
     menuBar.add(menu);
 
-    JMenuItem menuItemOpen = new JMenuItem("Open");
+    JMenuItem menuItemOpen = new JMenuItem("Open...");
     menuItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+    menuItemOpen.addActionListener(e -> {
+      final JFileChooser fileChooser = new JFileChooser();
+      int returnVal = fileChooser.showOpenDialog(this);
+
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        Readable fileReader = null;
+        try {
+          fileReader = new FileReader(file.getAbsolutePath());
+          System.out.println(file.getAbsolutePath());
+        } catch (FileNotFoundException ex) {
+          ex.printStackTrace();
+        }
+        WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
+        SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
+
+        this.viewModel = new ViewModel(spreadsheet);
+        this.spreadsheetPanel = new SpreadsheetPanel(this.viewModel);
+
+        int rows = this.getMaxDimension().height;
+        int cols = this.getMaxDimension().width;
+
+        this.spreadsheetPanel.setPreferredSize(new Dimension(75 * cols, 25 * rows));
+        this.spreadsheetPanel.revalidate();
+
+        Controller controller = new Controller(spreadsheet, this);
+        this.addFeatures(controller);
+      }
+    });
+
     JMenuItem menuItemSave = new JMenuItem("Save");
     menuItemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+    menuItemSave.addActionListener(e -> {
+      final JFileChooser fileChooser = new JFileChooser();
+      int returnVal = fileChooser.showSaveDialog(this);
+
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+      }
+    });
 
     menu.add(menuItemOpen);
     menu.addSeparator();
@@ -224,6 +268,7 @@ public class VisualEditView extends JFrame implements View {
           case KeyEvent.VK_DELETE:
           case KeyEvent.VK_BACK_SPACE:
             features.deletedSelectedCell();
+            userInputField.setText("");
             break;
           default:
             //Do nothing if no other keys were typed
