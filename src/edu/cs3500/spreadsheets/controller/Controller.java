@@ -67,7 +67,7 @@ public class Controller implements Features {
 
   @Override
   public void deletedSelectedCell() {
-    this.model.setCellValue(selectedCoord, null);
+    this.model.clearCell(selectedCoord);
     this.view.refresh();
   }
 }

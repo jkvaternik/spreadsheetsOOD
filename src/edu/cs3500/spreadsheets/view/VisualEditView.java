@@ -183,6 +183,15 @@ public class VisualEditView extends JFrame implements View {
       }
     });
 
+    // The text field needs its own action listener so it knows what to do when the user has
+    // pressed entered while the field is in focus
+    this.userInputField.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        features.selectedCellEdited(userInputField.getText());
+      }
+    });
+
     this.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
@@ -196,7 +205,6 @@ public class VisualEditView extends JFrame implements View {
 
       @Override
       public void keyReleased(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         switch (e.getKeyCode()) {
           case KeyEvent.VK_ENTER:
             features.selectedCellEdited(userInputField.getText());
@@ -214,6 +222,7 @@ public class VisualEditView extends JFrame implements View {
             features.movedHighlightedCell(Direction.UP);
             break;
           case KeyEvent.VK_DELETE:
+          case KeyEvent.VK_BACK_SPACE:
             features.deletedSelectedCell();
             break;
           default:
