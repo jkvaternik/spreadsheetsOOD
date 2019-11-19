@@ -166,11 +166,16 @@ public class VisualEditView extends JFrame implements View {
     this.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
-        //Do nothing
+        //We only care about key released
       }
 
       @Override
       public void keyPressed(KeyEvent e) {
+        //We only care about key released
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
         System.out.println(e.getKeyCode());
         switch (e.getKeyCode()) {
           case KeyEvent.VK_ENTER:
@@ -194,11 +199,6 @@ public class VisualEditView extends JFrame implements View {
           default:
             //Do nothing if no other keys were typed
         }
-      }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-        //We only care about key typed
       }
     });
   }
