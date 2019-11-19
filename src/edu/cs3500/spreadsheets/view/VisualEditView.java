@@ -103,6 +103,26 @@ public class VisualEditView extends JFrame implements View {
     });
     editPanel.add(increaseSizeButton);
 
+    // Create a Menu Bar
+    System.setProperty("apple.laf.useScreenMenuBar", "true");
+    JMenuBar menuBar = new JMenuBar();
+
+    JMenu menu = new JMenu("File");
+    menuBar.add(menu);
+
+    JMenuItem menuItemOpen = new JMenuItem("Open");
+    menuItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+    JMenuItem menuItemSave = new JMenuItem("Save");
+    menuItemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+
+    menu.add(menuItemOpen);
+    menu.addSeparator();
+    menu.add(menuItemSave);
+
+    this.setJMenuBar(menuBar);
+
     this.pack();
   }
 
@@ -164,6 +184,7 @@ public class VisualEditView extends JFrame implements View {
     });
 
     this.addKeyListener(new KeyListener() {
+
       @Override
       public void keyTyped(KeyEvent e) {
         //Do nothing
