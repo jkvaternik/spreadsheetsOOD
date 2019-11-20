@@ -70,4 +70,14 @@ public class Controller implements Features {
     this.model.clearCell(selectedCoord);
     this.view.refresh();
   }
+
+  @Override
+  public void saveFile() {
+
+  }
+
+  @Override
+  public void loadFile() {
+
+  }
 }

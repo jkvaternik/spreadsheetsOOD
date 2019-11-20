@@ -233,82 +233,13 @@ public class VisualEditView extends JFrame implements View {
               }
               features.selectedCellEdited(userString);
             });
-    this.spreadsheetPanel.addMouseListener(new MouseListener() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        int clickX = e.getX();
-        int clickY = e.getY();
-
-        int coordX = clickX / SpreadsheetPanel.CELL_WIDTH + 1;
-        int coordY = clickY / SpreadsheetPanel.CELL_HEIGHT + 1;
-        Coord cellCoord = new Coord(coordX, coordY);
-        features.cellSelected(cellCoord);
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-        //We only care about mouse clicks
-      }
-
-      @Override
-      public void mouseReleased(MouseEvent e) {
-        //We only care about mouse clicks
-      }
-
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        //We only care about mouse clicks
-      }
-
-      @Override
-      public void mouseExited(MouseEvent e) {
-        //We only care about mouse clicks
-      }
-    });
+    this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));
 
     // The text field needs its own action listener so it knows what to do when the user has
     // pressed entered while the field is in focus
     this.userInputField.addActionListener(e -> features.selectedCellEdited(userInputField.getText()));
 
-    this.addKeyListener(new KeyListener() {
-      @Override
-      public void keyTyped(KeyEvent e) {
-        //We only care about key pressed
-      }
-
-      @Override
-      public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-          case KeyEvent.VK_ENTER:
-            features.selectedCellEdited(userInputField.getText());
-            break;
-          case KeyEvent.VK_LEFT:
-            features.movedHighlightedCell(Direction.LEFT);
-            break;
-          case KeyEvent.VK_RIGHT:
-            features.movedHighlightedCell(Direction.RIGHT);
-            break;
-          case KeyEvent.VK_DOWN:
-            features.movedHighlightedCell(Direction.DOWN);
-            break;
-          case KeyEvent.VK_UP:
-            features.movedHighlightedCell(Direction.UP);
-            break;
-          case KeyEvent.VK_DELETE:
-          case KeyEvent.VK_BACK_SPACE:
-            features.deletedSelectedCell();
-            userInputField.setText("");
-            break;
-          default:
-            //Do nothing if no other keys were typed
-        }
-      }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-        //We only care about key pressed
-      }
-    });
+    this.addKeyListener(new SpreadsheetKeyListener(features, this.userInputField));
   }
 
   @Override

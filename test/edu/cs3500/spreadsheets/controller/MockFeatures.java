@@ -47,4 +47,22 @@ class MockFeatures implements Features {
       throw new IllegalStateException("Invalid appendable");
     }
   }
+
+  @Override
+  public void saveFile() {
+    try {
+      log.append("Saved a file").append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
+
+  @Override
+  public void loadFile() {
+    try {
+      log.append("Loaded a file").append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
 }
