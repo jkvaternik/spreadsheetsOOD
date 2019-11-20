@@ -2,6 +2,8 @@ package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.Coord;
 
+import java.io.File;
+
 /**
  * Represents all of the features supported by the spreadsheet.
  */
@@ -29,4 +31,16 @@ public interface Features {
    * Represents that the highlighted cell's contents have been deleted.
    */
   void deletedSelectedCell();
+
+  //TODO: Should save/load file be features that are handled in controller? View? Use the main?
+
+  /**
+   * Represents that a file has been saved to a file.
+   */
+  void saveFile();
+
+  /**
+   * Represents that a file has been saved to a file.
+   */
+  void loadFile();
 }

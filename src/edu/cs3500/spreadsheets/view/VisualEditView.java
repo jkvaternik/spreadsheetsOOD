@@ -1,10 +1,6 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.controller.Controller;
-import edu.cs3500.spreadsheets.controller.Direction;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,8 +11,11 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import edu.cs3500.spreadsheets.controller.Controller;
+import edu.cs3500.spreadsheets.controller.Direction;
 import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
@@ -30,13 +29,12 @@ import edu.cs3500.spreadsheets.model.WorksheetReader;
 public class VisualEditView extends JFrame implements View {
 
   private static final int INCREMENT_AMOUNT = 26;
-
-  private ViewModel viewModel;
-  private SpreadsheetPanel spreadsheetPanel;
   private final JButton confirmEditButton;
   private final JButton rejectEditButton;
-  private final JScrollPane scrollPane;
   private final JTextField userInputField;
+  private ViewModel viewModel;
+  private SpreadsheetPanel spreadsheetPanel;
+  private JScrollPane scrollPane;
 
   /**
    * Constructs an instance of the VisualReadView based on the ViewModel.
@@ -97,13 +95,13 @@ public class VisualEditView extends JFrame implements View {
     JButton increaseSizeButton = new JButton("Increase Size");
     increaseSizeButton.addActionListener(e -> {
       int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
-          / SpreadsheetPanel.CELL_HEIGHT;
+              / SpreadsheetPanel.CELL_HEIGHT;
       int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
-          / SpreadsheetPanel.CELL_WIDTH;
+              / SpreadsheetPanel.CELL_WIDTH;
 
       VisualEditView.this.spreadsheetPanel.setPreferredSize(
-          new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
-              SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
+              new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
+                      SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
 
@@ -123,19 +121,41 @@ public class VisualEditView extends JFrame implements View {
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
     menuItemOpen.addActionListener(e -> {
       final JFileChooser fileChooser = new JFileChooser();
+      fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+      fileChooser.addChoosableFileFilter(new FileFilter() {
+        @Override
+        public boolean accept(File f) {
+          if (f.isDirectory()) {
+            return true;
+          } else {
+            return f.getName().toLowerCase().endsWith(".txt");
+          }
+        }
+
+        @Override
+        public String getDescription() {
+          return "Text file (*.txt)";
+        }
+      });
+
+      fileChooser.setAcceptAllFileFilterUsed(false);
       int returnVal = fileChooser.showOpenDialog(this);
 
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File file = fileChooser.getSelectedFile();
+        String filePath = file.getAbsolutePath();
         Readable fileReader = null;
         try {
-          fileReader = new FileReader(file.getAbsolutePath());
-          System.out.println(file.getAbsolutePath());
+          fileReader = new FileReader(filePath);
         } catch (FileNotFoundException ex) {
           ex.printStackTrace();
         }
+
         WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
         SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
+
+        this.remove(this.scrollPane);
 
         this.viewModel = new ViewModel(spreadsheet);
         this.spreadsheetPanel = new SpreadsheetPanel(this.viewModel);
@@ -144,7 +164,14 @@ public class VisualEditView extends JFrame implements View {
         int cols = this.getMaxDimension().width;
 
         this.spreadsheetPanel.setPreferredSize(new Dimension(75 * cols, 25 * rows));
-        this.spreadsheetPanel.revalidate();
+
+        this.scrollPane = new JScrollPane(this.spreadsheetPanel);
+        this.scrollPane.setPreferredSize(new Dimension(1000, 600));
+        // Modify JScrollPane
+        this.setHeaders(numCols, numRows);
+        this.add(scrollPane, BorderLayout.CENTER);
+
+        this.makeVisible();
 
         Controller controller = new Controller(spreadsheet, this);
         this.addFeatures(controller);
@@ -241,12 +268,7 @@ public class VisualEditView extends JFrame implements View {
 
     // The text field needs its own action listener so it knows what to do when the user has
     // pressed entered while the field is in focus
-    this.userInputField.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        features.selectedCellEdited(userInputField.getText());
-      }
-    });
+    this.userInputField.addActionListener(e -> features.selectedCellEdited(userInputField.getText()));
 
     this.addKeyListener(new KeyListener() {
       @Override
@@ -369,7 +391,7 @@ public class VisualEditView extends JFrame implements View {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> list, String value,
-        int index, boolean isSelected, boolean cellHasFocus) {
+                                                  int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }
