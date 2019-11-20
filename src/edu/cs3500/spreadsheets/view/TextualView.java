@@ -28,6 +28,9 @@ public class TextualView implements View {
         String coordString = Coord.colIndexToName(col) + row;
         String val = this.viewModel.getRawContents(new Coord(col, row));
         try {
+          if (val == null) {
+            continue;
+          }
           if (!(val.equals(""))) {
             this.ap.append(coordString).append(" ").append(val).append("\n");
           }

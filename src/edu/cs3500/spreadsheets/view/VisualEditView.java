@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
@@ -160,8 +161,9 @@ public class VisualEditView extends JFrame implements View {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         PrintWriter fileWriter = null;
         try {
-          // get file path from save dialog
-          fileWriter = new PrintWriter("");
+          File file = fileChooser.getSelectedFile();
+          fileWriter = new PrintWriter(file.getPath() + ".txt");
+
         } catch (FileNotFoundException ex) {
           ex.printStackTrace();
         }
