@@ -3,9 +3,16 @@ package edu.cs3500.spreadsheets.controller;
 import edu.cs3500.spreadsheets.model.Coord;
 import java.io.IOException;
 
+/**
+ * Represents a mock features which logs all calls to its methods in an appendable.
+ */
 class MockFeatures implements Features {
   private final Appendable log;
 
+  /**
+   * Creates an instance of a mock features using the given appendable.
+   * @param log The appendable to log method calls.
+   */
   MockFeatures(Appendable log) {
     this.log = log;
   }
