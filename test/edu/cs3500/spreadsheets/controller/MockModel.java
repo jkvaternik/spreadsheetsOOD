@@ -25,7 +25,7 @@ class MockModel implements SpreadsheetModel {
   @Override
   public void clearCell(Coord coord) {
     try {
-      log.append("This cell was cleared : ").append(coord.toString()).append("\n");
+      log.append("This cell was cleared: ").append(coord.toString()).append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
     }

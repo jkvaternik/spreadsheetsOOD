@@ -23,9 +23,11 @@ public class Controller implements Features {
 
   @Override
   public void cellSelected(Coord coord) {
-    this.selectedCoord = coord;
-    this.view.highlightCell(coord);
-    this.view.refresh();
+    if (coord != null) {
+      this.selectedCoord = coord;
+      this.view.highlightCell(coord);
+      this.view.refresh();
+    }
   }
 
   @Override
@@ -67,8 +69,10 @@ public class Controller implements Features {
 
   @Override
   public void deletedSelectedCell() {
-    this.model.clearCell(selectedCoord);
-    this.view.refresh();
+    if (this.selectedCoord != null) {
+      this.model.clearCell(selectedCoord);
+      this.view.refresh();
+    }
   }
 
   @Override
