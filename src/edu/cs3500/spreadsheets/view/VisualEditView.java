@@ -78,9 +78,7 @@ public class VisualEditView extends JFrame implements View {
     // Set up the reject edit button
     this.rejectEditButton = new JButton("Clear edit");
     this.rejectEditButton.setActionCommand("Clear edit");
-    this.rejectEditButton.addActionListener(e -> {
-      this.userInputField.setText("");
-    });
+    this.rejectEditButton.addActionListener(e -> this.userInputField.setText(""));
 
     editPanel.add(this.rejectEditButton);
 
@@ -183,9 +181,20 @@ public class VisualEditView extends JFrame implements View {
       int returnVal = fileChooser.showOpenDialog(this);
 
       if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fileChooser.getSelectedFile();
-        //this.setVisible(false);
-        features.loadFile(file);
+        // Creates a JOptionPane that warns user of losing unsaved changes
+        Object[] options = {"OK", "CANCEL"};
+        int optionVal = JOptionPane.showOptionDialog(this,
+                "Any unsaved changes will be lost. Would you like to continue?",
+                "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, options, options[0]);
+        if (optionVal == JOptionPane.YES_OPTION) {
+          File file = fileChooser.getSelectedFile();
+          // Sets this view as not visibile
+          this.setVisible(false);
+          features.loadFile(file);
+          // Destroys this view, returning any memory consumed back to the OS
+          this.dispose();
+        }
       }
     });
 
