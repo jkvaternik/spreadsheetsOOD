@@ -8,7 +8,8 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 
 /**
- * Represents a textual view of a spreadsheet. This view writes the model to an appendable.
+ * Represents a textual view of a spreadsheet. This view writes to an appendable as they
+ * were read by the model.
  */
 public class TextualView implements View {
   private final Appendable ap;
