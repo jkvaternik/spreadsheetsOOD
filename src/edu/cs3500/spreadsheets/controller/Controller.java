@@ -108,12 +108,7 @@ public class Controller implements Features {
     WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
     SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
 
-    // this.model = spreadsheet;
     VisualEditView editView = new VisualEditView(new ViewModel(spreadsheet));
-    //this.view.makeVisible();
-
-    //this.view.addFeatures(this);
-
     Controller controller = new Controller(spreadsheet, editView);
     editView.makeVisible();
   }
