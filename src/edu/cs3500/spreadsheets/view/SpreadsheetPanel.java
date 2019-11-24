@@ -52,20 +52,39 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     Graphics2D g2d = (Graphics2D) g;
     g2d.setColor(Color.BLACK);
 
+    drawCells(g2d);
+
+    // Save the clip state prior to drawing, and restore it after
+    Shape initClip = g2d.getClip();
+    drawHighlightedCell(g2d);
+    drawCellContents(g2d);
+    g2d.setClip(initClip);
+  }
+
+  /**
+   * Draws all the cell borders on a given Graphics object.
+   *
+   * @param g2d the Graphics object
+   */
+  private void drawCells(Graphics2D g2d) {
     int maxHeight = this.getPreferredSize().height;
     int maxWidth = this.getPreferredSize().width;
 
     // Draw all of the cell borders
-    for (int horizLine = 0; horizLine <= this.getPreferredSize().height; horizLine++) {
+    for (int horizLine = 0; horizLine <= maxHeight; horizLine++) {
       g2d.drawLine(0, horizLine * CELL_HEIGHT, maxWidth, horizLine * CELL_HEIGHT);
     }
-    for (int vertLine = 0; vertLine <= this.getPreferredSize().width; vertLine++) {
+    for (int vertLine = 0; vertLine <= maxWidth; vertLine++) {
       g2d.drawLine(vertLine * CELL_WIDTH, 0, vertLine * CELL_WIDTH, maxHeight);
     }
+  }
 
-    // Save the clip state prior to drawing, and restore it after
-    Shape initClip = g2d.getClip();
-
+  /**
+   * Draws the highlighted cell on a given Graphics object.
+   *
+   * @param g2d the Graphics object
+   */
+  private void drawHighlightedCell(Graphics2D g2d) {
     // Check for highlighted cells first so that the contents still appear over the highlight
     if (this.highlightedCell != null) {
       g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
@@ -75,7 +94,14 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       g2d.setColor(prevColor);
     }
+  }
 
+  /**
+   * Draws all the cell contents on a given Graphics object.
+   *
+   * @param g2d the Graphics object
+   */
+  private void drawCellContents(Graphics2D g2d) {
     //Display all of the correct text
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
@@ -88,7 +114,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
         g2d.drawString(value, (col - 1) * CELL_WIDTH, row * CELL_HEIGHT - CELL_HEIGHT / 3);
       }
     }
-    g2d.setClip(initClip);
   }
 
   /**

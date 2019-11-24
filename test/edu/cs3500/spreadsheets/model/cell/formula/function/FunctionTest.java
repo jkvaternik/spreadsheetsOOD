@@ -303,6 +303,6 @@ public class FunctionTest {
     assertEquals("SUM, [6.000000, 3.000000]", sumFunctionOne.toString());
     assertEquals("PRODUCT, [6.000000, 3.000000]", productFunctionOne.toString());
     assertEquals("LESSTHAN, [6.000000, 3.000000]", lessThanFunctionOne.toString());
-    assertEquals("CAPITALIZE, [\"hello world\"]", capitalizeFunctionOne.toString());
+    assertEquals("CAPITALIZE, [hello world]", capitalizeFunctionOne.toString());
   }
 }

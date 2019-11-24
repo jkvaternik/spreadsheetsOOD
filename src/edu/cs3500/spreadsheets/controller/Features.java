@@ -36,11 +36,12 @@ public interface Features {
 
   /**
    * Represents that a file has been saved to a file.
+   *
    */
-  void saveFile();
+  void saveFile(File file);
 
   /**
-   * Represents that a file has been saved to a file.
+   * Represents that a file has been opened from a file.
    */
-  void loadFile();
+  void loadFile(File file);
 }

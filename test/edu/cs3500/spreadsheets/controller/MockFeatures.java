@@ -1,6 +1,8 @@
 package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.Coord;
+
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -56,7 +58,7 @@ class MockFeatures implements Features {
   }
 
   @Override
-  public void saveFile() {
+  public void saveFile(File file) {
     try {
       log.append("Saved a file").append("\n");
     } catch (IOException e) {
@@ -65,7 +67,7 @@ class MockFeatures implements Features {
   }
 
   @Override
-  public void loadFile() {
+  public void loadFile(File file) {
     try {
       log.append("Loaded a file").append("\n");
     } catch (IOException e) {

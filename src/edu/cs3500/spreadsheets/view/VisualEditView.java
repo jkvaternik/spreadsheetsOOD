@@ -2,25 +2,14 @@ package edu.cs3500.spreadsheets.view;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.PrintWriter;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-import edu.cs3500.spreadsheets.controller.Controller;
-import edu.cs3500.spreadsheets.controller.Direction;
 import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.ViewModel;
-import edu.cs3500.spreadsheets.model.WorksheetReader;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -31,7 +20,11 @@ public class VisualEditView extends JFrame implements View {
   private static final int INCREMENT_AMOUNT = 26;
   private final JButton confirmEditButton;
   private final JButton rejectEditButton;
+  private final JButton increaseSizeButton;
   private final JTextField userInputField;
+  private final JMenuItem menuItemSave;
+  private final JMenuItem menuItemOpen;
+
   private ViewModel viewModel;
   private SpreadsheetPanel spreadsheetPanel;
   private JScrollPane scrollPane;
@@ -92,22 +85,8 @@ public class VisualEditView extends JFrame implements View {
     editPanel.add(this.rejectEditButton);
 
     // Set up the increase size button (but have it do nothing for now)
-    JButton increaseSizeButton = new JButton("Increase Size");
-    increaseSizeButton.addActionListener(e -> {
-      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
-              / SpreadsheetPanel.CELL_HEIGHT;
-      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
-              / SpreadsheetPanel.CELL_WIDTH;
-
-      VisualEditView.this.spreadsheetPanel.setPreferredSize(
-              new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
-                      SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
-      VisualEditView.this.spreadsheetPanel.revalidate();
-      VisualEditView.this.spreadsheetPanel.repaint();
-
-      VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
-    });
-    editPanel.add(increaseSizeButton);
+    this.increaseSizeButton = new JButton("Increase Size");
+    editPanel.add(this.increaseSizeButton);
 
     // Create a Menu Bar
     System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -116,93 +95,17 @@ public class VisualEditView extends JFrame implements View {
     JMenu menu = new JMenu("File");
     menuBar.add(menu);
 
-    JMenuItem menuItemOpen = new JMenuItem("Open...");
-    menuItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+    this.menuItemOpen = new JMenuItem("Open...");
+    this.menuItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-    menuItemOpen.addActionListener(e -> {
-      final JFileChooser fileChooser = new JFileChooser();
-      fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-      fileChooser.addChoosableFileFilter(new FileFilter() {
-        @Override
-        public boolean accept(File f) {
-          if (f.isDirectory()) {
-            return true;
-          } else {
-            return f.getName().toLowerCase().endsWith(".txt");
-          }
-        }
-
-        @Override
-        public String getDescription() {
-          return "Text file (*.txt)";
-        }
-      });
-
-      fileChooser.setAcceptAllFileFilterUsed(false);
-      int returnVal = fileChooser.showOpenDialog(this);
-
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fileChooser.getSelectedFile();
-        String filePath = file.getAbsolutePath();
-        Readable fileReader = null;
-        try {
-          fileReader = new FileReader(filePath);
-        } catch (FileNotFoundException ex) {
-          ex.printStackTrace();
-        }
-
-        WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
-        SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
-
-        this.remove(this.scrollPane);
-
-        this.viewModel = new ViewModel(spreadsheet);
-        this.spreadsheetPanel = new SpreadsheetPanel(this.viewModel);
-
-        int rows = this.getMaxDimension().height;
-        int cols = this.getMaxDimension().width;
-
-        this.spreadsheetPanel.setPreferredSize(new Dimension(75 * cols, 25 * rows));
-
-        this.scrollPane = new JScrollPane(this.spreadsheetPanel);
-        this.scrollPane.setPreferredSize(new Dimension(1000, 600));
-        // Modify JScrollPane
-        this.setHeaders(numCols, numRows);
-        this.add(scrollPane, BorderLayout.CENTER);
-
-        this.makeVisible();
-
-        Controller controller = new Controller(spreadsheet, this);
-        this.addFeatures(controller);
-      }
-    });
-
-    JMenuItem menuItemSave = new JMenuItem("Save");
+    this.menuItemSave = new JMenuItem("Save");
     menuItemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-    menuItemSave.addActionListener(e -> {
-      final JFileChooser fileChooser = new JFileChooser();
-      int returnVal = fileChooser.showSaveDialog(this);
 
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        PrintWriter fileWriter = null;
-        try {
-          File file = fileChooser.getSelectedFile();
-          fileWriter = new PrintWriter(file.getPath() + ".txt");
-
-        } catch (FileNotFoundException ex) {
-          ex.printStackTrace();
-        }
-        View view = new TextualView(fileWriter, this.viewModel);
-        view.makeVisible();
-        fileWriter.close();
-      }
-    });
-
-    menu.add(menuItemOpen);
+    menu.add(this.menuItemOpen);
     menu.addSeparator();
-    menu.add(menuItemSave);
+    menu.add(this.menuItemSave);
 
     this.setJMenuBar(menuBar);
 
@@ -225,14 +128,29 @@ public class VisualEditView extends JFrame implements View {
 
   @Override
   public void addFeatures(Features features) {
-    this.confirmEditButton
-            .addActionListener(evt -> {
-              String userString = "";
-              if (userInputField.getText() != null) {
-                userString = userInputField.getText();
-              }
-              features.selectedCellEdited(userString);
-            });
+    this.confirmEditButton.addActionListener(evt -> {
+      String userString = "";
+      if (userInputField.getText() != null) {
+        userString = userInputField.getText();
+      }
+      features.selectedCellEdited(userString);
+    });
+
+    this.increaseSizeButton.addActionListener(e -> {
+      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
+              / SpreadsheetPanel.CELL_HEIGHT;
+      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
+              / SpreadsheetPanel.CELL_WIDTH;
+
+      VisualEditView.this.spreadsheetPanel.setPreferredSize(
+              new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
+                      SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
+
+      VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
+    });
+
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));
 
     // The text field needs its own action listener so it knows what to do when the user has
@@ -240,6 +158,46 @@ public class VisualEditView extends JFrame implements View {
     this.userInputField.addActionListener(e -> features.selectedCellEdited(userInputField.getText()));
 
     this.addKeyListener(new SpreadsheetKeyListener(features, this.userInputField));
+
+    this.menuItemOpen.addActionListener(e -> {
+      final JFileChooser fileChooser = new JFileChooser();
+      fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+      fileChooser.setAcceptAllFileFilterUsed(false);
+
+      fileChooser.addChoosableFileFilter(new FileFilter() {
+        @Override
+        public boolean accept(File f) {
+          if (f.isDirectory()) {
+            return true;
+          } else {
+            return f.getName().toLowerCase().endsWith(".txt");
+          }
+        }
+
+        @Override
+        public String getDescription() {
+          return "Text file (*.txt)";
+        }
+      });
+
+      int returnVal = fileChooser.showOpenDialog(this);
+
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        //this.setVisible(false);
+        features.loadFile(file);
+      }
+    });
+
+    this.menuItemSave.addActionListener(e -> {
+      final JFileChooser fileChooser = new JFileChooser();
+      int returnVal = fileChooser.showSaveDialog(this);
+
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        features.saveFile(file);
+      }
+    });
   }
 
   @Override

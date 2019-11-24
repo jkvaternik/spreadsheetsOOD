@@ -24,9 +24,9 @@ public class StringValueTest {
 
   @Test
   public void testToString() {
-    assertEquals("\"Jack says \\\"Hi\\\". Jill has one backslash \\\\ here.\"",
+    assertEquals("Jack says \\\"Hi\\\". Jill has one backslash \\\\ here.",
             s1.toString());
-    assertEquals("\"\\\\hello\"", s2.toString());
+    assertEquals("\\\\hello", s2.toString());
   }
 
   @Test

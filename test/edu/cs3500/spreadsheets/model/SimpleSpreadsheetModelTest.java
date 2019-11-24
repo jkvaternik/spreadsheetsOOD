@@ -75,15 +75,15 @@ public class SimpleSpreadsheetModelTest {
   public void testClearCell() {
     assertEquals("3", spreadsheetOne.getRawContents(new Coord(1, 1)));
     spreadsheetOne.clearCell(new Coord(1, 1));
-    assertEquals("", spreadsheetOne.getRawContents(new Coord(1, 1)));
+    assertEquals(null, spreadsheetOne.getRawContents(new Coord(1, 1)));
 
     assertEquals("4", spreadsheetOne.getRawContents(new Coord(2, 1)));
     spreadsheetOne.clearCell(new Coord(2, 1));
-    assertEquals("", spreadsheetOne.getRawContents(new Coord(1, 1)));
+    assertEquals(null, spreadsheetOne.getRawContents(new Coord(1, 1)));
 
     assertEquals("", spreadsheetTwo.getRawContents(new Coord(1, 1)));
     spreadsheetTwo.clearCell(new Coord(1, 1));
-    assertEquals("", spreadsheetTwo.getRawContents(new Coord(1, 1)));
+    assertEquals(null, spreadsheetTwo.getRawContents(new Coord(1, 1)));
   }
 
   @Test
@@ -98,7 +98,7 @@ public class SimpleSpreadsheetModelTest {
     assertEquals("4.000000", spreadsheetOne.getValue(new Coord(1, 1)));
 
     spreadsheetOne.setCellValue(new Coord(1, 1), "=(SUM A1 1)");
-    assertEquals("This cell contains a cyclical reference.", spreadsheetOne.getValue(
+    assertEquals("#ERR: This cell contains a cyclical reference.", spreadsheetOne.getValue(
             new Coord(1, 1)));
 
     assertEquals("", spreadsheetTwo.getValue(new Coord(1, 1)));
@@ -140,12 +140,12 @@ public class SimpleSpreadsheetModelTest {
   public void testGetValue() {
     assertEquals("", spreadsheetTwo.getValue(new Coord(1, 1)));
     assertEquals("3.000000", spreadsheetOne.getValue(new Coord(1, 1)));
-    assertEquals("\"Jack says \\\"Hi\\\" and Jill has one backslash \\\\ here\"",
+    assertEquals("Jack says \\\"Hi\\\" and Jill has one backslash \\\\ here",
             spreadsheetOne.getValue(new Coord(5, 1)));
 
     assertEquals("false", spreadsheetOne.getValue(new Coord(2, 3)));
 
-    assertEquals("This cell contains a cyclical reference.",
+    assertEquals("#ERR: This cell contains a cyclical reference.",
             spreadsheetThree.getValue(new Coord(1, 1)));
   }
 

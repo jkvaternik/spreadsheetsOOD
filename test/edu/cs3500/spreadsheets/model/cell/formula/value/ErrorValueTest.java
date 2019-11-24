@@ -25,8 +25,8 @@ public class ErrorValueTest {
 
   @Test
   public void testToString() {
-    assertEquals("Function could not be evaluated.", e1.toString());
-    assertEquals("Cell cannot reference itself.", e2.toString());
+    assertEquals("#ERR: Function could not be evaluated.", e1.toString());
+    assertEquals("#ERR: Cell cannot reference itself.", e2.toString());
   }
 
   @Test
@@ -40,7 +40,7 @@ public class ErrorValueTest {
 
   @Test
   public void testHashcode() {
-    assertEquals(e1.hashCode(), Objects.hash("Function could not be evaluated."));
+    assertEquals(e1.hashCode(), Objects.hash("#ERR: Function could not be evaluated."));
   }
 
   @Test

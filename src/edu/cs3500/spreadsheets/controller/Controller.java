@@ -1,18 +1,26 @@
 package edu.cs3500.spreadsheets.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
+import edu.cs3500.spreadsheets.model.ViewModel;
+import edu.cs3500.spreadsheets.model.WorksheetReader;
+import edu.cs3500.spreadsheets.view.TextualView;
 import edu.cs3500.spreadsheets.view.View;
-import java.util.ArrayList;
-import java.util.List;
+import edu.cs3500.spreadsheets.view.VisualEditView;
 
 /**
  * Represents the controller of the spreadsheet. It handles the linking together of the model and
  * the view so they are always in sync.
  */
 public class Controller implements Features {
-  private final SpreadsheetModel model;
-  private final View view;
+  private SpreadsheetModel model;
+  private View view;
   private Coord selectedCoord;
 
   public Controller(SpreadsheetModel model, View view) {
@@ -76,12 +84,37 @@ public class Controller implements Features {
   }
 
   @Override
-  public void saveFile() {
+  public void saveFile(File file) {
+    PrintWriter fileWriter = null;
+    try {
+      fileWriter = new PrintWriter(file.getPath() + ".txt");
 
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+    }
+    View view = new TextualView(fileWriter, new ViewModel(this.model));
+    view.makeVisible();
+    fileWriter.close();
   }
 
   @Override
-  public void loadFile() {
+  public void loadFile(File file) {
+    Readable fileReader = null;
+    try {
+      fileReader = new FileReader(file.getPath());
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+    }
+    WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
+    SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
 
+    // this.model = spreadsheet;
+    VisualEditView editView = new VisualEditView(new ViewModel(spreadsheet));
+    //this.view.makeVisible();
+
+    //this.view.addFeatures(this);
+
+    Controller controller = new Controller(spreadsheet, editView);
+    editView.makeVisible();
   }
 }
