@@ -3,15 +3,20 @@ package edu.cs3500.spreadsheets.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
+import edu.cs3500.spreadsheets.model.WorksheetReader;
 import edu.cs3500.spreadsheets.view.SpreadsheetKeyListener;
 import edu.cs3500.spreadsheets.view.SpreadsheetMouseListener;
 import edu.cs3500.spreadsheets.view.View;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JTextField;
 import org.junit.Before;
@@ -639,5 +644,40 @@ public class ControllerTest {
         + "The view has been refreshed.\n", log.toString());
   }
 
-  //TODO: Add tests for loading and saving files (if possible)???
+  @Test
+  public void saveFile() {
+    //To test this, we will take a text file and make a spreadsheet out of it. We will then save
+    //the file and make a spreadsheet from the saved file. The two spreadsheets should be equivalent
+    controller = new Controller(realModel, mockView);
+    try {
+      File sampleOne = new File(
+          "C:\\Users\\jlkaz\\IdeaProjects\\Spreadsheet\\resources\\textFiles\\fileSampleOne.txt");
+      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
+      SimpleSpreadsheet originalModel = WorksheetReader.read(builder, new FileReader(sampleOne));
+
+      controller.saveFile(sampleOne);
+
+      File sampleOneCopy = new File(
+          "C:\\Users\\jlkaz\\IdeaProjects\\Spreadsheet\\resources\\textFiles\\fileSampleOne.txt");
+      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder2 = new SimpleSpreadsheet.Builder();
+      SimpleSpreadsheet modelCopy = WorksheetReader.read(builder2, new FileReader(sampleOneCopy));
+
+      assertEquals(originalModel.getNumColumns(), modelCopy.getNumColumns());
+      assertEquals(originalModel.getNumRows(), modelCopy.getNumRows());
+      for (int col = 1; col <= originalModel.getNumColumns(); col++) {
+        for (int row = 1; row <= originalModel.getNumRows(); row++) {
+          Coord coord = new Coord(col, row);
+          assertEquals(originalModel.getValue(coord), modelCopy.getValue(coord));
+        }
+      }
+
+    } catch (FileNotFoundException e) {
+      fail("The file was not found");
+    }
+  }
+
+  @Test
+  public void loadFile() {
+
+  }
 }
