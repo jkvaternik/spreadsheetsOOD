@@ -1,3 +1,82 @@
+ASSIGNMENT 7:
+
+Changes to our view interface:
+- We replaced the addMouseListener() and addActionListener() methods with a more general
+  addFeatures() method which serves as a callback that links all "important" actions (keyboard,
+  mouse, etc) to the given Features.
+
+
+Changes to our read-only view:
+- For assignment 6, our view was read-only but was set up for editing capabilities (we had a toolbar
+  for users to change values that just didn't work yet). We removed this toolbar to make it clearer
+  for the user that this view cannot be edited. We also removed the increase size button since the
+  view is initialized to be big enough to see all non-blank cells, and there is no need to further
+  increase the size since no cells can be edited anyways.
+
+
+Changes to our model:
+- We altered the toString for our string values so that the values now display properly in the view.
+- The clearCell() method now calls setCellValue() with an empty contents string. Our previous
+  implementation led to an error when we completely removed the cell from our mapping, so now it
+  just exists as a blank cell.
+
+
+Edit View:
+- This view allows for editing, so it includes a toolbar which has a user input field, buttons for
+  either confirming or clearing the edit, and a button to increase the size so users can scroll
+  further.
+- This view utilizes the addFeatures() callback. This sets up the Keyboard and MouseListeners, which
+  are both there own classes, and the action listeners for the buttons. This method processes all
+  the inputs and converts them to features events which the controller can utilize to then alter the
+  model and the view.
+- This view supports the arrow keys to move the selected cell, the enter key to confirm an edit,
+  and the delete/backspace keys to delete the contents of the selected cell.
+- This view also has a menu for loading and saving files. These get set up in addFeatures so that
+  the view only has to worry about whether a file was loaded or saved, and the controller can decide
+  what to do with that information.
+
+
+Features Interface:
+The features interface serves as the logical interface between the controller and the view. It
+essentially is a a list of the features which our spreadsheet supports. It's methods are:
+- cellSelected(), which notifies that the cell at the given coordinate has been selected.
+- selectedCellEdited(), which notifies that the current selected cell has been edited and now has
+  the new given contents.
+- movedHighlightedCell(), which is triggered when the highlighted cell is moved in one of the four
+  directions (left, up, down, right).
+- deletedSelectedCell(), which means the selected cell's contents have been deleted.
+- saveFile(), which means the spreadsheet has been saved at the given File.
+- loadFile(), which signifies that the spreadsheet contained in the given File should be loaded.
+
+
+Direction enum:
+Represents one of the four directions (left, up, down, right) which works well for using the arrow
+keys to move the selected cell.
+
+
+Controller class:
+Represents the controller for the spreadsheet which links the view to the model. It contains a field
+reference to a spreadsheet model and a view, and also keeps reference of the current selected cell.
+It also implements the Features interface. Here is what it does in all of the Features methods:
+- cellSelected() tells the view to highlight the selected cell, and then has the view refresh itself
+- selectedCellEdited() checks that there exists a selected cell and if so, tells the model to set
+  the value of that cell to the new contents, and then tells the view to refresh itself.
+- movedHighlightedCell() alters the selected cell coordinate based on the given direction, updates
+  its reference to the selected coord, tells the view to highlight the new selected cell, then tells
+  the view to refresh itself. If the new coordinate is illegal, the previously highlighted coord
+  remains highlighted.
+- deletedSelectedCell() checks that there exits a selected cell and if so, tells the model to clear
+  that cell, and then tells the view to refresh itself.
+- saveFile() creates a new file writer and passes it to a new textualView which contains the
+  spreadsheet model and then calls makeVisible() on that view, which will create the file with the
+  model's contents in the appropriate file path.
+- loadFile() reads in the appropriate file using the Worksheet builder and reader, along with a
+  file reader. Once the new spreadsheet model has been created, a new view is created based on that
+  model, and a new controller is made based on the model and view. The view is then made visible,
+  which closes the previous view and opens the new one with its new controller.
+
+____________________________________________________________________________________________________
+
 ASSIGNMENT 6:
 
 General structure of our View:

@@ -149,7 +149,7 @@ public class VisualReadView extends JFrame implements View {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> list, String value,
-                                                  int index, boolean isSelected, boolean cellHasFocus) {
+        int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }

@@ -32,8 +32,6 @@ public interface Features {
    */
   void deletedSelectedCell();
 
-  //TODO: Should save/load file be features that are handled in controller? View? Use the main?
-
   /**
    * Represents that a file has been saved to a file.
    *

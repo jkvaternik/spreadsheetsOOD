@@ -2,9 +2,6 @@ package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.util.List;
 
 /**
  * Represents a view for a spreadsheet.
