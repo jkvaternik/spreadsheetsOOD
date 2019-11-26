@@ -3,9 +3,8 @@ package edu.cs3500.spreadsheets.view;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.*;
-
 import edu.cs3500.spreadsheets.controller.Direction;
+import javax.swing.JTextField;
 
 /**
  * Represents a mouse listener for the spreadsheets. It's intention is to handle the key events for

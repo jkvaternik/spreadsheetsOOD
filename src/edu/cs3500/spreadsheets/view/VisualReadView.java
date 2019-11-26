@@ -1,11 +1,19 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
-
-import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -146,7 +154,7 @@ public class VisualReadView extends JFrame implements View {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> list, String value,
-                                                  int index, boolean isSelected, boolean cellHasFocus) {
+        int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }

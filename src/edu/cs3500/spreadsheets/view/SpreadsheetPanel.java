@@ -1,24 +1,28 @@
 package edu.cs3500.spreadsheets.view;
 
-import org.w3c.dom.css.Rect;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
+import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
 
 /**
  * Represents Swing component of the actual grid of a spreadsheet.
  */
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
+
   static final int CELL_WIDTH = 75;
   static final int CELL_HEIGHT = 25;
 
@@ -85,11 +89,13 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private void drawHighlightedCell(Graphics2D g2d) {
     // Check for highlighted cells first so that the contents still appear over the highlight
     if (this.highlightedCell != null) {
-      g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH,
+          (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
       g2d.setColor(Color.CYAN);
-      g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH, (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH,
+          (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
       g2d.setColor(prevColor);
     }
   }
@@ -117,8 +123,9 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   /**
    * Changes the highlightedCells of this spreadsheet panel. It de-highlights any previously
    * highlighted cells.
-   * @param cellCoord The Coords of the new highlighted cells.
-   *                   If this is null or empty, all cells are de-highlighted.
+   *
+   * @param cellCoord The Coords of the new highlighted cells. If this is null or empty, all cells
+   *                  are de-highlighted.
    */
   void setHighlightedCell(Coord cellCoord) {
     this.highlightedCell = cellCoord;
