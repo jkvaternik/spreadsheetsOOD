@@ -146,8 +146,10 @@ public class VisualEditView extends JFrame implements View {
               new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
                       SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
       VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
+      VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
     });
 
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));
@@ -213,17 +215,9 @@ public class VisualEditView extends JFrame implements View {
 
   @Override
   public void highlightCell(Coord cellCoord) {
-    int rows = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
-            / SpreadsheetPanel.CELL_HEIGHT;
-    int cols = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
-            / SpreadsheetPanel.CELL_WIDTH;
-
-    if ((cellCoord.row > 0 && cellCoord.row <= rows)
-            && (cellCoord.col > 0 && cellCoord.col <= cols)) {
       this.spreadsheetPanel.setHighlightedCell(cellCoord);
       this.userInputField.setText(this.viewModel.getRawContents(cellCoord));
       this.refresh();
-    }
   }
 
   /**

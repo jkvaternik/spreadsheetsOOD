@@ -9,9 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.Scrollable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
@@ -41,6 +39,8 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
     // Set up background
     this.setBackground(Color.WHITE);
+    setAutoscrolls(true); //enable synthetic drag events
+    addMouseMotionListener(this); //handle mouse drags
   }
 
   @Override
@@ -56,6 +56,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     drawHighlightedCell(g2d);
     drawCellContents(g2d);
     g2d.setClip(initClip);
+
   }
 
   /**
@@ -136,7 +137,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   @Override
   public Dimension getPreferredScrollableViewportSize() {
-    return getPreferredSize();
+    return new Dimension(995, 595);
   }
 
   @Override
