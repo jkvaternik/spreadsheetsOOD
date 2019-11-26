@@ -24,7 +24,9 @@ Changes to our model:
 Edit View:
 - This view allows for editing, so it includes a toolbar which has a user input field, buttons for
   either confirming or clearing the edit, and a button to increase the size so users can scroll
-  further.
+  further. Note***: When the increase size button is pressed, it resets the view to the top left
+  corner of the spreadsheet. This is to prevent a bug where the text of cells would appear over
+  the toolbar in a sufficiently large spreadsheet.
 - This view utilizes the addFeatures() callback. This sets up the Keyboard and MouseListeners, which
   are both there own classes, and the action listeners for the buttons. This method processes all
   the inputs and converts them to features events which the controller can utilize to then alter the
