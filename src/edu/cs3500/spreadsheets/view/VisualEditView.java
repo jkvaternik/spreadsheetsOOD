@@ -55,7 +55,7 @@ public class VisualEditView extends JFrame implements View {
     this.spreadsheetPanel.setPreferredSize(new Dimension(75 * numCols, 25 * numRows));
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
-    scrollPane.setPreferredSize(new Dimension(1000, 600));
+    scrollPane.setPreferredSize(new Dimension(995, 595));
     // Modify JScrollPane
     this.setHeaders(numCols, numRows);
     this.add(scrollPane, BorderLayout.CENTER);
