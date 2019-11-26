@@ -24,6 +24,12 @@ public class Controller implements Features {
   private View view;
   private Coord selectedCoord;
 
+  /**
+   * Creates an instance of this controller based on the given model and view, and adds this as
+   * the features to the view.
+   * @param model The spreadsheet model
+   * @param view The spreadsheet view
+   */
   public Controller(SpreadsheetModel model, View view) {
     this.model = model;
     this.view = view;

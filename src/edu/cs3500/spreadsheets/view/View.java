@@ -1,7 +1,5 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.*;
-
 import edu.cs3500.spreadsheets.model.Coord;
 
 /**
