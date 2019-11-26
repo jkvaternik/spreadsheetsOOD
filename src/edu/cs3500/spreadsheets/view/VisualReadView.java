@@ -1,12 +1,9 @@
 package edu.cs3500.spreadsheets.view;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.*;
 
-import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 

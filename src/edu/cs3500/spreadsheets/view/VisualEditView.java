@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 
@@ -119,7 +118,8 @@ public class VisualEditView extends JFrame implements View {
 
   @Override
   public void refresh() {
-    this.repaint();
+    this.spreadsheetPanel.revalidate();
+    this.spreadsheetPanel.repaint();
     this.setFocusable(true);
     this.requestFocus();
   }
@@ -214,6 +214,7 @@ public class VisualEditView extends JFrame implements View {
   public void highlightCell(Coord cellCoord) {
     this.spreadsheetPanel.setHighlightedCell(cellCoord);
     this.userInputField.setText(this.viewModel.getRawContents(cellCoord));
+    this.refresh();
   }
 
   /**

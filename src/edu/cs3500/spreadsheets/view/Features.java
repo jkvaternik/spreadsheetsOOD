@@ -1,5 +1,6 @@
-package edu.cs3500.spreadsheets.controller;
+package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.controller.Direction;
 import edu.cs3500.spreadsheets.model.Coord;
 
 import java.io.File;

@@ -1,7 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
 import edu.cs3500.spreadsheets.controller.Direction;
-import edu.cs3500.spreadsheets.controller.Features;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;

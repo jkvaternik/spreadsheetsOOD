@@ -45,8 +45,8 @@ essentially is a a list of the features which our spreadsheet supports. It's met
 - movedHighlightedCell(), which is triggered when the highlighted cell is moved in one of the four
   directions (left, up, down, right).
 - deletedSelectedCell(), which means the selected cell's contents have been deleted.
-- saveFile(), which means the spreadsheet has been saved at the given File.
-- loadFile(), which signifies that the spreadsheet contained in the given File should be loaded.
+- saveFile(), which saves the current spreadsheet to a given File.
+- loadFile(), which loads the spreadsheet contained in the given File.
 
 
 Direction enum:

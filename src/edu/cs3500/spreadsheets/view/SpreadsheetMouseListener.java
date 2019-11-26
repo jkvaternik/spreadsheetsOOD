@@ -1,6 +1,5 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.controller.Features;
 import edu.cs3500.spreadsheets.model.Coord;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

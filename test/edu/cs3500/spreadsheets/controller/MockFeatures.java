@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.view.Features;
 
 import java.io.File;
 import java.io.IOException;

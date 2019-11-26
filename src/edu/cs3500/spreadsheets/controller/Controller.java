@@ -10,6 +10,7 @@ import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
+import edu.cs3500.spreadsheets.view.Features;
 import edu.cs3500.spreadsheets.view.TextualView;
 import edu.cs3500.spreadsheets.view.View;
 import edu.cs3500.spreadsheets.view.VisualEditView;

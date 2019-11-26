@@ -9,6 +9,7 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import edu.cs3500.spreadsheets.model.WorksheetReader;
+import edu.cs3500.spreadsheets.view.Features;
 import edu.cs3500.spreadsheets.view.SpreadsheetKeyListener;
 import edu.cs3500.spreadsheets.view.SpreadsheetMouseListener;
 import edu.cs3500.spreadsheets.view.View;
