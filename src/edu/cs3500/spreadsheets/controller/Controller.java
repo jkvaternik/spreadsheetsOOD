@@ -107,10 +107,10 @@ public class Controller implements Features {
       ex.printStackTrace();
     }
     WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
-    SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
+    this.model = WorksheetReader.read(builder, fileReader);
 
-    VisualEditView editView = new VisualEditView(new ViewModel(spreadsheet));
-    Controller controller = new Controller(spreadsheet, editView);
-    editView.makeVisible();
+    this.view = new VisualEditView(new ViewModel(model));
+    view.makeVisible();
+    view.addFeatures(this);
   }
 }
