@@ -147,7 +147,7 @@ public class VisualEditView extends JFrame implements View {
                       SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
       VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
 
-      VisualEditView.this.refresh();
+      VisualEditView.this.spreadsheetPanel.revalidate();
     });
 
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));

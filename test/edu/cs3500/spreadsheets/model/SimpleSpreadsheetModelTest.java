@@ -22,7 +22,7 @@ public class SimpleSpreadsheetModelTest {
   public void init() {
     try {
       Readable fileReaderOne = new FileReader("/Users/jaimekvaternik/Documents/NEU/" +
-              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileSampleOne.txt");
+              "Fall 2019/OOD/spreadsheetsOOD/resources/textFiles/fileCopySampleOne.txt");
       WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builderOne =
               new SimpleSpreadsheet.Builder();
       WorksheetReader worksheetReaderOne = new WorksheetReader();
