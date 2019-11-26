@@ -679,6 +679,46 @@ public class ControllerTest {
 
   @Test
   public void loadFile() {
+    assertEquals("", log.toString());
+    controller = new Controller(mockModel, mockView);
+    assertEquals("Features were added to this view.\n", log.toString());
+
+    controller.cellSelected(new Coord(1, 1));
+    assertEquals("Features were added to this view.\n"
+        + "The highlighted cell is now: A1\n"
+        + "The view has been refreshed.\n", log.toString());
+
+    controller.deletedSelectedCell();
+    assertEquals("Features were added to this view.\n"
+        + "The highlighted cell is now: A1\n"
+        + "The view has been refreshed.\n"
+        + "This cell was cleared: A1\n"
+        + "The view has been refreshed.\n", log.toString());
+
+    File sampleOne = new File(
+        "C:\\Users\\jlkaz\\IdeaProjects\\Spreadsheet\\resources\\textFiles\\fileSampleOne.txt");
+
+    // This opens then immediately closes a visual view (we aren't entirely sure why the view closes
+    // immediately), but it is the best way we could think of to test loadFile since this method
+    // is so tightly coupled with Swing (we couldn't find a way to abstract it out further).
+    controller.loadFile(sampleOne);
+
+    //After loading a file, we should have a new view and model belonging to the controller, so
+    //calling these same methods again will not add to the log
+
+    controller.cellSelected(new Coord(1, 1));
+    assertEquals("Features were added to this view.\n"
+        + "The highlighted cell is now: A1\n"
+        + "The view has been refreshed.\n"
+        + "This cell was cleared: A1\n"
+        + "The view has been refreshed.\n", log.toString());
+
+    controller.deletedSelectedCell();
+    assertEquals("Features were added to this view.\n"
+        + "The highlighted cell is now: A1\n"
+        + "The view has been refreshed.\n"
+        + "This cell was cleared: A1\n"
+        + "The view has been refreshed.\n", log.toString());
 
   }
 }
