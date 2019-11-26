@@ -664,7 +664,8 @@ public class ControllerTest {
 
       File sampleOneCopy = new File(
           "C:\\Users\\jlkaz\\IdeaProjects\\Spreadsheet\\resources\\textFiles\\fileSampleOne.txt");
-      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder2 = new SimpleSpreadsheet.Builder();
+      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder2 =
+              new SimpleSpreadsheet.Builder();
       SimpleSpreadsheet modelCopy = WorksheetReader.read(builder2, new FileReader(sampleOneCopy));
 
       assertEquals(originalModel.getNumColumns(), modelCopy.getNumColumns());
