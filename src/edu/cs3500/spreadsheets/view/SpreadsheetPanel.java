@@ -1,11 +1,8 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import org.w3c.dom.css.Rect;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
@@ -139,7 +136,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   @Override
   public Dimension getPreferredScrollableViewportSize() {
-    return super.getPreferredSize();
+    return getPreferredSize();
   }
 
   @Override

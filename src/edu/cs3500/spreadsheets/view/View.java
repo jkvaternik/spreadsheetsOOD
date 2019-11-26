@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
+import java.awt.*;
+
 import edu.cs3500.spreadsheets.model.Coord;
 
 /**
@@ -29,4 +31,5 @@ public interface View {
    * @param cellCoord The coordinate of the cell
    */
   void highlightCell(Coord cellCoord);
+
 }

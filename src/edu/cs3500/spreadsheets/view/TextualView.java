@@ -1,13 +1,13 @@
 package edu.cs3500.spreadsheets.view;
 
+import java.io.IOException;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 
-import java.io.IOException;
-
 /**
- * Represents a textual view of a spreadsheet. This view writes to an appendable as they
- * were read by the model.
+ * Represents a textual view of a spreadsheet. This view writes to an appendable as they were read
+ * by the model.
  */
 public class TextualView implements View {
   private final Appendable ap;

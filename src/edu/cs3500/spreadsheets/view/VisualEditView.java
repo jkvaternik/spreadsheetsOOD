@@ -56,6 +56,7 @@ public class VisualEditView extends JFrame implements View {
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(995, 595));
+
     // Modify JScrollPane
     this.setHeaders(numCols, numRows);
     this.add(scrollPane, BorderLayout.CENTER);
@@ -94,11 +95,11 @@ public class VisualEditView extends JFrame implements View {
 
     this.menuItemOpen = new JMenuItem("Open...");
     this.menuItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     this.menuItemSave = new JMenuItem("Save");
     menuItemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
 
     menu.add(this.menuItemOpen);
     menu.addSeparator();
@@ -120,6 +121,7 @@ public class VisualEditView extends JFrame implements View {
   public void refresh() {
     this.spreadsheetPanel.revalidate();
     this.spreadsheetPanel.repaint();
+
     this.setFocusable(true);
     this.requestFocus();
   }
@@ -136,17 +138,16 @@ public class VisualEditView extends JFrame implements View {
 
     this.increaseSizeButton.addActionListener(e -> {
       int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
-          / SpreadsheetPanel.CELL_HEIGHT;
+              / SpreadsheetPanel.CELL_HEIGHT;
       int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
-          / SpreadsheetPanel.CELL_WIDTH;
+              / SpreadsheetPanel.CELL_WIDTH;
 
       VisualEditView.this.spreadsheetPanel.setPreferredSize(
-          new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
-              SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
-      VisualEditView.this.spreadsheetPanel.revalidate();
-      VisualEditView.this.spreadsheetPanel.repaint();
-
+              new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
+                      SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
       VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
+
+      VisualEditView.this.refresh();
     });
 
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));
@@ -154,7 +155,7 @@ public class VisualEditView extends JFrame implements View {
     // The text field needs its own action listener so it knows what to do when the user has
     // pressed entered while the field is in focus
     this.userInputField
-        .addActionListener(e -> features.selectedCellEdited(userInputField.getText()));
+            .addActionListener(e -> features.selectedCellEdited(userInputField.getText()));
 
     this.addKeyListener(new SpreadsheetKeyListener(features, this.userInputField));
 
@@ -185,9 +186,9 @@ public class VisualEditView extends JFrame implements View {
         // Creates a JOptionPane that warns user of losing unsaved changes
         Object[] options = {"OK", "CANCEL"};
         int optionVal = JOptionPane.showOptionDialog(this,
-            "Any unsaved changes will be lost. Would you like to continue?",
-            "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-            null, options, options[0]);
+                "Any unsaved changes will be lost. Would you like to continue?",
+                "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                null, options, options[0]);
         if (optionVal == JOptionPane.YES_OPTION) {
           File file = fileChooser.getSelectedFile();
           // Sets this view as not visibile
@@ -212,9 +213,17 @@ public class VisualEditView extends JFrame implements View {
 
   @Override
   public void highlightCell(Coord cellCoord) {
-    this.spreadsheetPanel.setHighlightedCell(cellCoord);
-    this.userInputField.setText(this.viewModel.getRawContents(cellCoord));
-    this.refresh();
+    int rows = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
+            / SpreadsheetPanel.CELL_HEIGHT;
+    int cols = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
+            / SpreadsheetPanel.CELL_WIDTH;
+
+    if ((cellCoord.row > 0 && cellCoord.row <= rows)
+            && (cellCoord.col > 0 && cellCoord.col <= cols)) {
+      this.spreadsheetPanel.setHighlightedCell(cellCoord);
+      this.userInputField.setText(this.viewModel.getRawContents(cellCoord));
+      this.refresh();
+    }
   }
 
   /**
@@ -269,8 +278,8 @@ public class VisualEditView extends JFrame implements View {
     // Shows the column header in one row (preventing it from wrapping)
     cols.setVisibleRowCount(1);
 
-    scrollPane.setColumnHeaderView(cols);
-    scrollPane.setRowHeaderView(rows);
+    this.scrollPane.setColumnHeaderView(cols);
+    this.scrollPane.setRowHeaderView(rows);
   }
 
   /**
@@ -291,7 +300,7 @@ public class VisualEditView extends JFrame implements View {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends String> list, String value,
-        int index, boolean isSelected, boolean cellHasFocus) {
+                                                  int index, boolean isSelected, boolean cellHasFocus) {
       setText(value);
       return this;
     }

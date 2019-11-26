@@ -1,20 +1,23 @@
 package edu.cs3500.spreadsheets.controller;
 
-import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import java.io.IOException;
 import java.util.List;
 
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SpreadsheetModel;
+
 /**
- * Represents a mock model which logs all of its method calls to an appendable and delegates
- * to a "real" model to execute every method.
+ * Represents a mock model which logs all of its method calls to an appendable and delegates to a
+ * "real" model to execute every method.
  */
 class MockModel implements SpreadsheetModel {
   private final Appendable log;
   private final SpreadsheetModel realModel;
+
   /**
    * Creates an instance of a mock model using the given appendable and spreadsheet model.
-   * @param log The appendable to log method calls.
+   *
+   * @param log       The appendable to log method calls.
    * @param realModel The model which serves as a delegate.
    */
   MockModel(Appendable log, SpreadsheetModel realModel) {
@@ -36,7 +39,7 @@ class MockModel implements SpreadsheetModel {
   public void setCellValue(Coord coord, String value) {
     try {
       log.append("This cell at: ").append(coord.toString()).append(" now has the raw contents: ")
-          .append(value).append("\n");
+              .append(value).append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
     }
@@ -77,7 +80,7 @@ class MockModel implements SpreadsheetModel {
   public String getRawContents(Coord coord) {
     try {
       log.append("Got the raw contents of the cell at the coord: ").append(coord.toString())
-          .append("\n");
+              .append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
     }

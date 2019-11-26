@@ -35,7 +35,6 @@ public class Controller implements Features {
     if (coord != null) {
       this.selectedCoord = coord;
       this.view.highlightCell(coord);
-      this.view.refresh();
     }
   }
 
@@ -107,10 +106,10 @@ public class Controller implements Features {
       ex.printStackTrace();
     }
     WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder = new SimpleSpreadsheet.Builder();
-    this.model = WorksheetReader.read(builder, fileReader);
+    SimpleSpreadsheet spreadsheet = WorksheetReader.read(builder, fileReader);
 
-    this.view = new VisualEditView(new ViewModel(model));
-    view.makeVisible();
-    view.addFeatures(this);
+    VisualEditView editView = new VisualEditView(new ViewModel(spreadsheet));
+    Controller controller = new Controller(spreadsheet, editView);
+    editView.makeVisible();
   }
 }

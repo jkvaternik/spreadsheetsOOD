@@ -1,9 +1,10 @@
 package edu.cs3500.spreadsheets.controller;
 
+import java.io.IOException;
+
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.view.Features;
 import edu.cs3500.spreadsheets.view.View;
-import java.io.IOException;
 
 /**
  * Represents a mock view which logs all of its method calls to an appendable.
@@ -13,6 +14,7 @@ class MockView implements View {
 
   /**
    * Creates an instance of a mock view with the given appendable.
+   *
    * @param log The appendable to log method calls.
    */
   MockView(Appendable log) {

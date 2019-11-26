@@ -1,10 +1,10 @@
 package edu.cs3500.spreadsheets.controller;
 
-import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.view.Features;
-
 import java.io.File;
 import java.io.IOException;
+
+import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.view.Features;
 
 /**
  * Represents a mock features which logs all calls to its methods in an appendable.
@@ -14,6 +14,7 @@ class MockFeatures implements Features {
 
   /**
    * Creates an instance of a mock features using the given appendable.
+   *
    * @param log The appendable to log method calls.
    */
   MockFeatures(Appendable log) {
@@ -33,7 +34,7 @@ class MockFeatures implements Features {
   public void selectedCellEdited(String contents) {
     try {
       log.append("The selected cell has been edited. It's new contents is: ").append(contents)
-          .append("\n");
+              .append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
     }
@@ -43,7 +44,7 @@ class MockFeatures implements Features {
   public void movedHighlightedCell(Direction direction) {
     try {
       log.append("The highlighted cell has been moved in the direction: ").append(direction.toString())
-          .append("\n");
+              .append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
     }

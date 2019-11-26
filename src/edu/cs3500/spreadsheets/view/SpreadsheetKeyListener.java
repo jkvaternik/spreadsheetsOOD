@@ -1,10 +1,11 @@
 package edu.cs3500.spreadsheets.view;
 
-import edu.cs3500.spreadsheets.controller.Direction;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JTextField;
+
+import javax.swing.*;
+
+import edu.cs3500.spreadsheets.controller.Direction;
 
 /**
  * Represents a mouse listener for the spreadsheets. It's intention is to handle the key events for
@@ -18,7 +19,8 @@ public class SpreadsheetKeyListener implements KeyListener {
   /**
    * Creates an instance of a spreadsheet key listener and passes on its information (and possibly
    * also information from the given text field) to the given features interface.
-   * @param features The features which cares about this key listener.
+   *
+   * @param features       The features which cares about this key listener.
    * @param userInputField The user input text field.
    */
   public SpreadsheetKeyListener(Features features, JTextField userInputField) {
