@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
@@ -664,7 +663,8 @@ public class ControllerTest {
 
       File sampleOneCopy = new File(
           "C:\\Users\\jlkaz\\IdeaProjects\\Spreadsheet\\resources\\textFiles\\fileSampleOne.txt");
-      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder2 = new SimpleSpreadsheet.Builder();
+      WorksheetReader.WorksheetBuilder<SimpleSpreadsheet> builder2 =
+          new SimpleSpreadsheet.Builder();
       SimpleSpreadsheet modelCopy = WorksheetReader.read(builder2, new FileReader(sampleOneCopy));
 
       assertEquals(originalModel.getNumColumns(), modelCopy.getNumColumns());
