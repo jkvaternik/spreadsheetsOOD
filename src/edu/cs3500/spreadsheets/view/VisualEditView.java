@@ -296,28 +296,4 @@ public class VisualEditView extends JFrame implements View {
     this.scrollPane.setColumnHeaderView(cols);
     this.scrollPane.setRowHeaderView(rows);
   }
-
-  /**
-   * Represents a renderer which will display the row and column headers.
-   */
-  static class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
-
-    /**
-     * A constructor to make an instance of a HeaderRenderer.
-     */
-    HeaderRenderer() {
-      setOpaque(true);
-      setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-      setHorizontalAlignment(CENTER);
-      setForeground(Color.white);
-      setBackground(Color.lightGray);
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList<? extends String> list, String value,
-        int index, boolean isSelected, boolean cellHasFocus) {
-      setText(value);
-      return this;
-    }
-  }
 }
