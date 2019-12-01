@@ -1,5 +1,6 @@
-package edu.cs3500.spreadsheets.model;
+package edu.cs3500.spreadsheets.providers;
 
+import edu.cs3500.spreadsheets.model.Coord;
 import java.util.Hashtable;
 
 /**

@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.view;
+package edu.cs3500.spreadsheets.providers.view;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import edu.cs3500.spreadsheets.model.Cell;
 import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.Worksheet;
+import edu.cs3500.spreadsheets.providers.Worksheet;
 
 /**
  * Renders a textual view of the Spreadsheet that displays in the terminal.

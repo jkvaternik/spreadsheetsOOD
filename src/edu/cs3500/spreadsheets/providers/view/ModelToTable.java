@@ -1,8 +1,8 @@
-package edu.cs3500.spreadsheets.view;
+package edu.cs3500.spreadsheets.providers.view;
 
 import edu.cs3500.spreadsheets.model.Cell;
 import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.Worksheet;
+import edu.cs3500.spreadsheets.providers.Worksheet;
 
 /**
  * This wrapper class takes the contents of the Spreadsheet from the Hashtable and returns the
