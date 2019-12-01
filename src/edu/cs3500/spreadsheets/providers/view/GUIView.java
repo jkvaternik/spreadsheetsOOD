@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import edu.cs3500.spreadsheets.controller.ControllerViewRequester;
+import edu.cs3500.spreadsheets.providers.ControllerViewRequester;
 
 /**
  * Represents an editable view of a spreadsheet.
