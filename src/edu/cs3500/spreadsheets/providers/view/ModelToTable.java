@@ -1,6 +1,6 @@
 package edu.cs3500.spreadsheets.providers.view;
 
-import edu.cs3500.spreadsheets.model.Cell;
+import edu.cs3500.spreadsheets.providers.Cell;
 import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.providers.Worksheet;
 
