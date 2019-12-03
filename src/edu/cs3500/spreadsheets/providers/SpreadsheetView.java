@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.providers.view;
+package edu.cs3500.spreadsheets.providers;
 
 
 /**

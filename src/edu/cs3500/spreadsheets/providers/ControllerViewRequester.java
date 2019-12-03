@@ -7,14 +7,16 @@ import java.io.FileReader;
  * Allows the view to request changes to the model from the controller.
  */
 public class ControllerViewRequester {
-  private SpreadsheetController control;
+  //They had this marked private, but due to the need to extend this class, we changed it to be
+  //protected
+  protected SpreadsheetController control;
 
   /**
    * Constructs a controller wrapper to handle communications between view and controller.
    *
    * @param control the controller
    */
-  ControllerViewRequester(SpreadsheetController control) {
+  public ControllerViewRequester(SpreadsheetController control) {
     this.control = control;
   }
 

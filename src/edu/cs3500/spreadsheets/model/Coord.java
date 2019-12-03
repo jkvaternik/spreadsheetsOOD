@@ -23,6 +23,8 @@ public class Coord {
     this.col = col;
   }
 
+  public Coord(Coord c) { this(c.col, c.row); }
+
   /**
    * Converts from the A-Z column naming system to a 1-indexed numeric value.
    *

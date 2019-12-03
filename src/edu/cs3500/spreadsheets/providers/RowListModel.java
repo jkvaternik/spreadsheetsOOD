@@ -1,4 +1,4 @@
-package edu.cs3500.spreadsheets.providers.view;
+package edu.cs3500.spreadsheets.providers;
 
 import javax.swing.AbstractListModel;
 
@@ -14,7 +14,7 @@ public class RowListModel extends AbstractListModel {
    *
    * @param mtt wrapper class.
    */
-  RowListModel(ModelToTable mtt) {
+  RowListModel(ModelToView mtt) {
     rows = mtt.rowNames();
   }
 

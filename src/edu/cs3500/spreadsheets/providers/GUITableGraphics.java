@@ -1,5 +1,7 @@
-package edu.cs3500.spreadsheets.providers.view;
+package edu.cs3500.spreadsheets.providers;
 
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
+import edu.cs3500.spreadsheets.view.ModelToViewImpl;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -13,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 
-import edu.cs3500.spreadsheets.model.BasicWorksheetModel;
 import edu.cs3500.spreadsheets.model.Coord;
 
 /**
@@ -21,7 +22,7 @@ import edu.cs3500.spreadsheets.model.Coord;
  * specifically the JTable to display the contents of the Spreadsheet.
  */
 public class GUITableGraphics extends JPanel {
-  private ModelToTable modelToTable;
+  private ModelToView modelToTable;
   private DefaultTableModel defaultTableModel;
   private RowListModel listModel;
   private JTable table;
@@ -34,7 +35,7 @@ public class GUITableGraphics extends JPanel {
    *
    * @param mtt wrapper class.
    */
-  GUITableGraphics(ModelToTable mtt, JTextField tf) {
+  GUITableGraphics(ModelToView mtt, JTextField tf) {
     super();
     this.modelToTable = mtt;
     this.tfield = tf;
@@ -87,7 +88,9 @@ public class GUITableGraphics extends JPanel {
    */
   public GUITableGraphics() {
     super();
-    this.modelToTable = new ModelToTable(new BasicWorksheetModel());
+
+    //Had to change this line since they hard coded their model implementation
+    this.modelToTable = new ModelToViewImpl(new SimpleSpreadsheet.Builder().createWorksheet());
 
     RowListModel listModel = new RowListModel(this.modelToTable);
     DefaultTableModel defaultTableModel = new DefaultTableModel(listModel.getSize(),

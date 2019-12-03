@@ -1,5 +1,11 @@
 package edu.cs3500.spreadsheets;
 
+import edu.cs3500.spreadsheets.controller.ControllerAdapter;
+import edu.cs3500.spreadsheets.providers.ControllerViewRequester;
+import edu.cs3500.spreadsheets.providers.GUITableGraphics;
+import edu.cs3500.spreadsheets.providers.GUIView;
+import edu.cs3500.spreadsheets.providers.ModelToView;
+import edu.cs3500.spreadsheets.view.ModelToViewImpl;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
@@ -42,6 +48,10 @@ public class BeyondGood {
         View view = new VisualEditView(viewModel);
         view.makeVisible();
         Controller controller = new Controller(spreadsheet, view);
+      } else if (args[0].equals("-provider")) {
+        SimpleSpreadsheet spreadsheet = new SimpleSpreadsheet.Builder().createWorksheet();
+        ModelToView modelToView = new ModelToViewImpl(spreadsheet);
+        ControllerAdapter controllerAdapter = new ControllerAdapter(spreadsheet);
       } else {
         System.out.print("Invalid command");
       }
