@@ -1,8 +1,10 @@
 package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import edu.cs3500.spreadsheets.providers.ControllerViewRequester;
+import edu.cs3500.spreadsheets.providers.GUITableGraphics;
 import edu.cs3500.spreadsheets.providers.GUIView;
 import edu.cs3500.spreadsheets.providers.SpreadsheetController;
 import edu.cs3500.spreadsheets.view.ModelToViewImpl;
@@ -16,6 +18,9 @@ import java.io.IOException;
  */
 public class ControllerAdapter implements SpreadsheetController {
   private final Controller controller;
+  //We need an implementation of the model to add a blank cell for the addRows and addCols methods
+  //to make our code work with theirs
+  private final SpreadsheetModel model;
 
   /**
    * Creates a controller adapter, which also creates the view and the controller (our version).
@@ -27,6 +32,7 @@ public class ControllerAdapter implements SpreadsheetController {
     ControllerViewRequester requester = new ControllerViewRequester(this);
     GUIView view = new GUIView(new ModelToViewImpl(model), requester);
     controller = new Controller(model, new ViewAdapter(view));
+    this.model = model;
   }
 
   @Override
@@ -51,7 +57,7 @@ public class ControllerAdapter implements SpreadsheetController {
     StringBuilder fileString = new StringBuilder();
     try {
       while (file.ready()) {
-        fileString.append(Integer.toString(file.read()));
+        fileString.append(file.read());
       }
     } catch (IOException e) {
       //If we encounter a problem, just ignore the request
@@ -66,11 +72,15 @@ public class ControllerAdapter implements SpreadsheetController {
 
   @Override
   public void addCols() {
-    //Do nothing, as this does not apply for our code
+    //We need to hard code the adding of a blank cell for the purpose of the translate 2d array
+    //that they use for loading the values of the model into their view
+    this.model.setCellValue(new Coord(this.model.getNumColumns() + 50, 1), "");
   }
 
   @Override
   public void addRows() {
-    //Do nothing, as this does not apply for our code
+    //We need to hard code the adding of a blank cell for the purpose of the translate 2d array
+    //that they use for loading the values of the model into their view
+    this.model.setCellValue(new Coord(1, this.model.getNumRows() + 50), "");
   }
 }

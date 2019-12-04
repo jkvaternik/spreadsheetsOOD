@@ -42,7 +42,7 @@ public class ModelToViewImpl implements ModelToView {
   public String[] rowNames() {
     String[] names = new String[model.getNumRows()];
     for (int i = 0; i < names.length; i++) {
-      names[i] = Integer.toString(i);
+      names[i] = Integer.toString(i + 1);
     }
     return names;
   }
