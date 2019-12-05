@@ -28,7 +28,7 @@ public class BeyondGood {
   /**
    * The main entry point.
    *
-   * @param args any command-line arguments
+   * @param args any command-line argumentsB
    */
   public static void main(String[] args) {
     if (args.length == 1) {

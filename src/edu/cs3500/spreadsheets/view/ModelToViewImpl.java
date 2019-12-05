@@ -42,6 +42,7 @@ public class ModelToViewImpl implements ModelToView {
   public String[] rowNames() {
     String[] names = new String[model.getNumRows()];
     for (int i = 0; i < names.length; i++) {
+      //add 1 to make it 1-indexed
       names[i] = Integer.toString(i + 1);
     }
     return names;

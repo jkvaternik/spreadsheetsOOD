@@ -29,7 +29,7 @@ public class ControllerAdapter implements SpreadsheetController {
    * @param model The spreadsheet model that this MVC system is based on
    */
   public ControllerAdapter(SpreadsheetModel model) {
-    ControllerViewRequester requester = new ControllerViewRequester(this);
+    ControllerViewRequester requester = new ControllerViewRequesterFormulaFix(this);
     GUIView view = new GUIView(new ModelToViewImpl(model), requester);
     controller = new Controller(model, new ViewAdapter(view));
     this.model = model;
