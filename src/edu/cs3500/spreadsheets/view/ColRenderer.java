@@ -1,6 +1,5 @@
 package edu.cs3500.spreadsheets.view;
 
-
 import java.awt.*;
 
 import javax.swing.JLabel;
@@ -8,21 +7,27 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
+import edu.cs3500.spreadsheets.model.SpreadsheetModel;
+import edu.cs3500.spreadsheets.model.ViewModel;
+
 /**
  * Represents a renderer which will display the row and column headers.
  */
 
-class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
+class ColRenderer extends JLabel implements ListCellRenderer<String> {
+  private ViewModel viewModel;
   /**
-   * A constructor to make an instance of a HeaderRenderer.
+   * A constructor to make an instance of a ColRenderer.
    */
-  HeaderRenderer() {
+  ColRenderer(ViewModel viewModel) {
     setOpaque(true);
     setBorder(UIManager.getBorder("TableHeader.cellBorder"));
     setHorizontalAlignment(CENTER);
     setForeground(Color.white);
     setBackground(Color.lightGray);
-    setPreferredSize(new Dimension(75, 25));
+
+    this.viewModel = viewModel;
   }
 
   @Override
@@ -30,6 +35,8 @@ class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
                                                 int index, boolean isSelected,
                                                 boolean cellHasFocus) {
     setText(value);
+    setPreferredSize(new Dimension(this.viewModel.getColWidth(index),
+            SimpleSpreadsheet.DEFAULT_ROW_HEIGHT));
     return this;
   }
 }

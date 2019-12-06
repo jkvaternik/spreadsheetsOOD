@@ -276,15 +276,9 @@ public class VisualEditView extends JFrame implements View {
     JList<String> rows = new JList<>(rowsList);
     JList<String> cols = new JList<>(colsList);
 
-    rows.setFixedCellWidth(75);
-    rows.setFixedCellHeight(25);
+    rows.setCellRenderer(new RowRenderer());
 
-    cols.setFixedCellWidth(75);
-    cols.setFixedCellHeight(25);
-
-    rows.setCellRenderer(new HeaderRenderer());
-
-    cols.setCellRenderer(new HeaderRenderer());
+    cols.setCellRenderer(new ColRenderer(viewModel));
     cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
     // Shows the column header in one row (preventing it from wrapping)
     cols.setVisibleRowCount(1);
