@@ -52,10 +52,43 @@ public final class WorksheetReader {
       if (m.matches()) {
         col = Coord.colNameToIndex(m.group(1));
         row = Integer.parseInt(m.group(2));
+
+        scan.skip("\\s*");
+        while (scan.hasNext("#.*")) {
+          scan.nextLine();
+          scan.skip("\\s*");
+        }
+        String contents = scan.nextLine();
+        builder = builder.createCell(col, row, contents);
+
       } else if (m2.matches()) {
         row = Integer.parseInt(m.group(1));
+
+        scan.skip("\\s*");
+        while (scan.hasNext("#.*")) {
+          scan.nextLine();
+          scan.skip("\\s*");
+        }
+        String height = scan.nextLine();
+        try {
+          builder = builder.setRowHeight(row, Integer.parseInt(height));
+        } catch (NumberFormatException e) {
+          throw new IllegalStateException("Invalid height");
+        }
       } else if (m3.matches()) {
         col = Coord.colNameToIndex(m.group(1));
+
+        scan.skip("\\s*");
+        while (scan.hasNext("#.*")) {
+          scan.nextLine();
+          scan.skip("\\s*");
+        }
+        String width = scan.nextLine();
+        try {
+          builder = builder.setColWidth(col, Integer.parseInt(width));
+        } catch (NumberFormatException e) {
+          throw new IllegalStateException("Invalid width");
+        }
       } else {
         throw new IllegalStateException("Unexpected input");
       }
