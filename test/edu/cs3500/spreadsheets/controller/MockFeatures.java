@@ -78,4 +78,26 @@ class MockFeatures implements Features {
       throw new IllegalStateException("Invalid appendable");
     }
   }
+
+  @Override
+  public void changeRowSize(int heightChange) {
+    try {
+      log.append("The row height of the highlighted cell has been changed by: ")
+          .append(Integer.toString(heightChange))
+          .append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
+
+  @Override
+  public void changeColSize(int widthChange) {
+    try {
+      log.append("The col width of the highlighted cell has been increased by: ")
+          .append(Integer.toString(widthChange))
+          .append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
 }

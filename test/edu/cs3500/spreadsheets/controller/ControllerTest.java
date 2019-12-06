@@ -57,7 +57,7 @@ public class ControllerTest {
     mockModel = new MockModel(log, realModel);
     mockView = new MockView(log);
     mockFeatures = new MockFeatures(log);
-    mouseListener = new SpreadsheetMouseListener(mockFeatures);
+    mouseListener = new SpreadsheetMouseListener(mockFeatures, realModel);
     keyListener = new SpreadsheetKeyListener(mockFeatures, mockUserInputField);
   }
 
@@ -251,7 +251,7 @@ public class ControllerTest {
       }
     };
     mockFeatures = new MockFeatures(log);
-    mouseListener = new SpreadsheetMouseListener(mockFeatures);
+    mouseListener = new SpreadsheetMouseListener(mockFeatures, realModel);
 
     // When the mouse is clicked, the IOException should be converted to an IllegalStateException
     mouseListener.mouseClicked(new MouseEvent(mockUserInputField, 1, 1, MouseEvent.MOUSE_CLICKED,
@@ -291,7 +291,7 @@ public class ControllerTest {
     assertEquals("", log.toString());
 
     controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller);
+    mouseListener = new SpreadsheetMouseListener(controller, realModel);
     keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
 
     assertEquals("Features were added to this view.\n", log.toString());
@@ -349,7 +349,7 @@ public class ControllerTest {
     assertEquals("", log.toString());
 
     controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller);
+    mouseListener = new SpreadsheetMouseListener(controller, realModel);
     keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
 
     assertEquals("Features were added to this view.\n", log.toString());
@@ -457,7 +457,7 @@ public class ControllerTest {
     assertEquals("", log.toString());
 
     controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller);
+    mouseListener = new SpreadsheetMouseListener(controller, realModel);
     keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
     assertEquals("Features were added to this view.\n", log.toString());
 
@@ -579,7 +579,7 @@ public class ControllerTest {
     assertEquals("", log.toString());
 
     controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller);
+    mouseListener = new SpreadsheetMouseListener(controller, realModel);
     keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
     assertEquals("Features were added to this view.\n", log.toString());
     assertEquals("6.000000", realModel.getValue(new Coord(1, 1)));
