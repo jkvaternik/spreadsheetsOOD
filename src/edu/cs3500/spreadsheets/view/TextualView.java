@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
+import edu.cs3500.spreadsheets.sexp.Parser;
 import java.io.IOException;
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -27,6 +29,8 @@ public class TextualView implements View {
   public void makeVisible() {
     int rows = this.viewModel.getNumRows();
     int cols = this.viewModel.getNumColumns();
+
+    //Display all cell contents
     for (int row = 1; row <= rows; row++) {
       for (int col = 1; col <= cols; col++) {
         String coordString = Coord.colIndexToName(col) + row;
@@ -38,6 +42,27 @@ public class TextualView implements View {
           if (!(val.equals(""))) {
             this.ap.append(coordString).append(" ").append(val).append("\n");
           }
+        } catch (IOException e) {
+          throw new IllegalStateException("View was unable to show output.");
+        }
+      }
+    }
+    //Display all row heights and cell widths (if any are changed)
+    for (int row = 1; row <= rows; row++) {
+      int height = this.viewModel.getRowHeight(row);
+      if (height != SimpleSpreadsheet.DEFAULT_ROW_HEIGHT) {
+        try {
+          this.ap.append(Integer.toString(row)).append(" ").append(Integer.toString(height));
+        } catch (IOException e) {
+          throw new IllegalStateException("View was unable to show output.");
+        }
+      }
+    }
+    for (int col = 1; col <= cols; col++) {
+      int width = this.viewModel.getColWidth(col);
+      if (width != SimpleSpreadsheet.DEFAULT_COL_WIDTH) {
+        try {
+          this.ap.append(Integer.toString(col)).append(" ").append(Integer.toString(width));
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }
