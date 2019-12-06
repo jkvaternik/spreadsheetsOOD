@@ -96,4 +96,46 @@ class MockModel implements SpreadsheetModel {
     }
     return this.realModel.getErrorCoords();
   }
+
+  @Override
+  public int getRowHeight(int row) throws IllegalArgumentException {
+    try {
+      log.append("Got the row height of row:").append(Integer.toString(row)).append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    return this.realModel.getRowHeight(row);
+  }
+
+  @Override
+  public int getColWidth(int col) throws IllegalArgumentException {
+    try {
+      log.append("Got the column width of column:").append(Integer.toString(col)).append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    return this.realModel.getColWidth(col);
+  }
+
+  @Override
+  public void setRowHeight(int row, int height) throws IllegalArgumentException {
+    try {
+      log.append("This row: ").append(Integer.toString(row)).append(" now has the height: ")
+              .append(Integer.toString(height)).append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    this.realModel.setRowHeight(row, height);
+  }
+
+  @Override
+  public void setColWidth(int col, int width) throws IllegalArgumentException {
+    try {
+      log.append("This column: ").append(Integer.toString(col)).append(" now has the width: ")
+              .append(Integer.toString(width)).append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    this.realModel.setColWidth(col, width);
+  }
 }

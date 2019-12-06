@@ -5,10 +5,8 @@ import edu.cs3500.spreadsheets.model.Coord;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
+
+import javax.swing.*;
 
 /**
  * Represents a visual view for the spreadsheet. This view displays the model as a table of
@@ -114,11 +112,11 @@ public class VisualReadView extends JFrame implements View {
     JList<String> rows = new JList<>(rowsList);
     JList<String> cols = new JList<>(colsList);
 
-    rows.setFixedCellWidth(75);
-    rows.setFixedCellHeight(25);
-
-    cols.setFixedCellWidth(75);
-    cols.setFixedCellHeight(25);
+//    rows.setFixedCellWidth(75);
+//    rows.setFixedCellHeight(25);
+//
+//    cols.setFixedCellWidth(75);
+//    cols.setFixedCellHeight(25);
 
     rows.setCellRenderer(new HeaderRenderer());
 
