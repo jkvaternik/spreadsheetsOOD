@@ -35,6 +35,8 @@ public final class WorksheetReader {
   public static <T> T read(WorksheetBuilder<T> builder, Readable readable) {
     Scanner scan = new Scanner(readable);
     final Pattern cellRef = Pattern.compile("([A-Za-z]+)([1-9][0-9]*)");
+    final Pattern colSignifier = Pattern.compile("([A-Za-z]+)");
+    final Pattern rowSignifier = Pattern.compile("([1-9][0-9]*)");
     scan.useDelimiter("\\s+");
     while (scan.hasNext()) {
       int col;
@@ -45,19 +47,18 @@ public final class WorksheetReader {
       }
       String cell = scan.next();
       Matcher m = cellRef.matcher(cell);
+      Matcher m2 = rowSignifier.matcher(cell);
+      Matcher m3 = colSignifier.matcher(cell);
       if (m.matches()) {
         col = Coord.colNameToIndex(m.group(1));
         row = Integer.parseInt(m.group(2));
+      } else if (m2.matches()) {
+        row = Integer.parseInt(m.group(1));
+      } else if (m3.matches()) {
+        col = Coord.colNameToIndex(m.group(1));
       } else {
-        throw new IllegalStateException("Expected cell ref");
+        throw new IllegalStateException("Unexpected input");
       }
-      scan.skip("\\s*");
-      while (scan.hasNext("#.*")) {
-        scan.nextLine();
-        scan.skip("\\s*");
-      }
-      String contents = scan.nextLine();
-      builder = builder.createCell(col, row, contents);
     }
 
     return builder.createWorksheet();
@@ -81,6 +82,22 @@ public final class WorksheetReader {
      * @return this {@link WorksheetBuilder}
      */
     WorksheetBuilder<T> createCell(int col, int row, String contents);
+
+    /**
+     * Sets the given row of the spreadsheet to be the given height.
+     * @param row The row
+     * @param height The height
+     * @return this {@link WorksheetBuilder}
+     */
+    WorksheetBuilder<T> setRowHeight(int row, int height);
+
+    /**
+     * Sets the given column of the spreadsheet to be the given width.
+     * @param col The col
+     * @param width The width
+     * @return this {@link WorksheetBuilder}
+     */
+    WorksheetBuilder<T> setColWidth(int col, int width);
 
     /**
      * Finalizes the construction of the worksheet and returns it.

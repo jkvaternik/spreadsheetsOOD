@@ -87,7 +87,7 @@ public interface SpreadsheetModel {
    * Sets the height of the given row of the view to be the given height.
    * @param row The row of interest
    * @param height The height to set
-   * @throws IllegalArgumentException If the row is invalid
+   * @throws IllegalArgumentException If the row or height is invalid
    */
   void setRowHeight(int row, int height) throws IllegalArgumentException;
 
@@ -95,7 +95,7 @@ public interface SpreadsheetModel {
    * Sets the width of the given column of the view to be the given width.
    * @param col The col of interest
    * @param width The width to set
-   * @throws IllegalArgumentException If the column is invalid
+   * @throws IllegalArgumentException If the column or width is invalid
    */
   void setColWidth(int col, int width) throws IllegalArgumentException;
 }

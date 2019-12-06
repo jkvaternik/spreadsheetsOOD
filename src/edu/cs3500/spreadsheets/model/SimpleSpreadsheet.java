@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -24,8 +25,13 @@ import edu.cs3500.spreadsheets.sexp.Parser;
  * cell is less than another, and capitalizing the string value of a cell.
  */
 public class SimpleSpreadsheet implements SpreadsheetModel {
+  private static final int DEFAULT_ROW_HEIGHT = 25;
+  private static final int DEFAULT_COL_WIDTH = 75;
+  private static final int MIN_ROW_COL_SIZE = 25;
   private Hashtable<Coord, Cell> cells;
   private List<Coord> errorCoords;
+  private HashMap<Integer, Integer> rowHeights;
+  private HashMap<Integer, Integer> colWidths;
 
   /**
    * Creates an instance of a simple spreadsheet. This constructor can only be called via the
@@ -34,6 +40,8 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   private SimpleSpreadsheet() {
     this.cells = new Hashtable<>();
     this.errorCoords = new ArrayList<>();
+    this.rowHeights = new HashMap<>();
+    this.colWidths = new HashMap<>();
   }
 
   /**
@@ -176,6 +184,42 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     return new ArrayList<>(this.errorCoords);
   }
 
+  @Override
+  public int getRowHeight(int row) throws IllegalArgumentException {
+    if (row > 0) {
+      return this.rowHeights.getOrDefault(row, DEFAULT_ROW_HEIGHT);
+    } else {
+      throw new IllegalArgumentException("Invalid row");
+    }
+  }
+
+  @Override
+  public int getColWidth(int col) throws IllegalArgumentException {
+    if (col > 0) {
+      return this.colWidths.getOrDefault(col, DEFAULT_COL_WIDTH);
+    } else {
+      throw new IllegalArgumentException("Invalid col");
+    }
+  }
+
+  @Override
+  public void setRowHeight(int row, int height) throws IllegalArgumentException {
+    if (row > 0 && height >= MIN_ROW_COL_SIZE) {
+      this.rowHeights.put(row, height);
+    } else {
+      throw new IllegalArgumentException("Invalid row or height");
+    }
+  }
+
+  @Override
+  public void setColWidth(int col, int width) throws IllegalArgumentException {
+    if (col > 0 && width >= MIN_ROW_COL_SIZE) {
+      this.colWidths.put(col, width);
+    } else {
+      throw new IllegalArgumentException("Invalid col or width");
+    }
+  }
+
   /**
    * Represents instance of a WorksheetBuilder which helps build a spreadsheet.
    */
@@ -191,6 +235,26 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     public WorksheetBuilder<SimpleSpreadsheet> createCell(int col, int row, String contents) {
       Coord c = new Coord(col, row);
       this.spreadsheet.setCellValue(c, contents);
+      return this;
+    }
+
+    @Override
+    public WorksheetBuilder<SimpleSpreadsheet> setRowHeight(int row, int height) {
+      try {
+        this.spreadsheet.setRowHeight(row, height);
+      } catch (IllegalArgumentException e) {
+        //Ignore any bad inputs
+      }
+      return this;
+    }
+
+    @Override
+    public WorksheetBuilder<SimpleSpreadsheet> setColWidth(int col, int width) {
+      try {
+        this.spreadsheet.setColWidth(col, width);
+      } catch (IllegalArgumentException e) {
+        //Ignore any bad inputs
+      }
       return this;
     }
 
