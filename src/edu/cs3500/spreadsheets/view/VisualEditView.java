@@ -38,6 +38,10 @@ public class VisualEditView extends JFrame implements View {
   private final JButton confirmEditButton;
   private final JButton rejectEditButton;
   private final JButton increaseSizeButton;
+  private final JButton increaseRowButton;
+  private final JButton increaseColButton;
+  private final JButton decreaseRowButton;
+  private final JButton decreaseColButton;
   private final JTextField userInputField;
   private final JMenuItem menuItemSave;
   private final JMenuItem menuItemOpen;
@@ -67,18 +71,18 @@ public class VisualEditView extends JFrame implements View {
     // Create SpreadsheetPanel and add to ScrollPane
     this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
 
-    int numRows = this.getMaxDimension().height;
-    int numCols = this.getMaxDimension().width;
+    this.spreadsheetPanel.numViewRows = this.getMaxDimension().height;
+    this.spreadsheetPanel.numViewCols = this.getMaxDimension().width;
 
     int width = 0;
     int height = 0;
 
-    for (int row = 0; row < numRows; row++) {
-      height += this.viewModel.getRowHeight(row);
+    for (int row = 0; row < this.spreadsheetPanel.numViewRows; row++) {
+      height += this.viewModel.getRowHeight(row + 1);
     }
 
-    for (int col = 0; col < numCols; col++) {
-      width += this.viewModel.getColWidth(col);
+    for (int col = 0; col < this.spreadsheetPanel.numViewCols; col++) {
+      width += this.viewModel.getColWidth(col + 1);
     }
 
     this.spreadsheetPanel.setPreferredSize(new Dimension(width, height));
@@ -87,7 +91,7 @@ public class VisualEditView extends JFrame implements View {
     scrollPane.setPreferredSize(new Dimension(995, 595));
 
     // Modify JScrollPane
-    this.setHeaders(numCols, numRows);
+    this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
     this.add(scrollPane, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
@@ -111,9 +115,24 @@ public class VisualEditView extends JFrame implements View {
 
     editPanel.add(this.rejectEditButton);
 
-    // Set up the increase size button (but have it do nothing for now)
+    // Set up the increase size button
     this.increaseSizeButton = new JButton("Increase Size");
     editPanel.add(this.increaseSizeButton);
+
+
+    // Set up the buttons for increasing/decreasing row and col size
+    this.increaseRowButton = new JButton("Increase Row Height");
+    editPanel.add(this.increaseRowButton);
+
+    this.decreaseRowButton = new JButton("Decrease Row Height");
+    editPanel.add(this.decreaseRowButton);
+
+    this.increaseColButton = new JButton("Increase Col Width");
+    editPanel.add(this.increaseColButton);
+
+    this.decreaseColButton = new JButton("Decrease Col Height");
+    editPanel.add(this.decreaseColButton);
+
 
     // Create a Menu Bar
     System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -165,23 +184,66 @@ public class VisualEditView extends JFrame implements View {
       features.selectedCellEdited(userString);
     });
 
+    this.increaseColButton.addActionListener(evt -> {
+      features.changeColSize(10);
+      this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+
+      Dimension temp = spreadsheetPanel.getPreferredSize();
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
+    });
+    this.increaseRowButton.addActionListener(evt -> {
+      features.changeRowSize(10);
+      this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+
+      Dimension temp = spreadsheetPanel.getPreferredSize();
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
+    });
+    this.decreaseColButton.addActionListener(evt -> {
+      features.changeColSize(-10);
+      this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+
+      Dimension temp = spreadsheetPanel.getPreferredSize();
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
+    });
+    this.decreaseRowButton.addActionListener(evt -> {
+      features.changeRowSize(-10);
+      this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+
+      Dimension temp = spreadsheetPanel.getPreferredSize();
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+
+      VisualEditView.this.spreadsheetPanel.revalidate();
+      VisualEditView.this.spreadsheetPanel.repaint();
+    });
+
     this.increaseSizeButton.addActionListener(e -> {
       int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height;
       int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width;
 
-      Dimension oldDimension = VisualEditView.this.getMaxDimension();
-
       VisualEditView.this.spreadsheetPanel.setPreferredSize(
               new Dimension(oldW + (SimpleSpreadsheet.DEFAULT_COL_WIDTH * INCREMENT_AMOUNT),
                       oldH + (SimpleSpreadsheet.DEFAULT_ROW_HEIGHT * INCREMENT_AMOUNT)));
-      VisualEditView.this.setHeaders(oldDimension.width + INCREMENT_AMOUNT, oldDimension.height + INCREMENT_AMOUNT);
+
+      VisualEditView.this.spreadsheetPanel.numViewCols += 26;
+      VisualEditView.this.spreadsheetPanel.numViewRows += 26;
+      VisualEditView.this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+
       VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
     });
 
-    this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features));
+    this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features, viewModel));
 
     // The text field needs its own action listener so it knows what to do when the user has
     // pressed entered while the field is in focus
@@ -276,11 +338,11 @@ public class VisualEditView extends JFrame implements View {
     DefaultListModel<String> rowsList = new DefaultListModel<>();
     DefaultListModel<String> colsList = new DefaultListModel<>();
 
-    for (int i = 0; i < height + 26; i++) {
+    for (int i = 0; i < height; i++) {
       rowsList.add(i, Integer.toString(i + 1));
     }
 
-    for (int j = 0; j < width + 26; j++) {
+    for (int j = 0; j < width; j++) {
       colsList.add(j, Coord.colIndexToName(j + 1));
     }
 

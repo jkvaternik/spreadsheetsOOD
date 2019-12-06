@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionListener;
 
 
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -28,6 +29,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   private final ViewModel viewModel;
   private Coord highlightedCell;
+
+  // These integers are only packet-private because they are internal to the view
+  int numViewRows;
+  int numViewCols;
 
   /**
    * Constructs an instance of the SpreadsheetPanel based on the given ViewModel.
@@ -69,12 +74,25 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxHeight = this.getPreferredSize().height;
     int maxWidth = this.getPreferredSize().width;
 
-    // Draw all of the cell borders
-    for (int horizLine = 0; horizLine <= maxHeight; horizLine++) {
-      g2d.drawLine(0, horizLine * viewModel.getRowHeight(horizLine + 1), maxWidth, horizLine * viewModel.getRowHeight(horizLine + 1));
+    int[] horizLines = new int[numViewRows];
+    horizLines[0] = this.viewModel.getRowHeight(1);
+    for (int i = 1; i < horizLines.length; i++) {
+      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i + 1);
     }
-    for (int vertLine = 0; vertLine <= maxWidth; vertLine++) {
-      g2d.drawLine(vertLine * viewModel.getColWidth(vertLine + 1), 0, viewModel.getColWidth(vertLine + 1), maxHeight);
+
+    int[] vertLines = new int[numViewCols];
+    vertLines[0] = this.viewModel.getColWidth(1);
+    for (int i = 1; i < vertLines.length; i++) {
+      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i + 1);
+    }
+
+
+    // Draw all of the cell borders
+    for (int horizLine = 1; horizLine <= horizLines.length; horizLine++) {
+      g2d.drawLine(0, horizLines[horizLine - 1], maxWidth, horizLines[horizLine - 1]);
+    }
+    for (int vertLine = 1; vertLine <= vertLines.length; vertLine++) {
+      g2d.drawLine(vertLines[vertLine - 1], 0, vertLines[vertLine - 1], maxHeight);
     }
   }
 
