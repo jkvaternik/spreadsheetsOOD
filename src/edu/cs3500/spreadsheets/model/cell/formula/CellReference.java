@@ -136,10 +136,12 @@ public class CellReference implements Formula {
     }
   }
 
+  @Override
   public int hashCode() {
     return Objects.hash(this.from, this.to);
   }
 
+  @Override
   public String toString() {
     return this.from.toString() + ", " + this.to.toString();
   }

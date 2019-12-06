@@ -13,6 +13,11 @@ public class TextualView implements View {
   private final Appendable ap;
   private final ViewModel viewModel;
 
+  /**
+   * Makes a textual view.
+   * @param ap The appendable that the view writes to.
+   * @param viewModel The viewModel which this view uses to access the model's data.
+   */
   public TextualView(Appendable ap, ViewModel viewModel) {
     this.ap = ap;
     this.viewModel = viewModel;

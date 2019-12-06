@@ -25,7 +25,7 @@ public interface Formula {
   /**
    * Returns the result of applying the given visitor to this Formula.
    *
-   * @param visitor the given FormulaVisitor<R>
+   * @param visitor the given FormulaVisitor
    * @param <R>     The value type returned by the visitor (not Value)
    * @return the result of applying the given visitor to this Formula
    */

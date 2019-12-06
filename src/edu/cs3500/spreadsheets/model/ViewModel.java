@@ -12,6 +12,10 @@ import java.util.List;
 public class ViewModel implements SpreadsheetModel {
   private final SpreadsheetModel realModel;
 
+  /**
+   * Makes a view model.
+   * @param realModel the real spreadsheet model
+   */
   public ViewModel(SpreadsheetModel realModel) {
     this.realModel = realModel;
   }

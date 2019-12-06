@@ -1,3 +1,10 @@
+ASSIGNMENT 8:
+All of the features, including the extra credit features from HW7, work for our implementation.
+Additionally, we were able to make all but one of the features work for our provider's view. Sadly,
+we were unable to make the load file feature in our provider's view work.
+
+____________________________________________________________________________________________________
+
 ASSIGNMENT 7:
 
 Changes to our view interface:

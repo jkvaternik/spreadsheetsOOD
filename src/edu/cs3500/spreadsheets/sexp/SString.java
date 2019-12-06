@@ -8,6 +8,10 @@ import java.util.Objects;
 public class SString implements Sexp {
   String val;
 
+  /**
+   * Makes an SString based on the given string.
+   * @param name The string
+   */
   public SString(String name) {
     this.val = Objects.requireNonNull(name);
   }

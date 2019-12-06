@@ -5,7 +5,7 @@ import edu.cs3500.spreadsheets.providers.SpreadsheetController;
 
 /**
  * Exactly the same as the provider's controller-view-requester except that it fixes the issue where
- * formulas are stored as strings and not formulas (because they removed the '=')
+ * formulas are stored as strings and not formulas (because they removed the '=').
  */
 public class ControllerViewRequesterFormulaFix extends ControllerViewRequester {
 

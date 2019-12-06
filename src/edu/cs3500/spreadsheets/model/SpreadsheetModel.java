@@ -66,4 +66,14 @@ public interface SpreadsheetModel {
    */
 
   List<Coord> getErrorCoords();
+
+  /**
+   * Gets the width of the given row for the view.
+   * @param row The row of interest
+   * @return The width of the row
+   * @throws IllegalArgumentException If the row is invalid
+   */
+  int getRowWidth(int row) throws IllegalArgumentException;
+
+  int getColWidth(int col) throws IllegalArgumentException;
 }

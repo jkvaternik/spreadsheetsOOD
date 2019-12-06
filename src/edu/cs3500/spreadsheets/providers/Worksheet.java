@@ -53,16 +53,16 @@
 //  Hashtable<Coord, Cell> getHashtable();
 //
 //  /**
-//   * Finds the cell farthest down and returns its row number. This lets the user know how many rows
-//   * are in the sheet.
+//   * Finds the cell farthest down and returns its row number. This lets the user know how many
+//   * rows are in the sheet.
 //   *
 //   * @return Number of rows in the spreadsheet
 //   */
 //  int getNumRows();
 //
 //  /**
-//   * Finds the cell farthest to the right and returns its column number. This lets the user know how
-//   * many columns are in the sheet.
+//   * Finds the cell farthest to the right and returns its column number. This lets the user know
+//   * how many columns are in the sheet.
 //   *
 //   * @return Number of rows in the spreadsheet
 //   */

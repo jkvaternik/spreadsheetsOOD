@@ -1,10 +1,8 @@
 package edu.cs3500.spreadsheets.controller;
 
 import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import edu.cs3500.spreadsheets.providers.ControllerViewRequester;
-import edu.cs3500.spreadsheets.providers.GUITableGraphics;
 import edu.cs3500.spreadsheets.providers.GUIView;
 import edu.cs3500.spreadsheets.providers.SpreadsheetController;
 import edu.cs3500.spreadsheets.view.ModelToViewImpl;

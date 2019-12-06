@@ -23,7 +23,13 @@ public class Coord {
     this.col = col;
   }
 
-  public Coord(Coord c) { this(c.col, c.row); }
+  /**
+   * Makes a coord that is a copy of the given coord.
+   * @param c The coord to copy
+   */
+  public Coord(Coord c) {
+    this(c.col, c.row);
+  }
 
   /**
    * Converts from the A-Z column naming system to a 1-indexed numeric value.

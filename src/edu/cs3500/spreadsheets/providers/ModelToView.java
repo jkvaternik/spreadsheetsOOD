@@ -1,5 +1,8 @@
 package edu.cs3500.spreadsheets.providers;
 
+/**
+ * Converts the contents of the model into data which can be easily used by the view.
+ */
 public interface ModelToView {
 
   /**

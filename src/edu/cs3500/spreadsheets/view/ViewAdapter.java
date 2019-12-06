@@ -11,6 +11,10 @@ import edu.cs3500.spreadsheets.providers.SpreadsheetView;
 public class ViewAdapter implements View {
   private final SpreadsheetView providerView;
 
+  /**
+   * Makes a view adapter using the provider's view.
+   * @param providerView The provider's view
+   */
   public ViewAdapter(SpreadsheetView providerView) {
     this.providerView = providerView;
   }
