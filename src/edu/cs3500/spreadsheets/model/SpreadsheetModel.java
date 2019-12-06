@@ -68,12 +68,34 @@ public interface SpreadsheetModel {
   List<Coord> getErrorCoords();
 
   /**
-   * Gets the width of the given row for the view.
+   * Gets the height of the given row for the view.
    * @param row The row of interest
-   * @return The width of the row
+   * @return The height of the row
    * @throws IllegalArgumentException If the row is invalid
    */
-  int getRowWidth(int row) throws IllegalArgumentException;
+  int getRowHeight(int row) throws IllegalArgumentException;
 
+  /**
+   * Gets the width of the given column for the view.
+   * @param col The col of interest
+   * @return The width of the column
+   * @throws IllegalArgumentException If the column is invalid
+   */
   int getColWidth(int col) throws IllegalArgumentException;
+
+  /**
+   * Sets the height of the given row of the view to be the given height.
+   * @param row The row of interest
+   * @param height The height to set
+   * @throws IllegalArgumentException If the row is invalid
+   */
+  void setRowHeight(int row, int height) throws IllegalArgumentException;
+
+  /**
+   * Sets the width of the given column of the view to be the given width.
+   * @param col The col of interest
+   * @param width The width to set
+   * @throws IllegalArgumentException If the column is invalid
+   */
+  void setColWidth(int col, int width) throws IllegalArgumentException;
 }
