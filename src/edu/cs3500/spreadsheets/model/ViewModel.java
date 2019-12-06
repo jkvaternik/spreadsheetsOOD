@@ -54,4 +54,24 @@ public class ViewModel implements SpreadsheetModel {
   public List<Coord> getErrorCoords() {
     return this.realModel.getErrorCoords();
   }
+
+  @Override
+  public int getRowHeight(int row) throws IllegalArgumentException {
+    return realModel.getRowHeight(row);
+  }
+
+  @Override
+  public int getColWidth(int col) throws IllegalArgumentException {
+    return realModel.getColWidth(col);
+  }
+
+  @Override
+  public void setRowHeight(int row, int height) throws IllegalArgumentException {
+    throw new UnsupportedOperationException("Cannot set the value of a cell.");
+  }
+
+  @Override
+  public void setColWidth(int col, int width) throws IllegalArgumentException {
+    throw new UnsupportedOperationException("Cannot set the value of a cell.");
+  }
 }

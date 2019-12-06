@@ -1,8 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
 
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -23,6 +22,7 @@ class HeaderRenderer extends JLabel implements ListCellRenderer<String> {
     setHorizontalAlignment(CENTER);
     setForeground(Color.white);
     setBackground(Color.lightGray);
+    setPreferredSize(new Dimension(75, 25));
   }
 
   @Override
