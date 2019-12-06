@@ -118,4 +118,30 @@ public class Controller implements Features {
     Controller controller = new Controller(spreadsheet, editView);
     editView.makeVisible();
   }
+
+  @Override
+  public void changeRowSize(int heightChange) {
+    if (this.selectedCoord != null) {
+      int row = this.selectedCoord.row;
+      try {
+        this.model.setRowHeight(row, this.model.getRowHeight(row) + heightChange);
+        this.view.refresh();
+      } catch (IllegalArgumentException e) {
+        //Do not change the row height if the row or the new height is invalid
+      }
+    }
+  }
+
+  @Override
+  public void changeColSize(int widthChange) {
+    if (this.selectedCoord != null) {
+      int col = this.selectedCoord.col;
+      try {
+        this.model.setColWidth(col, this.model.getColWidth(col) + widthChange);
+        this.view.refresh();
+      } catch (IllegalArgumentException e) {
+        //Do not change the row height if the row or the new height is invalid
+      }
+    }
+  }
 }

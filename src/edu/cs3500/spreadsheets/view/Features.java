@@ -45,4 +45,18 @@ public interface Features {
    * Represents that a file has been opened from a file.
    */
   void loadFile(File file);
+
+  /**
+   * Represents that the highlighted cell's row height has been changed.
+   * @param heightChange How much to change the row height by.
+   *                     Negative value means a decrease in size.
+   */
+  void changeRowSize(int heightChange);
+
+  /**
+   * Represents that the highlighted cell's column width has been changed.
+   * @param widthChange How much to increase the column width by.
+   *                    Negative value means a decrease in size.
+   */
+  void changeColSize(int widthChange);
 }

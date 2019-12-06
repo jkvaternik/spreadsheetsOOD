@@ -27,7 +27,7 @@ import edu.cs3500.spreadsheets.sexp.Parser;
 public class SimpleSpreadsheet implements SpreadsheetModel {
   public static final int DEFAULT_ROW_HEIGHT = 25;
   public static final int DEFAULT_COL_WIDTH = 75;
-  public static final int MIN_ROW_COL_SIZE = 25;
+  private static final int MIN_ROW_COL_SIZE = 25;
   private Hashtable<Coord, Cell> cells;
   private List<Coord> errorCoords;
   private HashMap<Integer, Integer> rowHeights;
