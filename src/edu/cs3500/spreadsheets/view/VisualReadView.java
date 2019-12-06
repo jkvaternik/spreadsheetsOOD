@@ -42,7 +42,18 @@ public class VisualReadView extends JFrame implements View {
     int numRows = this.getMaxDimension().height;
     int numCols = this.getMaxDimension().width;
 
-    this.spreadsheetPanel.setPreferredSize(new Dimension(75 * numCols, 25 * numRows));
+    int width = 0;
+    int height = 0;
+
+    for (int row = 0; row < numRows; row++) {
+      height += this.viewModel.getRowHeight(row);
+    }
+
+    for (int col = 0; col < numCols; col++) {
+      width += this.viewModel.getColWidth(col);
+    }
+
+    this.spreadsheetPanel.setPreferredSize(new Dimension(width, height));
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(1000, 600));
@@ -112,9 +123,9 @@ public class VisualReadView extends JFrame implements View {
     JList<String> rows = new JList<>(rowsList);
     JList<String> cols = new JList<>(colsList);
 
-    rows.setCellRenderer(new ColRenderer());
+    rows.setCellRenderer(new RowRenderer(viewModel));
 
-    cols.setCellRenderer(new ColRenderer());
+    cols.setCellRenderer(new ColRenderer(viewModel));
     cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
     // Shows the column header in one row (preventing it from wrapping)
     cols.setVisibleRowCount(1);

@@ -25,6 +25,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import edu.cs3500.spreadsheets.model.Coord;
+import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.ViewModel;
 
 /**
@@ -69,7 +70,18 @@ public class VisualEditView extends JFrame implements View {
     int numRows = this.getMaxDimension().height;
     int numCols = this.getMaxDimension().width;
 
-    this.spreadsheetPanel.setPreferredSize(new Dimension(75 * numCols, 25 * numRows));
+    int width = 0;
+    int height = 0;
+
+    for (int row = 0; row < numRows; row++) {
+      height += this.viewModel.getRowHeight(row);
+    }
+
+    for (int col = 0; col < numCols; col++) {
+      width += this.viewModel.getColWidth(col);
+    }
+
+    this.spreadsheetPanel.setPreferredSize(new Dimension(width, height));
 
     this.scrollPane = new JScrollPane(this.spreadsheetPanel);
     scrollPane.setPreferredSize(new Dimension(995, 595));
@@ -154,15 +166,15 @@ public class VisualEditView extends JFrame implements View {
     });
 
     this.increaseSizeButton.addActionListener(e -> {
-      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height
-          / SpreadsheetPanel.CELL_HEIGHT;
-      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width
-          / SpreadsheetPanel.CELL_WIDTH;
+      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height;
+      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width;
+
+      Dimension oldDimension = VisualEditView.this.getMaxDimension();
 
       VisualEditView.this.spreadsheetPanel.setPreferredSize(
-          new Dimension(SpreadsheetPanel.CELL_WIDTH * (oldW + INCREMENT_AMOUNT),
-              SpreadsheetPanel.CELL_HEIGHT * (oldH + INCREMENT_AMOUNT)));
-      VisualEditView.this.setHeaders(oldW + 26, oldH + 26);
+              new Dimension(oldW + (SimpleSpreadsheet.DEFAULT_COL_WIDTH * INCREMENT_AMOUNT),
+                      oldH + (SimpleSpreadsheet.DEFAULT_ROW_HEIGHT * INCREMENT_AMOUNT)));
+      VisualEditView.this.setHeaders(oldDimension.width + INCREMENT_AMOUNT, oldDimension.height + INCREMENT_AMOUNT);
       VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
@@ -276,7 +288,7 @@ public class VisualEditView extends JFrame implements View {
     JList<String> rows = new JList<>(rowsList);
     JList<String> cols = new JList<>(colsList);
 
-    rows.setCellRenderer(new RowRenderer());
+    rows.setCellRenderer(new RowRenderer(viewModel));
 
     cols.setCellRenderer(new ColRenderer(viewModel));
     cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);

@@ -35,7 +35,7 @@ class ColRenderer extends JLabel implements ListCellRenderer<String> {
                                                 int index, boolean isSelected,
                                                 boolean cellHasFocus) {
     setText(value);
-    setPreferredSize(new Dimension(this.viewModel.getColWidth(index),
+    setPreferredSize(new Dimension(this.viewModel.getColWidth(index + 1),
             SimpleSpreadsheet.DEFAULT_ROW_HEIGHT));
     return this;
   }

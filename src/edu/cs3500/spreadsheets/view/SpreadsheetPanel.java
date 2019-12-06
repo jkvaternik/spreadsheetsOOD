@@ -23,11 +23,8 @@ import javax.swing.SwingConstants;
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
 
-  static final int CELL_WIDTH = 75;
-  static final int CELL_HEIGHT = 25;
-
-  private final int maxXIncrement = CELL_WIDTH;
-  private final int maxYIncrement = CELL_HEIGHT;
+  private final int maxXIncrement = 25;
+  private final int maxYIncrement = 25;
 
   private final ViewModel viewModel;
   private Coord highlightedCell;
@@ -74,10 +71,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
     // Draw all of the cell borders
     for (int horizLine = 0; horizLine <= maxHeight; horizLine++) {
-      g2d.drawLine(0, horizLine * CELL_HEIGHT, maxWidth, horizLine * CELL_HEIGHT);
+      g2d.drawLine(0, horizLine * viewModel.getRowHeight(horizLine + 1), maxWidth, horizLine * viewModel.getRowHeight(horizLine + 1));
     }
     for (int vertLine = 0; vertLine <= maxWidth; vertLine++) {
-      g2d.drawLine(vertLine * CELL_WIDTH, 0, vertLine * CELL_WIDTH, maxHeight);
+      g2d.drawLine(vertLine * viewModel.getColWidth(vertLine + 1), 0, viewModel.getColWidth(vertLine + 1), maxHeight);
     }
   }
 
@@ -89,13 +86,13 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private void drawHighlightedCell(Graphics2D g2d) {
     // Check for highlighted cells first so that the contents still appear over the highlight
     if (this.highlightedCell != null) {
-      g2d.setClip((this.highlightedCell.col - 1) * CELL_WIDTH,
-          (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.setClip((this.highlightedCell.col - 1) * viewModel.getColWidth(this.highlightedCell.col - 1),
+              (this.highlightedCell.row - 1) * viewModel.getRowHeight(this.highlightedCell.row), viewModel.getColWidth(this.highlightedCell.col - 1), viewModel.getRowHeight(this.highlightedCell.row));
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
       g2d.setColor(Color.CYAN);
-      g2d.fillRect((this.highlightedCell.col - 1) * CELL_WIDTH,
-          (this.highlightedCell.row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+      g2d.fillRect((this.highlightedCell.col - 1) * viewModel.getColWidth(this.highlightedCell.col - 1),
+              (this.highlightedCell.row - 1) * viewModel.getRowHeight(this.highlightedCell.row), viewModel.getColWidth(this.highlightedCell.col - 1), viewModel.getRowHeight(this.highlightedCell.row));
       g2d.setColor(prevColor);
     }
   }
@@ -114,8 +111,8 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       for (int col = 1; col <= maxCellCol; col++) {
         Coord coord = new Coord(col, row);
         String value = this.viewModel.getValue(coord);
-        g2d.setClip((col - 1) * CELL_WIDTH, (row - 1) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
-        g2d.drawString(value, (col - 1) * CELL_WIDTH, row * CELL_HEIGHT - CELL_HEIGHT / 3);
+        g2d.setClip((col - 1) * viewModel.getRowHeight(col), (row - 1) * viewModel.getRowHeight(row), viewModel.getRowHeight(col), viewModel.getRowHeight(row));
+        g2d.drawString(value, (col - 1) * viewModel.getRowHeight(col), row * viewModel.getRowHeight(row) - viewModel.getRowHeight(row) / 3);
       }
     }
   }

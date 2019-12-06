@@ -28,8 +28,8 @@ public class RowRenderer extends JLabel implements ListCellRenderer<String> {
                                                 int index, boolean isSelected,
                                                 boolean cellHasFocus) {
     setText(value);
-    setPreferredSize(new Dimension(SimpleSpreadsheet.DEFAULT_ROW_HEIGHT,
-            this.viewModel.getRowHeight(index));
+    setPreferredSize(new Dimension(SimpleSpreadsheet.DEFAULT_COL_WIDTH,
+            this.viewModel.getRowHeight(index + 1)));
     return this;
   }
 }
