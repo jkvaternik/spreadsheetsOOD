@@ -12,12 +12,14 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  * by the model.
  */
 public class TextualView implements View {
+
   private final Appendable ap;
   private final ViewModel viewModel;
 
   /**
    * Makes a textual view.
-   * @param ap The appendable that the view writes to.
+   *
+   * @param ap        The appendable that the view writes to.
    * @param viewModel The viewModel which this view uses to access the model's data.
    */
   public TextualView(Appendable ap, ViewModel viewModel) {
@@ -47,22 +49,26 @@ public class TextualView implements View {
         }
       }
     }
+
+    //TODO: Fix the janky equation for rows and cols
     //Display all row heights and cell widths (if any are changed)
-    for (int row = 1; row <= rows; row++) {
+    for (int row = 1; row <= (rows / 26 + 1) * 26; row++) {
       int height = this.viewModel.getRowHeight(row);
       if (height != SimpleSpreadsheet.DEFAULT_ROW_HEIGHT) {
         try {
-          this.ap.append(Integer.toString(row)).append(" ").append(Integer.toString(height));
+          this.ap.append(Integer.toString(row)).append(" ").append(Integer.toString(height))
+              .append("\n");
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }
       }
     }
-    for (int col = 1; col <= cols; col++) {
+    for (int col = 1; col <= (cols / 26 + 1) * 26; col++) {
       int width = this.viewModel.getColWidth(col);
       if (width != SimpleSpreadsheet.DEFAULT_COL_WIDTH) {
         try {
-          this.ap.append(Integer.toString(col)).append(" ").append(Integer.toString(width));
+          this.ap.append(Coord.colIndexToName(col)).append(" ").append(Integer.toString(width))
+              .append("\n");
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }

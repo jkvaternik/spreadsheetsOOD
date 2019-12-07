@@ -121,16 +121,16 @@ public class VisualEditView extends JFrame implements View {
 
 
     // Set up the buttons for increasing/decreasing row and col size
-    this.increaseRowButton = new JButton("Increase Row Height");
+    this.increaseRowButton = new JButton("Row +");
     editPanel.add(this.increaseRowButton);
 
-    this.decreaseRowButton = new JButton("Decrease Row Height");
+    this.decreaseRowButton = new JButton("Row -");
     editPanel.add(this.decreaseRowButton);
 
-    this.increaseColButton = new JButton("Increase Col Width");
+    this.increaseColButton = new JButton("Col +");
     editPanel.add(this.increaseColButton);
 
-    this.decreaseColButton = new JButton("Decrease Col Height");
+    this.decreaseColButton = new JButton("Col -");
     editPanel.add(this.decreaseColButton);
 
 

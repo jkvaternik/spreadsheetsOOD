@@ -96,7 +96,7 @@ public class Controller implements Features {
       fileWriter = new PrintWriter(file.getPath() + ".txt");
 
     } catch (FileNotFoundException ex) {
-      ex.printStackTrace();
+      //If the file cannot be found, just ignore the attempt to save the file
     }
     View view = new TextualView(fileWriter, new ViewModel(this.model));
     view.makeVisible();
