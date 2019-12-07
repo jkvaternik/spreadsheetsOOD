@@ -209,7 +209,7 @@ public class VisualEditView extends JFrame implements View {
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width - 10, temp.height));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
@@ -219,7 +219,7 @@ public class VisualEditView extends JFrame implements View {
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width, temp.height - 10));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
