@@ -49,8 +49,10 @@ public class TextualView implements View {
         }
       }
     }
+
+    //TODO: Fix the janky equation for rows and cols
     //Display all row heights and cell widths (if any are changed)
-    for (int row = 1; row <= rows; row++) {
+    for (int row = 1; row <= (rows / 26 + 1) * 26; row++) {
       int height = this.viewModel.getRowHeight(row);
       if (height != SimpleSpreadsheet.DEFAULT_ROW_HEIGHT) {
         try {
@@ -61,7 +63,7 @@ public class TextualView implements View {
         }
       }
     }
-    for (int col = 1; col <= cols; col++) {
+    for (int col = 1; col <= (cols / 26 + 1) * 26; col++) {
       int width = this.viewModel.getColWidth(col);
       if (width != SimpleSpreadsheet.DEFAULT_COL_WIDTH) {
         try {

@@ -62,7 +62,7 @@ public final class WorksheetReader {
         builder = builder.createCell(col, row, contents);
 
       } else if (m2.matches()) {
-        row = Integer.parseInt(m.group());
+        row = Integer.parseInt(m2.group());
 
         scan.skip("\\s*");
         while (scan.hasNext("#.*")) {
@@ -76,7 +76,7 @@ public final class WorksheetReader {
           throw new IllegalStateException("Invalid height");
         }
       } else if (m3.matches()) {
-        col = Coord.colNameToIndex(m.group());
+        col = Coord.colNameToIndex(m3.group());
 
         scan.skip("\\s*");
         while (scan.hasNext("#.*")) {
