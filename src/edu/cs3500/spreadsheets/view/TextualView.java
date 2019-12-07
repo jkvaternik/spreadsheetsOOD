@@ -12,12 +12,14 @@ import edu.cs3500.spreadsheets.model.ViewModel;
  * by the model.
  */
 public class TextualView implements View {
+
   private final Appendable ap;
   private final ViewModel viewModel;
 
   /**
    * Makes a textual view.
-   * @param ap The appendable that the view writes to.
+   *
+   * @param ap        The appendable that the view writes to.
    * @param viewModel The viewModel which this view uses to access the model's data.
    */
   public TextualView(Appendable ap, ViewModel viewModel) {
@@ -52,7 +54,8 @@ public class TextualView implements View {
       int height = this.viewModel.getRowHeight(row);
       if (height != SimpleSpreadsheet.DEFAULT_ROW_HEIGHT) {
         try {
-          this.ap.append(Integer.toString(row)).append(" ").append(Integer.toString(height));
+          this.ap.append(Integer.toString(row)).append(" ").append(Integer.toString(height))
+              .append("\n");
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }
@@ -62,7 +65,8 @@ public class TextualView implements View {
       int width = this.viewModel.getColWidth(col);
       if (width != SimpleSpreadsheet.DEFAULT_COL_WIDTH) {
         try {
-          this.ap.append(Integer.toString(col)).append(" ").append(Integer.toString(width));
+          this.ap.append(Coord.colIndexToName(col)).append(" ").append(Integer.toString(width))
+              .append("\n");
         } catch (IOException e) {
           throw new IllegalStateException("View was unable to show output.");
         }

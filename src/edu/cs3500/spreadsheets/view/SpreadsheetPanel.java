@@ -74,25 +74,25 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxHeight = this.getPreferredSize().height;
     int maxWidth = this.getPreferredSize().width;
 
-    int[] horizLines = new int[numViewRows];
-    horizLines[0] = this.viewModel.getRowHeight(1);
+    int[] horizLines = new int[numViewRows + 1];
+    horizLines[0] = 0;
     for (int i = 1; i < horizLines.length; i++) {
-      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i + 1);
+      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
     }
 
-    int[] vertLines = new int[numViewCols];
-    vertLines[0] = this.viewModel.getColWidth(1);
+    int[] vertLines = new int[numViewCols + 1];
+    vertLines[0] = 0;
     for (int i = 1; i < vertLines.length; i++) {
-      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i + 1);
+      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
     }
 
 
     // Draw all of the cell borders
-    for (int horizLine = 1; horizLine <= horizLines.length; horizLine++) {
-      g2d.drawLine(0, horizLines[horizLine - 1], maxWidth, horizLines[horizLine - 1]);
+    for (int horizLine = 0; horizLine < horizLines.length; horizLine++) {
+      g2d.drawLine(0, horizLines[horizLine], maxWidth, horizLines[horizLine]);
     }
-    for (int vertLine = 1; vertLine <= vertLines.length; vertLine++) {
-      g2d.drawLine(vertLines[vertLine - 1], 0, vertLines[vertLine - 1], maxHeight);
+    for (int vertLine = 0; vertLine < vertLines.length; vertLine++) {
+      g2d.drawLine(vertLines[vertLine], 0, vertLines[vertLine], maxHeight);
     }
   }
 
@@ -104,14 +104,36 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   private void drawHighlightedCell(Graphics2D g2d) {
     // Check for highlighted cells first so that the contents still appear over the highlight
     if (this.highlightedCell != null) {
-      g2d.setClip((this.highlightedCell.col - 1) * viewModel.getColWidth(this.highlightedCell.col - 1),
-              (this.highlightedCell.row - 1) * viewModel.getRowHeight(this.highlightedCell.row), viewModel.getColWidth(this.highlightedCell.col - 1), viewModel.getRowHeight(this.highlightedCell.row));
+      int col = this.highlightedCell.col;
+      int row = this.highlightedCell.row;
+
+      // TODO: Get rid of code duplication
+      int[] horizLines = new int[numViewRows + 1];
+      horizLines[0] = 0;
+      for (int i = 1; i < horizLines.length; i++) {
+        horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
+      }
+
+      int[] vertLines = new int[numViewCols + 1];
+      vertLines[0] = 0;
+      for (int i = 1; i < vertLines.length; i++) {
+        vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
+      }
+
+      //Save clip and restore after
+      Shape init = g2d.getClip();
+
+      g2d.setClip(vertLines[col - 1], horizLines[row - 1],
+          this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
       g2d.setColor(Color.CYAN);
-      g2d.fillRect((this.highlightedCell.col - 1) * viewModel.getColWidth(this.highlightedCell.col - 1),
-              (this.highlightedCell.row - 1) * viewModel.getRowHeight(this.highlightedCell.row), viewModel.getColWidth(this.highlightedCell.col - 1), viewModel.getRowHeight(this.highlightedCell.row));
+      g2d.fillRect(vertLines[col - 1], horizLines[row - 1],
+          this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
       g2d.setColor(prevColor);
+
+      //Restores the clip
+      g2d.setClip(init);
     }
   }
 
@@ -125,14 +147,35 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
 
+    // TODO: Get rid of code duplication
+    int[] horizLines = new int[numViewRows + 1];
+    horizLines[0] = 0;
+    for (int i = 1; i < horizLines.length; i++) {
+      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
+    }
+
+    int[] vertLines = new int[numViewCols + 1];
+    vertLines[0] = 0;
+    for (int i = 1; i < vertLines.length; i++) {
+      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
+    }
+
+    //Save clip and restore after
+    Shape init = g2d.getClip();
+
     for (int row = 1; row <= maxCellRow; row++) {
       for (int col = 1; col <= maxCellCol; col++) {
         Coord coord = new Coord(col, row);
         String value = this.viewModel.getValue(coord);
-        g2d.setClip((col - 1) * viewModel.getRowHeight(col), (row - 1) * viewModel.getRowHeight(row), viewModel.getRowHeight(col), viewModel.getRowHeight(row));
-        g2d.drawString(value, (col - 1) * viewModel.getRowHeight(col), row * viewModel.getRowHeight(row) - viewModel.getRowHeight(row) / 3);
+        g2d.setClip(vertLines[col - 1], horizLines[row - 1],
+            this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
+        g2d.drawString(value, vertLines[col - 1],
+            horizLines[row] - (horizLines[row] - horizLines[row - 1]) / 3);
       }
     }
+
+    //Restore the clip
+    g2d.setClip(init);
   }
 
   /**
