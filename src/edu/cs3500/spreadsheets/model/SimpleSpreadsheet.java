@@ -228,10 +228,127 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     int pasteRow = pasteCoord.row;
     int colChange = pasteCol - copyCol;
     int rowChange = pasteRow - copyRow;
-    String pasteCellString = this.cells.getOrDefault(copyCoord, new BlankCell())
-        .getPasteString(colChange, rowChange);
+    String copyContents = this.cells.getOrDefault(copyCoord, new BlankCell()).getRawContents();
 
-    this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange), pasteCellString);
+    String pasteContents = this.convertRawContents(copyContents, colChange, rowChange);
+
+    this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange),
+        pasteContents);
+  }
+
+  /**
+   * Converts the raw contents of the copy cell to the raw contents of the paste cell, changing
+   * any non-absolute cell references based on the column and row changes between the two cells.
+   * @param copyContents The raw contents of the copied cell
+   * @param colChange The change in columns represented by paste cell col - copy cell col
+   * @param rowChange The change in rows represented by paste cell row - copy cell row
+   * @return The raw contents for the pasted cell
+   */
+  private String convertRawContents(String copyContents, int colChange, int rowChange) {
+    //If the copy cell's contents are not a formula, just return those contents.
+    if (copyContents.charAt(0) != '=') {
+      return copyContents;
+    }
+
+    // If we get here, we know the copy contents is a formula starting with '='
+    String result = "=";
+    String current = "";
+
+    for (int index = 1; index < copyContents.length(); index++) {
+      char c = copyContents.charAt(index);
+      if (c == ' ' || c == ')') {
+        // spaces and end parentheses represent the end of one "element", so we have to check if
+        // the element is a cell reference, and if so then update it properly accounting for the
+        // column and row changes
+        if (current.indexOf(':') > 0 && current.indexOf(':') < copyContents.length() - 1) {
+          String coord1 = current.substring(0, current.indexOf(':'));
+          String coord2 = current.substring(current.indexOf(':') - 1);
+
+          if (Coord.validCellString(coord1) && Coord.validCellString(coord2)) {
+            coord1 = this.updateCellReference(coord1, colChange, rowChange);
+            coord2 = this.updateCellReference(coord1, colChange, rowChange);
+          }
+          current = coord1 + ":" + coord2;
+        } else if (Coord.validCellString(current)) {
+          current = this.updateCellReference(current, colChange, rowChange);
+        }
+        result += current + c;
+        current = "";
+      } else {
+        current += c;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Updates the raw contents representing a cell reference based on the given offset of column and
+   * row changes and whether or not the reference is absolute.
+   *
+   * INVARIANT: The reference must be a valid cell reference.
+   *
+   * @param reference The cell reference as a string
+   * @param colChange The change in columns
+   * @param rowChange The change in rows
+   * @return The updated reference (as a string)
+   */
+  private String updateCellReference(String reference, int colChange, int rowChange) {
+    String result = "";
+    String col = "";
+    String row = "";
+    boolean colAbsolute = reference.indexOf('$') == 0;
+    boolean rowAbsolute = reference.substring(1).indexOf('$') >= 0;
+
+    //Parse out the row and col strings from the reference. Since we know the reference is valid,
+    //we don't have to worry about checking for validity here.
+    for (int index = 0; index < reference.length(); index++) {
+      char c = reference.charAt(index);
+      if (Character.isAlphabetic(c)) {
+        col += c;
+      } else if (Character.isDigit(c)) {
+        row += c;
+      }
+    }
+
+    if (colChange == 0 && rowChange == 0 || colChange != 0 && rowChange != 0) {
+      return reference;
+    } else if (colChange != 0) {
+      if (colAbsolute) {
+        return reference;
+      } else {
+        int newColIndex = Coord.colNameToIndex(col) + colChange;
+        if (newColIndex <= 1) {
+          col = "A";
+        } else {
+          col = Coord.colIndexToName(newColIndex);
+        }
+      }
+    } else { // rowChange != 0
+      if (rowAbsolute) {
+        return reference;
+      } else {
+        int newRowIndex = Integer.parseInt(row) + rowChange;
+        if (newRowIndex <= 1) {
+          row = "1";
+        } else {
+          row = Integer.toString(newRowIndex);
+        }
+      }
+    }
+
+    //Now build the result back together
+    if (colAbsolute) {
+      result += "$";
+    }
+    result += col;
+
+    if (rowAbsolute) {
+      result += "$";
+    }
+    result += row;
+
+    return result;
   }
 
   /**

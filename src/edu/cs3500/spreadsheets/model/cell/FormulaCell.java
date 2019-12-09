@@ -58,16 +58,6 @@ public class FormulaCell implements Cell {
   }
 
   @Override
-  public String getPasteString(int colChange, int rowChange) {
-    if (colChange == 0 && rowChange == 0 || colChange != 0 && rowChange != 0) {
-      return this.rawContents;
-    }
-
-    //TODO: Fix this
-    return "";
-  }
-
-  @Override
   public boolean equals(Object other) {
     if (other instanceof FormulaCell) {
       return this.rawContents.equals(((FormulaCell) other).rawContents)

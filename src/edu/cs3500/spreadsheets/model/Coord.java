@@ -1,5 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -67,20 +69,26 @@ public class Coord {
    * Determines if the given string is a valid representation of a cell. For it to be valid, it must
    * contain only alphanumeric characters, where all the letters come before all of the numbers.
    *
+   * EDIT: With assignment 9, '$' are also allowed to indicate absolute references
+   *
    * @param cell The string to check
    * @return Whether or not the string is a valid cell
    */
   public static boolean validCellString(String cell) {
     int finalLetter = cell.length();
     int firstNum = 0;
+    List<Integer> dollarSignIndices = new ArrayList<>();
+
     // Iterate forwards through the string to check for final letter index
     for (int index = 0; index < cell.length(); index += 1) {
       char c = cell.charAt(index);
       // If the character is neither a letter nor a number, it is not a valid cell
-      if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
+      if (!(Character.isAlphabetic(c) || Character.isDigit(c) || c == '$')) {
         return false;
       } else if (Character.isAlphabetic(c)) {
         finalLetter = index;
+      } else if (c == '$') {
+        dollarSignIndices.add(index);
       }
     }
     // Iterate backwards though the string to check for the earliest number index
@@ -94,7 +102,15 @@ public class Coord {
       }
     }
 
-    return (firstNum > finalLetter);
+    if (dollarSignIndices.size() == 1 &&
+        (dollarSignIndices.get(0) != 0 || dollarSignIndices.get(0) != firstNum - 1)) {
+      return false;
+    } else if (dollarSignIndices.size() == 2 &&
+        (dollarSignIndices.get(0) != 0 || dollarSignIndices.get(1) != firstNum - 1)) {
+      return false;
+    }
+
+    return dollarSignIndices.size() <= 2 && (firstNum > finalLetter);
   }
 
   /**

@@ -42,11 +42,6 @@ public class BlankCell implements Cell {
   }
 
   @Override
-  public String getPasteString(int colChange, int rowChange) {
-    return "";
-  }
-
-  @Override
   public boolean equals(Object other) {
     return other instanceof BlankCell;
   }
