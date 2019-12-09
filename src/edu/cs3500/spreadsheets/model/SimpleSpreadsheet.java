@@ -256,7 +256,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
 
     for (int index = 1; index < copyContents.length(); index++) {
       char c = copyContents.charAt(index);
-      if (c == ' ' || c == ')') {
+      if (c == ' ' || c == ')' || index == copyContents.length() - 1) {
         // spaces and end parentheses represent the end of one "element", so we have to check if
         // the element is a cell reference, and if so then update it properly accounting for the
         // column and row changes
