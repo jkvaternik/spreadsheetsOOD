@@ -55,6 +55,12 @@ public class SpreadsheetKeyListener implements KeyListener {
         features.deletedSelectedCell();
         userInputField.setText("");
         break;
+      case KeyEvent.VK_C:
+        features.copyCell();
+        break;
+      case KeyEvent.VK_P:
+        features.pasteCell();
+        break;
       default:
         //Do nothing if no other keys were typed
     }

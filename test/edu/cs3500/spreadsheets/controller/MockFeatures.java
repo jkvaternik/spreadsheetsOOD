@@ -100,4 +100,24 @@ class MockFeatures implements Features {
       throw new IllegalStateException("Invalid appendable");
     }
   }
+
+  @Override
+  public void copyCell() {
+    try {
+      log.append("Copied the highlighted cell.")
+              .append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
+
+  @Override
+  public void pasteCell() {
+    try {
+      log.append("Pasted the highlighted cell.")
+              .append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
 }

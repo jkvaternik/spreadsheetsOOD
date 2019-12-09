@@ -59,4 +59,15 @@ public interface Features {
    *                    Negative value means a decrease in size.
    */
   void changeColSize(int widthChange);
+
+  /**
+   * Represents that the highlighted cell has been copied (if it exists).
+   */
+  void copyCell();
+
+  /**
+   * Represents that the copied cell is to be pasted to the highlighted cell. If no cell has been
+   * copied, nothing will happen.
+   */
+  void pasteCell();
 }

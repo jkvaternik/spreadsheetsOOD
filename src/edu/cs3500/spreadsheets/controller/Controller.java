@@ -23,6 +23,7 @@ public class Controller implements Features {
   private SpreadsheetModel model;
   private View view;
   private Coord selectedCoord;
+  private Coord copiedCoord;
 
   /**
    * Creates an instance of this controller based on the given model and view, and adds this as
@@ -143,5 +144,18 @@ public class Controller implements Features {
         //Do not change the row height if the row or the new height is invalid
       }
     }
+  }
+
+  @Override
+  public void copyCell() {
+    if (this.selectedCoord != null) {
+      this.copiedCoord = this.selectedCoord;
+    }
+  }
+
+  @Override
+  public void pasteCell() {
+    this.model.copyPasteContents(this.copiedCoord, this.selectedCoord);
+    this.view.refresh();
   }
 }
