@@ -54,4 +54,18 @@ public interface Cell {
    * @return The Value
    */
   Value getValue();
+
+  /**
+   * Gets the raw contents of the result of pasting this cell's contents at the cell with the given
+   * column and row change. (i.e. copying (1, 1) to (2, 2) would have colChange and rowChange be 1).
+   * @param colChange The change in column coordinate between the paste cell and this cell.
+   *                  Negative value represents the paste cell's column is less than this cell's
+   *                  coordinate column.
+   * @param rowChange The change in row coordinate between the paste cell and this cell.
+   *                  Negative value represents the paste cell's row is less than this cell's
+   *                  coordinate row.
+   * @return The raw contents string for the paste cell which accounts for any non-absolute cell
+   *         references.
+   */
+  String getPasteString(int colChange, int rowChange);
 }

@@ -1,7 +1,5 @@
 package edu.cs3500.spreadsheets.model;
 
-import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.SpreadsheetModel;
 import java.util.List;
 
 /**
@@ -73,5 +71,10 @@ public class ViewModel implements SpreadsheetModel {
   @Override
   public void setColWidth(int col, int width) throws IllegalArgumentException {
     throw new UnsupportedOperationException("Cannot set the value of a cell.");
+  }
+
+  @Override
+  public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
+    throw new UnsupportedOperationException("Cannot copy and paste cells.");
   }
 }

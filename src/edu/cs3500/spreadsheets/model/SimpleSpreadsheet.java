@@ -220,6 +220,20 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     }
   }
 
+  @Override
+  public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
+    int copyCol = copyCoord.col;
+    int copyRow = copyCoord.row;
+    int pasteCol = pasteCoord.col;
+    int pasteRow = pasteCoord.row;
+    int colChange = pasteCol - copyCol;
+    int rowChange = pasteRow - copyRow;
+    String pasteCellString = this.cells.getOrDefault(copyCoord, new BlankCell())
+        .getPasteString(colChange, rowChange);
+
+    this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange), pasteCellString);
+  }
+
   /**
    * Represents instance of a WorksheetBuilder which helps build a spreadsheet.
    */

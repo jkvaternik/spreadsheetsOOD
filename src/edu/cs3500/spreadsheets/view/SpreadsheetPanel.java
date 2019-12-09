@@ -12,7 +12,6 @@ import java.awt.event.MouseMotionListener;
 
 
 import edu.cs3500.spreadsheets.model.Coord;
-import edu.cs3500.spreadsheets.model.SimpleSpreadsheet;
 import edu.cs3500.spreadsheets.model.ViewModel;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -26,6 +25,10 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   private final int maxXIncrement = 25;
   private final int maxYIncrement = 25;
+
+  //Keep track of the pixel locations for every horizontal and vertical line so
+  private int[] horizLines;
+  private int[] vertLines;
 
   private final ViewModel viewModel;
   private Coord highlightedCell;
@@ -55,6 +58,19 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     Graphics2D g2d = (Graphics2D) g;
     g2d.setColor(Color.BLACK);
 
+
+    horizLines = new int[numViewRows + 1];
+    horizLines[0] = 0;
+    for (int i = 1; i < horizLines.length; i++) {
+      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
+    }
+
+    vertLines = new int[numViewCols + 1];
+    vertLines[0] = 0;
+    for (int i = 1; i < vertLines.length; i++) {
+      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
+    }
+
     drawCells(g2d);
 
     // Save the clip state prior to drawing, and restore it after
@@ -74,25 +90,13 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     int maxHeight = this.getPreferredSize().height;
     int maxWidth = this.getPreferredSize().width;
 
-    int[] horizLines = new int[numViewRows + 1];
-    horizLines[0] = 0;
-    for (int i = 1; i < horizLines.length; i++) {
-      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
-    }
-
-    int[] vertLines = new int[numViewCols + 1];
-    vertLines[0] = 0;
-    for (int i = 1; i < vertLines.length; i++) {
-      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
-    }
-
 
     // Draw all of the cell borders
-    for (int horizLine = 0; horizLine < horizLines.length; horizLine++) {
-      g2d.drawLine(0, horizLines[horizLine], maxWidth, horizLines[horizLine]);
+    for (int line : horizLines) {
+      g2d.drawLine(0, line, maxWidth, line);
     }
-    for (int vertLine = 0; vertLine < vertLines.length; vertLine++) {
-      g2d.drawLine(vertLines[vertLine], 0, vertLines[vertLine], maxHeight);
+    for (int line : vertLines) {
+      g2d.drawLine(line, 0, line, maxHeight);
     }
   }
 
@@ -106,19 +110,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     if (this.highlightedCell != null) {
       int col = this.highlightedCell.col;
       int row = this.highlightedCell.row;
-
-      // TODO: Get rid of code duplication
-      int[] horizLines = new int[numViewRows + 1];
-      horizLines[0] = 0;
-      for (int i = 1; i < horizLines.length; i++) {
-        horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
-      }
-
-      int[] vertLines = new int[numViewCols + 1];
-      vertLines[0] = 0;
-      for (int i = 1; i < vertLines.length; i++) {
-        vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
-      }
 
       //Save clip and restore after
       Shape init = g2d.getClip();
@@ -146,19 +137,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     //Display all of the correct text
     int maxCellRow = this.viewModel.getNumRows();
     int maxCellCol = this.viewModel.getNumColumns();
-
-    // TODO: Get rid of code duplication
-    int[] horizLines = new int[numViewRows + 1];
-    horizLines[0] = 0;
-    for (int i = 1; i < horizLines.length; i++) {
-      horizLines[i] = horizLines[i - 1] + this.viewModel.getRowHeight(i);
-    }
-
-    int[] vertLines = new int[numViewCols + 1];
-    vertLines[0] = 0;
-    for (int i = 1; i < vertLines.length; i++) {
-      vertLines[i] = vertLines[i - 1] + this.viewModel.getColWidth(i);
-    }
 
     //Save clip and restore after
     Shape init = g2d.getClip();

@@ -54,6 +54,11 @@ public class ValueCell implements Cell {
   }
 
   @Override
+  public String getPasteString(int colChange, int rowChange) {
+    return this.value.toString();
+  }
+
+  @Override
   public boolean equals(Object other) {
     if (other instanceof ValueCell) {
       return this.rawContents.equals(((ValueCell) other).rawContents)
