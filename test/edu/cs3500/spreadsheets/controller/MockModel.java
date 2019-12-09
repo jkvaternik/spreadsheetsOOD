@@ -138,4 +138,17 @@ class MockModel implements SpreadsheetModel {
     }
     this.realModel.setColWidth(col, width);
   }
+
+  @Override
+  public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
+    try {
+      log.append("This cell: ").append(Integer.toString(pasteCoord.col))
+              .append(Integer.toString(pasteCoord.row)).append(" now has the contents of the cell: ")
+              .append(Integer.toString(copyCoord.col)).append(Integer.toString(pasteCoord.row))
+              .append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    this.realModel.copyPasteContents(copyCoord, pasteCoord);
+  }
 }

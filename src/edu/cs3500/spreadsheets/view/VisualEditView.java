@@ -235,12 +235,13 @@ public class VisualEditView extends JFrame implements View {
 
       VisualEditView.this.spreadsheetPanel.numViewCols += 26;
       VisualEditView.this.spreadsheetPanel.numViewRows += 26;
-      VisualEditView.this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
-      VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
+      //VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
+
+      VisualEditView.this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
     });
 
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features, viewModel));
@@ -335,29 +336,9 @@ public class VisualEditView extends JFrame implements View {
    * @param height The height of the spreadsheet.
    */
   private void setHeaders(int width, int height) {
-    DefaultListModel<String> rowsList = new DefaultListModel<>();
-    DefaultListModel<String> colsList = new DefaultListModel<>();
-
-    for (int i = 0; i < height; i++) {
-      rowsList.add(i, Integer.toString(i + 1));
-    }
-
-    for (int j = 0; j < width; j++) {
-      colsList.add(j, Coord.colIndexToName(j + 1));
-    }
-
-    // Create row and column headers
-    JList<String> rows = new JList<>(rowsList);
-    JList<String> cols = new JList<>(colsList);
-
-    rows.setCellRenderer(new RowRenderer(viewModel));
-
-    cols.setCellRenderer(new ColRenderer(viewModel));
-    cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    // Shows the column header in one row (preventing it from wrapping)
-    cols.setVisibleRowCount(1);
-
-    this.scrollPane.setColumnHeaderView(cols);
-    this.scrollPane.setRowHeaderView(rows);
+    this.scrollPane.setColumnHeaderView(new HeaderRenderer(this.viewModel,
+            width, height, HeaderRenderer.HORIZONTAL_ORIENTATION));
+    this.scrollPane.setRowHeaderView(new HeaderRenderer(this.viewModel,
+            width, height, HeaderRenderer.VERTICAL_ORIENTATION));
   }
 }

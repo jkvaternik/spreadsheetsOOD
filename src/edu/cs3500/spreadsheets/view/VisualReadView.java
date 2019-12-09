@@ -108,29 +108,9 @@ public class VisualReadView extends JFrame implements View {
    * @param height The height of the spreadsheet.
    */
   private void setHeaders(int width, int height) {
-    DefaultListModel<String> rowsList = new DefaultListModel<>();
-    DefaultListModel<String> colsList = new DefaultListModel<>();
-
-    for (int i = 0; i < height + 26; i++) {
-      rowsList.add(i, Integer.toString(i + 1));
-    }
-
-    for (int j = 0; j < width + 26; j++) {
-      colsList.add(j, Coord.colIndexToName(j + 1));
-    }
-
-    // Create row and column headers
-    JList<String> rows = new JList<>(rowsList);
-    JList<String> cols = new JList<>(colsList);
-
-    rows.setCellRenderer(new RowRenderer(viewModel));
-
-    cols.setCellRenderer(new ColRenderer(viewModel));
-    cols.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    // Shows the column header in one row (preventing it from wrapping)
-    //cols.setVisibleRowCount(1);
-
-    scrollPane.setColumnHeaderView(cols);
-    scrollPane.setRowHeaderView(rows);
+    this.scrollPane.setColumnHeaderView(new HeaderRenderer(this.viewModel,
+            width, height, HeaderRenderer.HORIZONTAL_ORIENTATION));
+    this.scrollPane.setRowHeaderView(new HeaderRenderer(this.viewModel,
+            width, height, HeaderRenderer.VERTICAL_ORIENTATION));
   }
 }
