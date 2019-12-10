@@ -1,6 +1,7 @@
 package edu.cs3500.spreadsheets.model;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -106,4 +107,16 @@ public interface SpreadsheetModel {
    * @param pasteCoord The Coord of the cell where the copied cell was pasted
    */
   void copyPasteContents(Coord copyCoord, Coord pasteCoord);
+
+  /**
+   * Gets the max row who's height has been changed.
+   * @return The max row
+   */
+  int maxRowChanged();
+
+  /**
+   * Gets the max column who's width has been changed.
+   * @return The max col
+   */
+  int maxColChanged();
 }

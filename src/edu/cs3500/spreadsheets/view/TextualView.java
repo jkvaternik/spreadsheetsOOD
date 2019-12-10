@@ -50,11 +50,8 @@ public class TextualView implements View {
       }
     }
 
-    //TODO: Fix the janky equation for rows and cols
-    //      Thoughts: Make a model interface method that returns a copy of the hashmaps for
-    //      cols/rows to width/height and use those methods to output for textual view.
     //Display all row heights and cell widths (if any are changed)
-    for (int row = 1; row <= (rows / 26 + 1) * 26; row++) {
+    for (int row = 1; row <= this.viewModel.maxRowChanged(); row++) {
       int height = this.viewModel.getRowHeight(row);
       if (height != SimpleSpreadsheet.DEFAULT_ROW_HEIGHT) {
         try {
@@ -65,7 +62,7 @@ public class TextualView implements View {
         }
       }
     }
-    for (int col = 1; col <= (cols / 26 + 1) * 26; col++) {
+    for (int col = 1; col <= this.viewModel.maxColChanged(); col++) {
       int width = this.viewModel.getColWidth(col);
       if (width != SimpleSpreadsheet.DEFAULT_COL_WIDTH) {
         try {

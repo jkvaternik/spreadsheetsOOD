@@ -77,4 +77,14 @@ public class ViewModel implements SpreadsheetModel {
   public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
     throw new UnsupportedOperationException("Cannot copy and paste cells.");
   }
+
+  @Override
+  public int maxRowChanged() {
+    return realModel.maxRowChanged();
+  }
+
+  @Override
+  public int maxColChanged() {
+    return realModel.maxColChanged();
+  }
 }

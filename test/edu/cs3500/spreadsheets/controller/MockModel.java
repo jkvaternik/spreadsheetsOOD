@@ -151,4 +151,24 @@ class MockModel implements SpreadsheetModel {
     }
     this.realModel.copyPasteContents(copyCoord, pasteCoord);
   }
+
+  @Override
+  public int maxRowChanged() {
+    try {
+      log.append("Got the max row which has a changed height.");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    return 0;
+  }
+
+  @Override
+  public int maxColChanged() {
+    try {
+      log.append("Got the max col which has a changed width.");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+    return 0;
+  }
 }

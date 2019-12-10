@@ -236,6 +236,28 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
         pasteContents);
   }
 
+  @Override
+  public int maxRowChanged() {
+    int max = 0;
+    for (Integer row : this.rowHeights.values()) {
+      if (row > max) {
+        max = row;
+      }
+    }
+    return max;
+  }
+
+  @Override
+  public int maxColChanged() {
+    int max = 0;
+    for (Integer col : this.colWidths.values()) {
+      if (col > max) {
+        max = col;
+      }
+    }
+    return max;
+  }
+
   /**
    * Converts the raw contents of the copy cell to the raw contents of the paste cell, changing
    * any non-absolute cell references based on the column and row changes between the two cells.
