@@ -218,8 +218,6 @@ public class VisualEditView extends JFrame implements View {
       this.spreadsheetPanel.numViewCols += 26;
       this.spreadsheetPanel.numViewRows += 26;
 
-      //VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
-
       this.spreadsheetPanel.revalidate();
       this.spreadsheetPanel.repaint();
 
