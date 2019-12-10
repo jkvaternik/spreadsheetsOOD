@@ -95,7 +95,7 @@ public class Coord {
     for (int index = cell.length() - 1; index >= 0; index -= 1) {
       char c = cell.charAt(index);
       // If the character is neither a letter nor a number, it is not a valid cell
-      if (!(Character.isAlphabetic(c) || Character.isDigit(c))) {
+      if (!(Character.isAlphabetic(c) || Character.isDigit(c) || c == '$')) {
         return false;
       } else if (Character.isDigit(c)) {
         firstNum = index;
@@ -103,7 +103,7 @@ public class Coord {
     }
 
     if (dollarSignIndices.size() == 1 &&
-        (dollarSignIndices.get(0) != 0 || dollarSignIndices.get(0) != firstNum - 1)) {
+        (dollarSignIndices.get(0) != 0 && dollarSignIndices.get(0) != firstNum - 1)) {
       return false;
     } else if (dollarSignIndices.size() == 2 &&
         (dollarSignIndices.get(0) != 0 || dollarSignIndices.get(1) != firstNum - 1)) {
@@ -121,14 +121,23 @@ public class Coord {
    * @return The coordinate of the cell
    */
   public static Coord cellStringToCoord(String cell) {
+    String noDollarSigns = "";
+    for (int index = 0; index < cell.length(); index++) {
+      char c = cell.charAt(index);
+      if (c != '$') {
+        noDollarSigns += c;
+      }
+    }
+
+
     int lastLetter = 0;
-    for (int index = 0; index < cell.length(); index += 1) {
-      if (Character.isAlphabetic(cell.charAt(index))) {
+    for (int index = 0; index < noDollarSigns.length(); index += 1) {
+      if (Character.isAlphabetic(noDollarSigns.charAt(index))) {
         lastLetter = index;
       }
     }
-    int column = (new Coord(1, 1).colNameToIndex(cell.substring(0, lastLetter + 1)));
-    int row = Integer.parseInt(cell.substring(lastLetter + 1));
+    int column = (Coord.colNameToIndex(noDollarSigns.substring(0, lastLetter + 1)));
+    int row = Integer.parseInt(noDollarSigns.substring(lastLetter + 1));
     return new Coord(column, row);
   }
 

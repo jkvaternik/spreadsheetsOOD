@@ -250,23 +250,26 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       return copyContents;
     }
 
+    // Add a space at the end to make the interpreter pattern work better, then delete at the end
+    copyContents += " ";
+
     // If we get here, we know the copy contents is a formula starting with '='
     String result = "=";
     String current = "";
 
     for (int index = 1; index < copyContents.length(); index++) {
       char c = copyContents.charAt(index);
-      if (c == ' ' || c == ')' || index == copyContents.length() - 1) {
+      if (c == ' ' || c == ')') {
         // spaces and end parentheses represent the end of one "element", so we have to check if
         // the element is a cell reference, and if so then update it properly accounting for the
         // column and row changes
-        if (current.indexOf(':') > 0 && current.indexOf(':') < copyContents.length() - 1) {
+        if (current.indexOf(':') > 0 && current.indexOf(':') < current.length() - 1) {
           String coord1 = current.substring(0, current.indexOf(':'));
-          String coord2 = current.substring(current.indexOf(':') - 1);
+          String coord2 = current.substring(current.indexOf(':') + 1);
 
           if (Coord.validCellString(coord1) && Coord.validCellString(coord2)) {
             coord1 = this.updateCellReference(coord1, colChange, rowChange);
-            coord2 = this.updateCellReference(coord1, colChange, rowChange);
+            coord2 = this.updateCellReference(coord2, colChange, rowChange);
           }
           current = coord1 + ":" + coord2;
         } else if (Coord.validCellString(current)) {
@@ -279,7 +282,8 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       }
     }
 
-    return result;
+    // Remove the space we added at the start
+    return result.substring(0, result.length() - 1);
   }
 
   /**
