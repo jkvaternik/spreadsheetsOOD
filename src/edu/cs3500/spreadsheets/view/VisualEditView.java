@@ -1,11 +1,7 @@
 package edu.cs3500.spreadsheets.view;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -35,6 +31,7 @@ import edu.cs3500.spreadsheets.model.ViewModel;
 public class VisualEditView extends JFrame implements View {
 
   private static final int INCREMENT_AMOUNT = 26;
+  private static final int ROW_COLUMN_INCREMENT = 10;
   private final JButton confirmEditButton;
   private final JButton rejectEditButton;
   private final JButton increaseSizeButton;
@@ -69,29 +66,15 @@ public class VisualEditView extends JFrame implements View {
     this.setLayout(new BorderLayout());
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel,
+            this.getMaxDimension().height, this.getMaxDimension().width);
 
-    this.spreadsheetPanel.numViewRows = this.getMaxDimension().height;
-    this.spreadsheetPanel.numViewCols = this.getMaxDimension().width;
-
-    int width = 0;
-    int height = 0;
-
-    for (int row = 0; row < this.spreadsheetPanel.numViewRows; row++) {
-      height += this.viewModel.getRowHeight(row + 1);
-    }
-
-    for (int col = 0; col < this.spreadsheetPanel.numViewCols; col++) {
-      width += this.viewModel.getColWidth(col + 1);
-    }
-
-    this.spreadsheetPanel.setPreferredSize(new Dimension(width, height));
-
-    this.scrollPane = new JScrollPane(this.spreadsheetPanel);
+    this.scrollPane = new JScrollPane();
     scrollPane.setPreferredSize(new Dimension(995, 595));
 
     // Modify JScrollPane
     this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+    this.scrollPane.setViewportView(this.spreadsheetPanel);
     this.add(scrollPane, BorderLayout.CENTER);
 
     // Set up the panel which contains the text field and the edit button
@@ -118,7 +101,6 @@ public class VisualEditView extends JFrame implements View {
     // Set up the increase size button
     this.increaseSizeButton = new JButton("Increase Size");
     editPanel.add(this.increaseSizeButton);
-
 
     // Set up the buttons for increasing/decreasing row and col size
     this.increaseRowButton = new JButton("Row +");
@@ -185,63 +167,63 @@ public class VisualEditView extends JFrame implements View {
     });
 
     this.increaseColButton.addActionListener(evt -> {
-      features.changeColSize(10);
+      features.changeColSize(ROW_COLUMN_INCREMENT);
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + ROW_COLUMN_INCREMENT, temp.height));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
     });
     this.increaseRowButton.addActionListener(evt -> {
-      features.changeRowSize(10);
+      features.changeRowSize(ROW_COLUMN_INCREMENT);
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width + 10, temp.height));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width, temp.height + ROW_COLUMN_INCREMENT));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
     });
     this.decreaseColButton.addActionListener(evt -> {
-      features.changeColSize(-10);
+      features.changeColSize(-1 * ROW_COLUMN_INCREMENT);
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width - 10, temp.height));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width - ROW_COLUMN_INCREMENT, temp.height));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
     });
     this.decreaseRowButton.addActionListener(evt -> {
-      features.changeRowSize(-10);
+      features.changeRowSize(-1 * ROW_COLUMN_INCREMENT);
       this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
 
       Dimension temp = spreadsheetPanel.getPreferredSize();
-      spreadsheetPanel.setPreferredSize(new Dimension(temp.width, temp.height - 10));
+      spreadsheetPanel.setPreferredSize(new Dimension(temp.width, temp.height - ROW_COLUMN_INCREMENT));
 
       VisualEditView.this.spreadsheetPanel.revalidate();
       VisualEditView.this.spreadsheetPanel.repaint();
     });
 
     this.increaseSizeButton.addActionListener(e -> {
-      int oldH = VisualEditView.this.spreadsheetPanel.getPreferredSize().height;
-      int oldW = VisualEditView.this.spreadsheetPanel.getPreferredSize().width;
+      int oldH = this.spreadsheetPanel.getPreferredSize().height;
+      int oldW = this.spreadsheetPanel.getPreferredSize().width;
 
-      VisualEditView.this.spreadsheetPanel.setPreferredSize(
+      this.spreadsheetPanel.setPreferredSize(
               new Dimension(oldW + (SimpleSpreadsheet.DEFAULT_COL_WIDTH * INCREMENT_AMOUNT),
                       oldH + (SimpleSpreadsheet.DEFAULT_ROW_HEIGHT * INCREMENT_AMOUNT)));
 
-      VisualEditView.this.spreadsheetPanel.numViewCols += 26;
-      VisualEditView.this.spreadsheetPanel.numViewRows += 26;
+      this.spreadsheetPanel.numViewCols += 26;
+      this.spreadsheetPanel.numViewRows += 26;
 
       //VisualEditView.this.spreadsheetPanel.scrollRectToVisible(new Rectangle(0, 0, 0, 0));
 
-      VisualEditView.this.spreadsheetPanel.revalidate();
-      VisualEditView.this.spreadsheetPanel.repaint();
+      this.spreadsheetPanel.revalidate();
+      this.spreadsheetPanel.repaint();
 
-      VisualEditView.this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
+      this.setHeaders(spreadsheetPanel.numViewCols, spreadsheetPanel.numViewRows);
     });
 
     this.spreadsheetPanel.addMouseListener(new SpreadsheetMouseListener(features, viewModel));

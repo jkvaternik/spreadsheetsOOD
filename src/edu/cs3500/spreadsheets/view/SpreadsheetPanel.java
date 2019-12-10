@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 
 
 import edu.cs3500.spreadsheets.model.Coord;
@@ -23,7 +24,7 @@ import javax.swing.SwingConstants;
 
 public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionListener {
 
-  private final int maxXIncrement = 25;
+  private final int maxXIncrement = 75;
   private final int maxYIncrement = 25;
 
   //Keep track of the pixel locations for every horizontal and vertical line so
@@ -42,12 +43,28 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
    *
    * @param viewModel the given ViewModel
    */
-  public SpreadsheetPanel(ViewModel viewModel) {
+  public SpreadsheetPanel(ViewModel viewModel, int numViewRows, int numViewCols) {
     super();
     this.viewModel = viewModel;
+    this.numViewCols = numViewCols;
+    this.numViewRows = numViewRows;
 
     // Set up background
     this.setBackground(Color.WHITE);
+
+    int height = 0;
+    int width = 0;
+
+    for (int row = 0; row < this.numViewRows; row++) {
+      height += this.viewModel.getRowHeight(row + 1);
+    }
+
+    for (int col = 0; col < this.numViewCols; col++) {
+      width += this.viewModel.getColWidth(col + 1);
+    }
+
+    this.setPreferredSize(new Dimension(width, height));
+
     setAutoscrolls(true); //enable synthetic drag events
     addMouseMotionListener(this); //handle mouse drags
   }
@@ -57,7 +74,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
     g2d.setColor(Color.BLACK);
-
 
     horizLines = new int[numViewRows + 1];
     horizLines[0] = 0;
@@ -78,7 +94,6 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     drawHighlightedCell(g2d);
     drawCellContents(g2d);
     g2d.setClip(initClip);
-
   }
 
   /**
@@ -116,6 +131,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
       g2d.setClip(vertLines[col - 1], horizLines[row - 1],
           this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
+      g2d.clip(init);
       // Save previous color to restore after we are done highlighting the cell
       Color prevColor = g2d.getColor();
       g2d.setColor(Color.CYAN);
@@ -145,8 +161,11 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
       for (int col = 1; col <= maxCellCol; col++) {
         Coord coord = new Coord(col, row);
         String value = this.viewModel.getValue(coord);
+
         g2d.setClip(vertLines[col - 1], horizLines[row - 1],
             this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
+        g2d.clip(init);
+
         g2d.drawString(value, vertLines[col - 1],
             horizLines[row] - (horizLines[row] - horizLines[row - 1]) / 3);
       }

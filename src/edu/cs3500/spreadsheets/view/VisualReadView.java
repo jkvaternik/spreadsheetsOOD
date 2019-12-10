@@ -37,10 +37,9 @@ public class VisualReadView extends JFrame implements View {
     this.setLayout(new BorderLayout());
 
     // Create SpreadsheetPanel and add to ScrollPane
-    this.spreadsheetPanel = new SpreadsheetPanel(viewModel);
-
     int numRows = this.getMaxDimension().height;
     int numCols = this.getMaxDimension().width;
+    this.spreadsheetPanel = new SpreadsheetPanel(viewModel, numRows, numCols);
 
     int width = 0;
     int height = 0;
