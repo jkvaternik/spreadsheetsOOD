@@ -299,8 +299,8 @@ public class VisualEditView extends JFrame implements View {
    * @return The max dimension
    */
   private Dimension getMaxDimension() {
-    int maxRows = this.viewModel.getNumRows();
-    int maxCol = this.viewModel.getNumColumns();
+    int maxRows = Math.max(this.viewModel.getNumRows(), this.viewModel.maxRowChanged());
+    int maxCol = Math.max(this.viewModel.getNumColumns(), this.viewModel.maxColChanged());
 
     //Round these values up the the biggest multiple of 26
     int totalRows = (maxRows / 26 + 1) * 26;
