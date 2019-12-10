@@ -73,11 +73,11 @@ public class SimpleSpreadsheetModelTest {
 
   @Test
   public void testClearCell() {
-    assertEquals("3", spreadsheetOne.getRawContents(new Coord(1, 1)));
+    assertEquals("6.0", spreadsheetOne.getRawContents(new Coord(1, 1)));
     spreadsheetOne.clearCell(new Coord(1, 1));
     assertEquals(null, spreadsheetOne.getRawContents(new Coord(1, 1)));
 
-    assertEquals("4", spreadsheetOne.getRawContents(new Coord(2, 1)));
+    assertEquals("=A1", spreadsheetOne.getRawContents(new Coord(2, 1)));
     spreadsheetOne.clearCell(new Coord(2, 1));
     assertEquals(null, spreadsheetOne.getRawContents(new Coord(1, 1)));
 
@@ -93,9 +93,10 @@ public class SimpleSpreadsheetModelTest {
     spreadsheetOne.setCellValue(new Coord(5, 5), "=(SUM 2 3)");
     assertEquals("5.000000", spreadsheetOne.getValue(new Coord(5, 5)));
 
-    assertEquals("3.000000", spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(1, 1)));
     spreadsheetOne.setCellValue(new Coord(1, 1), "=B1");
-    assertEquals("4.000000", spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("#ERR: This cell contains a cyclical reference.",
+            spreadsheetOne.getValue(new Coord(1, 1)));
 
     spreadsheetOne.setCellValue(new Coord(1, 1), "=(SUM A1 1)");
     assertEquals("#ERR: This cell contains a cyclical reference.", spreadsheetOne.getValue(
@@ -108,7 +109,7 @@ public class SimpleSpreadsheetModelTest {
 
   @Test
   public void testGetNumRows() {
-    assertEquals(4, spreadsheetOne.getNumRows());
+    assertEquals(3, spreadsheetOne.getNumRows());
 
     assertEquals(0, spreadsheetTwo.getNumRows());
     spreadsheetTwo.setCellValue(new Coord(2, 3), "2");
@@ -139,20 +140,17 @@ public class SimpleSpreadsheetModelTest {
   @Test
   public void testGetValue() {
     assertEquals("", spreadsheetTwo.getValue(new Coord(1, 1)));
-    assertEquals("3.000000", spreadsheetOne.getValue(new Coord(1, 1)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(1, 1)));
     assertEquals("Jack says \\\"Hi\\\" and Jill has one backslash \\\\ here",
             spreadsheetOne.getValue(new Coord(5, 1)));
 
-    assertEquals("false", spreadsheetOne.getValue(new Coord(2, 3)));
-
-    assertEquals("#ERR: This cell contains a cyclical reference.",
-            spreadsheetThree.getValue(new Coord(1, 1)));
+    assertEquals("true", spreadsheetOne.getValue(new Coord(1, 2)));
   }
 
   @Test
   public void testGetRawContents() {
     assertEquals("", spreadsheetTwo.getRawContents(new Coord(1, 1)));
-    assertEquals("3", spreadsheetOne.getRawContents(new Coord(1, 1)));
+    assertEquals("6.0", spreadsheetOne.getRawContents(new Coord(1, 1)));
     assertEquals("Jack says \"Hi\" and Jill has one backslash \\ here",
             spreadsheetOne.getRawContents(new Coord(5, 1)));
 
@@ -162,4 +160,190 @@ public class SimpleSpreadsheetModelTest {
             new Coord(2, 1)));
   }
 
+  @Test
+  public void testGetRowHeight() {
+    for (int i = 0; i < spreadsheetOne.getNumRows(); i++) {
+      assertEquals(25, spreadsheetOne.getRowHeight(i + 1));
+    }
+    for (int i = 0; i < spreadsheetTwo.getNumRows(); i++) {
+      assertEquals(25, spreadsheetTwo.getRowHeight(i + 1));
+    }
+    for (int i = 0; i < spreadsheetThree.getNumRows(); i++) {
+      assertEquals(25, spreadsheetThree.getRowHeight(i + 1));
+    }
+    for (int i = 0; i < spreadsheetFour.getNumRows(); i++) {
+      assertEquals(25, spreadsheetFour.getRowHeight(i + 1));
+    }
+    assertEquals(25, spreadsheetFour.getRowHeight(70));
+
+    spreadsheetOne.setRowHeight(4, 100);
+    assertEquals(100, spreadsheetOne.getRowHeight(4));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGetRowHeightZero() {
+    spreadsheetOne.getRowHeight(0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGetRowHeightNeg() {
+    spreadsheetOne.getRowHeight(-1);
+  }
+
+  @Test
+  public void testGetColWidth() {
+    for (int i = 0; i < spreadsheetOne.getNumColumns(); i++) {
+      assertEquals(75, spreadsheetOne.getColWidth(i + 1));
+    }
+    for (int i = 0; i < spreadsheetTwo.getNumRows(); i++) {
+      assertEquals(75, spreadsheetTwo.getColWidth(i + 1));
+    }
+    for (int i = 0; i < spreadsheetThree.getNumRows(); i++) {
+      assertEquals(75, spreadsheetThree.getColWidth(i + 1));
+    }
+    for (int i = 0; i < spreadsheetFour.getNumRows(); i++) {
+      assertEquals(75, spreadsheetFour.getColWidth(i + 1));
+    }
+    assertEquals(75, spreadsheetFour.getColWidth(52));
+
+    spreadsheetOne.setColWidth(4, 25);
+    assertEquals(25, spreadsheetOne.getRowHeight(4));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGetColWidthZero() {
+    spreadsheetTwo.getColWidth(0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidGetColWidthNeg() {
+    spreadsheetTwo.getColWidth(-1);
+  }
+
+  @Test
+  public void testSetRowHeight() {
+    for (int i = 0; i < 10; i++) {
+      spreadsheetOne.setRowHeight(i + 1, 100);
+    }
+    spreadsheetOne.setRowHeight(9, 25);
+
+    for (int i = 0; i < 10; i++) {
+      if (i == 8) {
+        assertEquals(25, spreadsheetOne.getRowHeight(i + 1));
+      } else {
+        assertEquals(100, spreadsheetOne.getRowHeight(i + 1));
+      }
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetRowHeightZero() {
+    spreadsheetOne.setRowHeight(100, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetRowHeightNeg() {
+    spreadsheetOne.setRowHeight(100, -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetRowHeightZeroCoord() {
+    spreadsheetOne.setRowHeight(0, 100);
+  }
+
+  @Test
+  public void testSetColWidth() {
+    for (int i = 0; i < 10; i++) {
+      spreadsheetOne.setColWidth(i + 1, 100);
+    }
+    spreadsheetOne.setColWidth(9, 25);
+
+    for (int i = 0; i < 10; i++) {
+      if (i == 8) {
+        assertEquals(25, spreadsheetOne.getColWidth(i + 1));
+      } else {
+        assertEquals(100, spreadsheetOne.getColWidth(i + 1));
+      }
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetColWidthZero() {
+    spreadsheetOne.setColWidth(100, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetColWidthNeg() {
+    spreadsheetOne.setColWidth(100, -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInvalidSetColWidthZeroCoord() {
+    spreadsheetOne.setColWidth(0, 100);
+  }
+
+  @Test
+  public void testMaxRowChanged() {
+    assertEquals(0, spreadsheetOne.maxRowChanged());
+    spreadsheetOne.setRowHeight(12, 125);
+    assertEquals(12, spreadsheetOne.maxRowChanged());
+    spreadsheetOne.setRowHeight(12, 25);
+    assertEquals(12, spreadsheetOne.maxRowChanged());
+    spreadsheetOne.setRowHeight(1, 150);
+    assertEquals(12, spreadsheetOne.maxRowChanged());
+    spreadsheetOne.setRowHeight(1, 25);
+    assertEquals(12, spreadsheetOne.maxRowChanged());
+  }
+
+  @Test
+  public void testMaxColChanged() {
+    assertEquals(0, spreadsheetOne.maxColChanged());
+    spreadsheetOne.setColWidth(12, 125);
+    assertEquals(12, spreadsheetOne.maxColChanged());
+    spreadsheetOne.setColWidth(12, 25);
+    assertEquals(12, spreadsheetOne.maxColChanged());
+    spreadsheetOne.setColWidth(1, 150);
+    assertEquals(12, spreadsheetOne.maxColChanged());
+    spreadsheetOne.setColWidth(1, 25);
+    assertEquals(12, spreadsheetOne.maxColChanged());
+  }
+
+  @Test
+  public void copyPasteContents() {
+    spreadsheetOne.copyPasteContents(new Coord(1, 1), new Coord(2, 2));
+    assertEquals("6.0", spreadsheetOne.getRawContents(new Coord(2, 2)));
+    spreadsheetOne.copyPasteContents(new Coord(2, 2), new Coord(5, 2));
+    assertEquals("6.0", spreadsheetOne.getRawContents(new Coord(5, 2)));
+
+    spreadsheetOne.copyPasteContents(new Coord(2, 1), new Coord(3, 3));
+    assertEquals("=A1", spreadsheetOne.getRawContents(new Coord(3, 3)));
+    spreadsheetOne.copyPasteContents(new Coord(2, 1), new Coord(3, 1));
+    assertEquals("=B1", spreadsheetOne.getRawContents(new Coord(3, 1)));
+    spreadsheetOne.copyPasteContents(new Coord(2, 1), new Coord(2, 3));
+    assertEquals("=A3", spreadsheetOne.getRawContents(new Coord(2, 3)));
+
+    spreadsheetOne.setCellValue(new Coord(4, 1), "=A$1");
+    spreadsheetOne.copyPasteContents(new Coord(4, 1), new Coord(5, 1));
+    assertEquals("=B$1", spreadsheetOne.getRawContents(new Coord(5, 1)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(5, 1)));
+    spreadsheetOne.copyPasteContents(new Coord(4, 1), new Coord(4, 2));
+    assertEquals("=A$1", spreadsheetOne.getRawContents(new Coord(4, 2)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(4, 2)));
+
+    spreadsheetOne.setCellValue(new Coord(2, 5), "=$B1");
+    spreadsheetOne.copyPasteContents(new Coord(2, 5), new Coord(5, 1));
+    assertEquals("=$B1", spreadsheetOne.getRawContents(new Coord(5, 1)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(5, 1)));
+    spreadsheetOne.copyPasteContents(new Coord(2, 5), new Coord(2, 6));
+    assertEquals("=$B2", spreadsheetOne.getRawContents(new Coord(2, 6)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(2, 6)));
+
+    spreadsheetOne.setCellValue(new Coord(4, 1), "=$A$1");
+    spreadsheetOne.copyPasteContents(new Coord(4, 1), new Coord(5, 1));
+    assertEquals("=$A$1", spreadsheetOne.getRawContents(new Coord(5, 1)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(5, 1)));
+    spreadsheetOne.copyPasteContents(new Coord(4, 1), new Coord(4, 2));
+    assertEquals("=$A$1", spreadsheetOne.getRawContents(new Coord(4, 2)));
+    assertEquals("6.000000", spreadsheetOne.getValue(new Coord(4, 2)));
+  }
 }

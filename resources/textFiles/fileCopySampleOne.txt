@@ -1,5 +1,9 @@
 A1 6.0
 B1 =A1
+E1 Jack says "Hi" and Jill has one backslash \ here
+
 A2 true
 B2 =(PRODUCT A1:A2)
+
 A3 Hello sir
+B3 =(< A3 10)

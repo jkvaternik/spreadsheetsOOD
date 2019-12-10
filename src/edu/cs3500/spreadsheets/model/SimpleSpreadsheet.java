@@ -239,7 +239,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public int maxRowChanged() {
     int max = 0;
-    for (Integer row : this.rowHeights.values()) {
+    for (Integer row : this.rowHeights.keySet()) {
       if (row > max) {
         max = row;
       }
@@ -250,7 +250,7 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   @Override
   public int maxColChanged() {
     int max = 0;
-    for (Integer col : this.colWidths.values()) {
+    for (Integer col : this.colWidths.keySet()) {
       if (col > max) {
         max = col;
       }
