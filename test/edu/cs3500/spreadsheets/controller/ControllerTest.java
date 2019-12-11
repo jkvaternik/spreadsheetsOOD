@@ -722,8 +722,11 @@ public class ControllerTest {
     controller.copyCell();
     controller.cellSelected(new Coord(3, 1));
     controller.pasteCell();
-
     assertEquals("=B$1", realModel.getRawContents(new Coord(3, 1)));
+
+    controller.cellSelected(new Coord(2, 2));
+    controller.pasteCell();
+    assertEquals("=A$1", realModel.getRawContents(new Coord(2, 2)));
 
     realModel.setCellValue(new Coord(1, 2), "=$A2");
 
@@ -731,8 +734,33 @@ public class ControllerTest {
     controller.copyCell();
     controller.cellSelected(new Coord(1, 3));
     controller.pasteCell();
-
     assertEquals("=$A3", realModel.getRawContents(new Coord(1, 3)));
+
+    controller.cellSelected(new Coord(2, 2));
+    controller.pasteCell();
+    assertEquals("=$A2", realModel.getRawContents(new Coord(2, 2)));
+
+
+    //Copying the reference of A1 to the left or up should leave the reference the same, even
+    //though it is not absolute
+    realModel.setCellValue(new Coord(2, 2), "=A1");
+    controller.cellSelected(new Coord(2, 2));
+    controller.copyCell();
+    controller.movedHighlightedCell(Direction.UP);
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(2, 1)));
+
+    controller.cellSelected(new Coord(1, 2));
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(1, 2)));
+
+    //Copying the reference of A1 and pasting it in a different row and column should leave the
+    //reference the same
+    controller.cellSelected(new Coord(3, 3));
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(3, 3)));
+
+
   }
 
   @Test
