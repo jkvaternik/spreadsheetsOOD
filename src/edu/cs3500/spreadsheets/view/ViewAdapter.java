@@ -38,4 +38,9 @@ public class ViewAdapter implements View {
   public void highlightCell(Coord cellCoord) {
     //This method does not apply to our provider's view
   }
+
+  @Override
+  public void highlightCopyCell(Coord copyCoord) {
+    //Does not apply
+  }
 }

@@ -292,6 +292,11 @@ public class VisualEditView extends JFrame implements View {
     this.refresh();
   }
 
+  @Override
+  public void highlightCopyCell(Coord copyCoord) {
+    this.spreadsheetPanel.setCopiedCell(copyCoord);
+  }
+
   /**
    * Calculates the max dimension of the starting grid. The max dimension is the number of rows and
    * columns in the spreadsheet respectively, rounded up to the nearest multiple of 26.

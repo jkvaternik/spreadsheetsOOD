@@ -150,12 +150,16 @@ public class Controller implements Features {
   public void copyCell() {
     if (this.selectedCoord != null) {
       this.copiedCoord = this.selectedCoord;
+      this.view.highlightCopyCell(copiedCoord);
+      this.view.refresh();
     }
   }
 
   @Override
   public void pasteCell() {
-    this.model.copyPasteContents(this.copiedCoord, this.selectedCoord);
-    this.view.refresh();
+    if (this.copiedCoord != null) {
+      this.model.copyPasteContents(this.copiedCoord, this.selectedCoord);
+      this.view.refresh();
+    }
   }
 }

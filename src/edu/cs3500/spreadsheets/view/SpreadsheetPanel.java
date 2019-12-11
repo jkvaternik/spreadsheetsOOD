@@ -33,6 +33,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
 
   private final ViewModel viewModel;
   private Coord highlightedCell;
+  private Coord copiedCell;
 
   // These integers are only packet-private because they are internal to the view
   int numViewRows;
@@ -93,6 +94,7 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
     Shape initClip = g2d.getClip();
     drawHighlightedCell(g2d);
     drawCellContents(g2d);
+    drawCopiedCell(g2d);
     g2d.setClip(initClip);
   }
 
@@ -145,6 +147,35 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   }
 
   /**
+   * Draws the copied cell on a given Graphics object.
+   *
+   * @param g2d the Graphics object
+   */
+  private void drawCopiedCell(Graphics2D g2d) {
+    // Check for highlighted cells first so that the contents still appear over the highlight
+    if (this.copiedCell != null) {
+      int col = this.copiedCell.col;
+      int row = this.copiedCell.row;
+
+      //Save clip and restore after
+      Shape init = g2d.getClip();
+
+      g2d.setClip(vertLines[col - 1], horizLines[row - 1],
+          this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
+      g2d.clip(init);
+      // Save previous color to restore after we are done highlighting the cell
+      Color prevColor = g2d.getColor();
+      g2d.setColor(Color.GREEN);
+      g2d.drawRect(vertLines[col - 1], horizLines[row - 1],
+          this.viewModel.getColWidth(col), this.viewModel.getRowHeight(row));
+      g2d.setColor(prevColor);
+
+      //Restores the clip
+      g2d.setClip(init);
+    }
+  }
+
+  /**
    * Draws all the cell contents on a given Graphics object.
    *
    * @param g2d the Graphics object
@@ -176,14 +207,23 @@ public class SpreadsheetPanel extends JPanel implements Scrollable, MouseMotionL
   }
 
   /**
-   * Changes the highlightedCells of this spreadsheet panel. It de-highlights any previously
-   * highlighted cells.
+   * Changes the highlightedCell of this spreadsheet panel. It de-highlights the previously
+   * highlighted cell.
    *
-   * @param cellCoord The Coords of the new highlighted cells. If this is null or empty, all cells
-   *                  are de-highlighted.
+   * @param cellCoord The Coord of the new highlighted cell.
    */
   void setHighlightedCell(Coord cellCoord) {
     this.highlightedCell = cellCoord;
+  }
+
+  /**
+   * Changes the copied cell of this spreadsheet panel. It removes the previously
+   * copied cell.
+   *
+   * @param copyCoord The Coord of the new copied cell.
+   */
+  void setCopiedCell(Coord copyCoord) {
+    this.copiedCell = copyCoord;
   }
 
   @Override

@@ -56,4 +56,13 @@ class MockView implements View {
       throw new IllegalStateException("Invalid appendable");
     }
   }
+
+  @Override
+  public void highlightCopyCell(Coord copyCoord) {
+    try {
+      log.append("The copied cell is now: ").append(copyCoord.toString()).append("\n");
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid appendable");
+    }
+  }
 }

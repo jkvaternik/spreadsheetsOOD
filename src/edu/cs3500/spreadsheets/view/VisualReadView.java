@@ -83,6 +83,11 @@ public class VisualReadView extends JFrame implements View {
     //Do nothing, since you cannot highlight a cell because this view is READ-ONLY.
   }
 
+  @Override
+  public void highlightCopyCell(Coord copyCoord) {
+    //Do nothing, since you cannot copy a cell because this view is READ-ONLY.
+  }
+
   /**
    * Calculates the max dimension of the starting grid. The max dimension is the number of rows and
    * columns in the spreadsheet respectively, rounded up to the nearest multiple of 26.
