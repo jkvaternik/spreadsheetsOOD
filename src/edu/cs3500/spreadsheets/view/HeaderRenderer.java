@@ -55,6 +55,8 @@ class HeaderRenderer extends JComponent {
       }
       this.setPreferredSize(new Dimension(MAX_WIDTH, height));
     }
+
+    this.setBorder(BorderFactory.createLineBorder(Color.black));
   }
 
   @Override
