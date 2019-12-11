@@ -775,7 +775,7 @@ public class ControllerTest {
 
     //Shouldn't change because a cell wasn't selected
     for (int i = 0; i < Math.max(realModel.getNumRows(), realModel.maxRowChanged()); i++) {
-      assertEquals(25, realModel.getColWidth(i + 1));
+      assertEquals(25, realModel.getRowHeight(i + 1));
     }
 
     assertEquals(25, realModel.getRowHeight(1));
