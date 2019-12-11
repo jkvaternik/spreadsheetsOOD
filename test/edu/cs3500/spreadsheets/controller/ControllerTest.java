@@ -694,84 +694,37 @@ public class ControllerTest {
 
   }
 
-
   @Test
-  public void copiedCell_ThroughMethodCall() {
-    assertEquals("", log.toString());
+  public void testCopyPaste() {
+    controller = new Controller(realModel, mockView);
 
-    controller = new Controller(mockModel, mockView);
-
-    assertEquals("Features were added to this view.\n", log.toString());
+    assertEquals("6.0", realModel.getRawContents(new Coord(1, 1)));
+    assertEquals("=A1", realModel.getRawContents(new Coord(2, 1)));
 
     controller.cellSelected(new Coord(1, 1));
     controller.copyCell();
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n", log.toString());
-
-    controller.cellSelected(new Coord(2, 2));
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n"
-            + "The highlighted cell is now: B2\n", log.toString());
-
-    controller.copyCell();
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n"
-            + "The highlighted cell is now: B2\n"
-            + "Copied the highlighted cell.", log.toString());
-  }
-
-  @Test
-  public void copiedCell_ThroughListeners() {
-    assertEquals("", log.toString());
-
-    controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller, realModel);
-    keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
-
-  }
-
-  @Test
-  public void pastedCell_ThroughMethodCall() {
-    assertEquals("", log.toString());
-
-    controller = new Controller(mockModel, mockView);
-
-    assertEquals("Features were added to this view.\n", log.toString());
-
-    controller.cellSelected(new Coord(1, 1));
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n", log.toString());
-
-    controller.copyCell();
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n", log.toString());
-
-    controller.cellSelected(new Coord(2, 2));
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n"
-            + "The highlighted cell is now: B2\n", log.toString());
-
+    controller.cellSelected(new Coord(2, 1));
     controller.pasteCell();
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "Copied the highlighted cell.\n"
-            + "The highlighted cell is now: B2\n"
-            + "Pasted the highlighted cell.", log.toString());
-  }
 
-  @Test
-  public void pastedCell_ThroughListeners() {
-    assertEquals("", log.toString());
+    assertEquals("6.0", realModel.getRawContents(new Coord(2, 1)));
 
-    controller = new Controller(mockModel, mockView);
-    mouseListener = new SpreadsheetMouseListener(controller, realModel);
-    keyListener = new SpreadsheetKeyListener(controller, mockUserInputField);
+    realModel.setCellValue(new Coord(2, 1), "=A$1");
 
+    controller.cellSelected(new Coord(2, 1));
+    controller.copyCell();
+    controller.cellSelected(new Coord(3, 1));
+    controller.pasteCell();
+
+    assertEquals("=B$1", realModel.getRawContents(new Coord(3, 1)));
+
+    realModel.setCellValue(new Coord(1, 2), "=$A2");
+
+    controller.cellSelected(new Coord(1, 2));
+    controller.copyCell();
+    controller.cellSelected(new Coord(1, 3));
+    controller.pasteCell();
+
+    assertEquals("=$A3", realModel.getRawContents(new Coord(1, 3)));
   }
 
 
