@@ -184,6 +184,33 @@ public class ControllerTest {
             + "The contents of the highlighted cell have been deleted\n"
             + "The selected cell has been edited. It's new contents is: 3.0\n"
             + "The contents of the highlighted cell have been deleted\n", log.toString());
+
+    //Now make sure copying and pasting works as intended
+    keyListener.keyPressed(
+        new KeyEvent(mockUserInputField, KeyEvent.KEY_PRESSED, 1, 0, KeyEvent.VK_C,
+            KeyEvent.CHAR_UNDEFINED));
+    assertEquals("The highlighted cell has been moved in the direction: DOWN\n"
+        + "The highlighted cell has been moved in the direction: UP\n"
+        + "The highlighted cell has been moved in the direction: LEFT\n"
+        + "The highlighted cell has been moved in the direction: RIGHT\n"
+        + "The contents of the highlighted cell have been deleted\n"
+        + "The selected cell has been edited. It's new contents is: 3.0\n"
+        + "The contents of the highlighted cell have been deleted\n"
+        + "Copied the highlighted cell.\n", log.toString());
+
+    keyListener.keyPressed(
+        new KeyEvent(mockUserInputField, KeyEvent.KEY_PRESSED, 1, 0, KeyEvent.VK_P,
+            KeyEvent.CHAR_UNDEFINED));
+    assertEquals("The highlighted cell has been moved in the direction: DOWN\n"
+        + "The highlighted cell has been moved in the direction: UP\n"
+        + "The highlighted cell has been moved in the direction: LEFT\n"
+        + "The highlighted cell has been moved in the direction: RIGHT\n"
+        + "The contents of the highlighted cell have been deleted\n"
+        + "The selected cell has been edited. It's new contents is: 3.0\n"
+        + "The contents of the highlighted cell have been deleted\n"
+        + "Copied the highlighted cell.\n"
+        + "Pasted the copied cell.\n", log.toString());
+
   }
 
   @Test(expected = IllegalStateException.class)
@@ -663,7 +690,6 @@ public class ControllerTest {
     controller.deletedSelectedCell();
     assertEquals("Features were added to this view.\n"
             + "The highlighted cell is now: A1\n"
-            + "The view has been refreshed.\n"
             + "This cell was cleared: A1\n"
             + "The view has been refreshed.\n", log.toString());
 
@@ -674,24 +700,6 @@ public class ControllerTest {
     // immediately), but it is the best way we could think of to test loadFile since this method
     // is so tightly coupled with Swing (we couldn't find a way to abstract it out further).
     controller.loadFile(sampleOne);
-
-    //After loading a file, we should have a new view and model belonging to the controller, so
-    //calling these same methods again will not add to the log
-
-    controller.cellSelected(new Coord(1, 1));
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "The view has been refreshed.\n"
-            + "This cell was cleared: A1\n"
-            + "The view has been refreshed.\n", log.toString());
-
-    controller.deletedSelectedCell();
-    assertEquals("Features were added to this view.\n"
-            + "The highlighted cell is now: A1\n"
-            + "The view has been refreshed.\n"
-            + "This cell was cleared: A1\n"
-            + "The view has been refreshed.\n", log.toString());
-
   }
 
   @Test
@@ -714,8 +722,11 @@ public class ControllerTest {
     controller.copyCell();
     controller.cellSelected(new Coord(3, 1));
     controller.pasteCell();
-
     assertEquals("=B$1", realModel.getRawContents(new Coord(3, 1)));
+
+    controller.cellSelected(new Coord(2, 2));
+    controller.pasteCell();
+    assertEquals("=A$1", realModel.getRawContents(new Coord(2, 2)));
 
     realModel.setCellValue(new Coord(1, 2), "=$A2");
 
@@ -723,8 +734,33 @@ public class ControllerTest {
     controller.copyCell();
     controller.cellSelected(new Coord(1, 3));
     controller.pasteCell();
-
     assertEquals("=$A3", realModel.getRawContents(new Coord(1, 3)));
+
+    controller.cellSelected(new Coord(2, 2));
+    controller.pasteCell();
+    assertEquals("=$A2", realModel.getRawContents(new Coord(2, 2)));
+
+
+    //Copying the reference of A1 to the left or up should leave the reference the same, even
+    //though it is not absolute
+    realModel.setCellValue(new Coord(2, 2), "=A1");
+    controller.cellSelected(new Coord(2, 2));
+    controller.copyCell();
+    controller.movedHighlightedCell(Direction.UP);
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(2, 1)));
+
+    controller.cellSelected(new Coord(1, 2));
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(1, 2)));
+
+    //Copying the reference of A1 and pasting it in a different row and column should leave the
+    //reference the same
+    controller.cellSelected(new Coord(3, 3));
+    controller.pasteCell();
+    assertEquals("=A1", realModel.getRawContents(new Coord(3, 3)));
+
+
   }
 
   @Test

@@ -114,7 +114,7 @@ class MockFeatures implements Features {
   @Override
   public void pasteCell() {
     try {
-      log.append("Pasted the highlighted cell.")
+      log.append("Pasted the copied cell.")
               .append("\n");
     } catch (IOException e) {
       throw new IllegalStateException("Invalid appendable");
