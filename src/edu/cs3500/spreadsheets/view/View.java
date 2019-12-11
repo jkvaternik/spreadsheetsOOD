@@ -24,10 +24,16 @@ public interface View {
   void addFeatures(Features features);
 
   /**
-   * Highlights the cells at the given Coordinates. In the process, it de-highlights any previously
+   * Highlights the cell at the given Coordinates. In the process, it de-highlights any previously
    * highlighted cells.
    * @param cellCoord The coordinate of the cell
    */
   void highlightCell(Coord cellCoord);
+
+  /**
+   * Highlights the cell at the given coordinate (marked as the cell which has been copied).
+   * @param copyCoord The coordinate of the copied cell
+   */
+  void highlightCopyCell(Coord copyCoord);
 
 }

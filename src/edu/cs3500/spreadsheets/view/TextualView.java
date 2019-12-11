@@ -89,4 +89,9 @@ public class TextualView implements View {
   public void highlightCell(Coord cellCoord) {
     //Do nothing, since highlighting a cell doesn't make much sense for the textual view.
   }
+
+  @Override
+  public void highlightCopyCell(Coord copyCoord) {
+    //Do nothing, since copying a cell doesn't make much sense for the textual view.
+  }
 }

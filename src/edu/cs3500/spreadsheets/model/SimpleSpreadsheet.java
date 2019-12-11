@@ -230,6 +230,10 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
     int rowChange = pasteRow - copyRow;
     String copyContents = this.cells.getOrDefault(copyCoord, new BlankCell()).getRawContents();
 
+    if (copyContents == null) {
+      return;
+    }
+
     String pasteContents = this.convertRawContents(copyContents, colChange, rowChange);
 
     this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange),
