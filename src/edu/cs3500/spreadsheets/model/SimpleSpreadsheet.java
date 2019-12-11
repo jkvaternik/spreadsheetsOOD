@@ -221,26 +221,6 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
   }
 
   @Override
-  public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
-    int copyCol = copyCoord.col;
-    int copyRow = copyCoord.row;
-    int pasteCol = pasteCoord.col;
-    int pasteRow = pasteCoord.row;
-    int colChange = pasteCol - copyCol;
-    int rowChange = pasteRow - copyRow;
-    String copyContents = this.cells.getOrDefault(copyCoord, new BlankCell()).getRawContents();
-
-    if (copyContents == null) {
-      return;
-    }
-
-    String pasteContents = this.convertRawContents(copyContents, colChange, rowChange);
-
-    this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange),
-        pasteContents);
-  }
-
-  @Override
   public int maxRowChanged() {
     int max = 0;
     for (Integer row : this.rowHeights.keySet()) {
@@ -260,6 +240,26 @@ public class SimpleSpreadsheet implements SpreadsheetModel {
       }
     }
     return max;
+  }
+
+  @Override
+  public void copyPasteContents(Coord copyCoord, Coord pasteCoord) {
+    int copyCol = copyCoord.col;
+    int copyRow = copyCoord.row;
+    int pasteCol = pasteCoord.col;
+    int pasteRow = pasteCoord.row;
+    int colChange = pasteCol - copyCol;
+    int rowChange = pasteRow - copyRow;
+    String copyContents = this.cells.getOrDefault(copyCoord, new BlankCell()).getRawContents();
+
+    if (copyContents == null) {
+      return;
+    }
+
+    String pasteContents = this.convertRawContents(copyContents, colChange, rowChange);
+
+    this.setCellValue(new Coord(copyCol + colChange, copyRow + rowChange),
+        pasteContents);
   }
 
   /**

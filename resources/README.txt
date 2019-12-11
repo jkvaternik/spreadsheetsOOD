@@ -1,3 +1,62 @@
+ASSIGNMENT 9:
+We implemented resizable rows and columns, as well as smart copy paste.
+
+Resizable Rows and Columns:
+For this feature, our view utilizes buttons which can increase or decrease the size of the row or
+column of the current highlighted cell. Here is a bullet point list of what we changed in our code:
+- In our model interface, we added methods to get and set the width of a given column or height of
+  a given row. We also added methods to get the number of the max row whose height is not the
+  default, as well as the same method for columns.
+- In our model implementation, we added two hashmaps, one which maps column numbers to column widths
+  and another which maps row numbers to row heights. We also have public static variables which
+  represent the default row height and default column width, as well as the minimum height/width.
+- In our features interface, we added methods to change the row heights and to change column widths.
+  These methods are called when the user clicks on one of the increase/decrease row/col buttons and
+  then communicates with the model.
+- In our SpreadsheetPanel class, we had to change the way that all of our drawing works to account
+  for the potential of different sized rows and columns. To do this, every time the panel updates,
+  we update two arrays of ints, one which keeps track of the pixel locations of each vertical line
+  and one which keeps track of the locations of each horizontal line. Keeping track of these lines
+  allows us to easily draw the lines as well as draw the text and highlighted cell.
+- We also had to change our row and column headers to manually draw each cell, rather than using a
+  ListCellRenderer. The reason for this was that our headers were not resizing along with the rest
+  of our grid.
+- We changed the worksheet reader and writer, as well as the builder, to be able to properly handle
+  saving and reloading the changed row heights and column widths. Changed rows are marked in the
+  saved files by "INT INT" where the first int is the row and the second is the height. Changed cols
+  are marked by "STR INT" where the string is the column string and the int is the width. When
+  saving files, the textual view queries the model to get the max row and max col which have been
+  changed, and then checks each row and column in that range for their width/height. If this number
+  differs from the default, then the row/col along with its size is outputted to the log.
+
+Smart Copy Paste:
+For this feature, our view allows for copying the highlighted cell by pressing 'c' and then you can
+move the highlighted cell and paste the copied cell by pressing 'p'. Here are the changes in our
+code necessary to make this work:
+- In our model interface, we added a method called copyPasteContents() which takes in as parameters
+  the coordinate of the cell which was copied as well as the coordinate of the cell which was
+  pasted.
+- In our model implementation, we chose the approach of converting the raw contents of the copied
+  cell to the new raw contents of the paste cell, which accounts for the changing cell references if
+  necessary. In order to get this done, we parse through the raw contents string of the copied cell
+  and if we encounter a cell reference, we check if that reference needs to be modified or if it is
+  absolute. We then modify the reference (if needed) and replace the original reference with the new
+  one. Once the raw contents have been updated, we can just call setCellValue() with the coordinate
+  and new raw contents. Note: We did not modify anything about our cell reference class, so the cell
+  reference does not know about absolute vs. non-absolute references (this was not necessary).
+- We had to modify some of the methods in the Coord class so that it accounted for the possibility
+  of having '$' in the cell references when checking a coordinate (reference) for validity.
+- In our features interface, we added methods for the user copying a cell and for pasting the copied
+  cell. These methods are called when the user types the appropriate hotkeys, and then pass the info
+  on to the model about the coordinates of the copy and paste cells.
+- In our view interface, we have a highlightCopyCell() method which highlights the cell at the given
+  coordinate as the copied cell.
+- In our SpreadsheetPanel class, we keep track of the copied cell (if there is one) and draw a green
+  outline around the cell to show the user which cell has been copied.
+
+
+____________________________________________________________________________________________________
+
 ASSIGNMENT 8:
 All of the features, including the extra credit features from HW7, work for our implementation.
 Additionally, we were able to make all but one of the features work for our provider's view. Sadly,

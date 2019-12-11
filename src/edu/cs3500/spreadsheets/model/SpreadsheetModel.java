@@ -101,14 +101,6 @@ public interface SpreadsheetModel {
   void setColWidth(int col, int width) throws IllegalArgumentException;
 
   /**
-   * Sets the contents of the Cell at pasteCoord based on the contents of the Cell at copyCoord,
-   * taking into account absolute and non-absolute references.
-   * @param copyCoord The Coord of the Cell which was copied
-   * @param pasteCoord The Coord of the cell where the copied cell was pasted
-   */
-  void copyPasteContents(Coord copyCoord, Coord pasteCoord);
-
-  /**
    * Gets the max row who's height has been changed.
    * @return The max row
    */
@@ -119,4 +111,12 @@ public interface SpreadsheetModel {
    * @return The max col
    */
   int maxColChanged();
+
+  /**
+   * Sets the contents of the Cell at pasteCoord based on the contents of the Cell at copyCoord,
+   * taking into account absolute and non-absolute references.
+   * @param copyCoord The Coord of the Cell which was copied
+   * @param pasteCoord The Coord of the cell where the copied cell was pasted
+   */
+  void copyPasteContents(Coord copyCoord, Coord pasteCoord);
 }
