@@ -735,5 +735,24 @@ public class ControllerTest {
     assertEquals("=$A3", realModel.getRawContents(new Coord(1, 3)));
   }
 
+  @Test
+  public void testChangeRowSize() {
+    controller = new Controller(realModel, mockView);
+
+    assertEquals(25, realModel.getRowHeight(1));
+
+    controller.cellSelected(new Coord(1, 1));
+    controller.changeRowSize(20);
+    assertEquals(45, realModel.getRowHeight(1));
+
+    controller.changeRowSize(-20);
+
+    assertEquals(25, realModel.getRowHeight(1));
+
+    controller.changeRowSize(-20);
+
+    //Wouldn't change the size because the height would be less than the minimum row
+    assertEquals(25, realModel.getRowHeight(1));
+  }
 
 }
