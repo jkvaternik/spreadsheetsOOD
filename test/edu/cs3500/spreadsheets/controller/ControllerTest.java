@@ -731,6 +731,17 @@ public class ControllerTest {
   public void testChangeRowSize() {
     controller = new Controller(realModel, mockView);
 
+    for (int i = 0; i < Math.max(realModel.getNumRows(), realModel.maxRowChanged()); i++) {
+      assertEquals(25, realModel.getRowHeight(i + 1));
+    }
+
+    controller.changeRowSize(20);
+
+    //Shouldn't change because a cell wasn't selected
+    for (int i = 0; i < Math.max(realModel.getNumRows(), realModel.maxRowChanged()); i++) {
+      assertEquals(25, realModel.getColWidth(i + 1));
+    }
+
     assertEquals(25, realModel.getRowHeight(1));
 
     controller.cellSelected(new Coord(1, 1));
@@ -743,8 +754,37 @@ public class ControllerTest {
 
     controller.changeRowSize(-20);
 
-    //Wouldn't change the size because the height would be less than the minimum row
+    //Shouldn't change the size because the height would be less than the minimum row
     assertEquals(25, realModel.getRowHeight(1));
+  }
+
+  @Test
+  public void testChangeColSize() {
+    controller = new Controller(realModel, mockView);
+
+    for (int i = 0; i < Math.max(realModel.getNumColumns(), realModel.maxColChanged()); i++) {
+      assertEquals(75, realModel.getColWidth(i + 1));
+    }
+
+    controller.changeColSize(20);
+
+    //Shouldn't change because a cell wasn't selected
+    for (int i = 0; i < Math.max(realModel.getNumColumns(), realModel.maxColChanged()); i++) {
+      assertEquals(75, realModel.getColWidth(i + 1));
+    }
+
+    controller.cellSelected(new Coord(4, 3));
+    controller.changeColSize(20);
+    assertEquals(95, realModel.getColWidth(4));
+
+    controller.changeColSize(-20);
+
+    assertEquals(75, realModel.getColWidth(1));
+
+    controller.changeColSize(-70);
+
+    //Shouldn't change the size because the height would be less than the minimum row
+    assertEquals(75, realModel.getColWidth(4));
   }
 
 }
