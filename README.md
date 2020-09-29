@@ -1,6 +1,6 @@
 from spreadsheetsOOD/resources/README.txt:
 
-#SpreadsheetsOOD
+# SpreadsheetsOOD
 
 ASSIGNMENT 9:
 We implemented resizable rows and columns, as well as smart copy paste.
